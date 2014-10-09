@@ -1,0 +1,17 @@
+*.suo
+*.sln
+*.cache
+*.txt
+*.dll
+*.exe
+*.pdb
+*.xnb
+*.psess
+*.vsmdi
+*.xml
+*.sav
+*.force
+*.vsp
+!/Lidgren.Network.dll
+!/Lidgren.Network.Xna.dll
+*.cachefile
