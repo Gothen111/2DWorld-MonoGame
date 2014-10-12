@@ -122,5 +122,31 @@ namespace Utility.Corpus
         {
             get { return new Rectangle((int)this.position.X, (int)this.position.Y, (int)this.size.X, (int)this.size.Y); }
         }
+
+        public bool intersects(Cube var_Cube)
+        {
+            if(var_Cube.Right >= this.Left && var_Cube.Left <= this.Right)
+            {
+                if (var_Cube.Bottom >= this.Top && var_Cube.Top <= this.Bottom)
+                {
+                    if (var_Cube.Back >= this.Front && var_Cube.Front <= this.Back)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            if (this.Right >= var_Cube.Left && this.Left <= var_Cube.Right)
+            {
+                if (this.Bottom >= var_Cube.Top && this.Top <= var_Cube.Bottom)
+                {
+                    if (this.Back >= var_Cube.Front && this.Front <= var_Cube.Back)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
     }
 }

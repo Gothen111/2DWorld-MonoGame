@@ -27,21 +27,25 @@ namespace GameLibrary.Factory
     {
         public static ChunkFactory chunkFactory = new ChunkFactory();
 
-        public Chunk createChunk(int _PosX, int _PosY, ChunkEnum _ChunkEnum, List<Enum> _Layer, Region _ParentRegion)
+        public Chunk createChunk(int _PosX, int _PosY, RegionEnum _RegionEnum, List<Enum> _Layer, Region _ParentRegion)
         {
-            switch (_ChunkEnum)
+            switch (_RegionEnum)
             {
-                case ChunkEnum.Grassland:
+                case RegionEnum.Grassland:
                     {
                         return createChunkGrassland(_PosX, _PosY, _Layer, _ParentRegion);
                     }
-                case ChunkEnum.Snowland:
+                case RegionEnum.Snowland:
                     {
                         return createChunkSnowland(_PosX, _PosY, _Layer, _ParentRegion);
                     }
-                case ChunkEnum.Lavaland:
+                case RegionEnum.Lavaland:
                     {
                         return createChunkLavaland(_PosX, _PosY, _Layer, _ParentRegion);
+                    }
+                case RegionEnum.Dungeon:
+                    {
+                        return createChunkDungeon(_PosX, _PosY, _Layer, _ParentRegion);
                     }
             }
             return null;
@@ -127,6 +131,25 @@ namespace GameLibrary.Factory
             }
             else 
             { 
+            }
+
+            return var_Result;
+        }
+
+        private Chunk createChunkDungeon(int _PosX, int _PosY, List<Enum> _Layer, Region _ParentRegion)
+        {
+            Chunk var_Result;
+
+            var_Result = new Chunk("Chunk", _PosX, _PosY, _ParentRegion);
+            var_Result.ChunkEnum = ChunkEnum.Lavaland;
+            this.fillChunkWithBlock(var_Result, BlockEnum.Ground2);
+
+            var_Result.setAllNeighboursOfBlocks();
+            if (Configuration.Configuration.isHost || Configuration.Configuration.isSinglePlayer)
+            {
+            }
+            else
+            {
             }
 
             return var_Result;

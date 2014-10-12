@@ -19,6 +19,7 @@ namespace GameLibrary.Map.Region
     {
         Grassland,
         Snowland,
-        Lavaland
+        Lavaland,
+        Dungeon
     }
 }

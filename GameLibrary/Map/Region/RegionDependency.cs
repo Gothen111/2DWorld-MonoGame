@@ -38,6 +38,9 @@ namespace GameLibrary.Map.Region
             var_Layer_Lavaland.Add(Block.BlockEnum.Ground1);
             var_Layer_Lavaland.Add(Block.BlockEnum.Ground2);
             this.layer.Add(RegionEnum.Lavaland, var_Layer_Lavaland);
+
+            List<Enum> var_Layer_Dungeon = new List<Enum>();
+            this.layer.Add(RegionEnum.Dungeon, var_Layer_Dungeon);
         }
 
         public List<Enum> getLayer(RegionEnum _RegionEnum)

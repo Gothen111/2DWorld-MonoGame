@@ -94,30 +94,13 @@ namespace GameLibrary.Factory
         public Chunk createChunkInRegion(Region _Region, int _PosX, int _PosY)
         {
             Chunk var_Chunk = null;
-            switch (_Region.RegionEnum)
-            {
-                case RegionEnum.Grassland:
-                    {
-                        var_Chunk = ChunkFactory.chunkFactory.createChunk((int)(_PosX), (int)(_PosY), ChunkEnum.Grassland, RegionDependency.regionDependency.getLayer(_Region.RegionEnum), _Region);
-                        break;
-                    }
-                case RegionEnum.Snowland:
-                    {
-                        var_Chunk = ChunkFactory.chunkFactory.createChunk((int)(_PosX), (int)(_PosY), ChunkEnum.Snowland, RegionDependency.regionDependency.getLayer(_Region.RegionEnum), _Region);
-                        break;
-                    }
-                case RegionEnum.Lavaland:
-                    {
-                        var_Chunk = ChunkFactory.chunkFactory.createChunk((int)(_PosX), (int)(_PosY), ChunkEnum.Lavaland, RegionDependency.regionDependency.getLayer(_Region.RegionEnum), _Region);
-                        break;
-                    }
-            }
+            var_Chunk = ChunkFactory.chunkFactory.createChunk((int)(_PosX), (int)(_PosY), _Region.RegionEnum, RegionDependency.regionDependency.getLayer(_Region.RegionEnum), _Region);
 
             if (var_Chunk != null)
             {
                 this.addChunkToRegion(_Region, _PosX, _PosY, var_Chunk);
 
-                ChunkFactory.chunkFactory.generateChunk(var_Chunk);
+                //ChunkFactory.chunkFactory.generateChunk(var_Chunk);
             }  
 
             return var_Chunk;

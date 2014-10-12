@@ -136,8 +136,6 @@
     <Compile Include="Gui\Menu\StartMenu.cs" />
     <Compile Include="Gui\Slider.cs" />
     <Compile Include="Gui\TextField.cs" />
-    <Compile Include="Logger\IO\Load.cs" />
-    <Compile Include="Logger\IO\Save.cs" />
     <Compile Include="Logger\Logger.cs" />
     <Compile Include="Map\Block\Block.cs" />
     <Compile Include="Map\Block\BlockEnum.cs" />

@@ -103,7 +103,7 @@ namespace GameLibrary.Map.World
             String var_Path = "Save/" + _Position.X + "_" + _Position.Y + "/RegionInfo.sav";
             if (System.IO.File.Exists(var_Path))
             {
-                Region.Region var_Region = (Region.Region)Utility.IO.IOManager.LoadISerializeAbleObjectFromFile(var_Path);//Utility.Serializer.DeSerializeObject(var_Path);
+                Region.Region var_Region = (Region.Region)Utility.IO.IOManager.LoadISerializeAbleObjectFromFile(var_Path);
                 var_Region.Parent = this;
                 return var_Region;
             }
@@ -118,29 +118,6 @@ namespace GameLibrary.Map.World
 
         public Region.Region createRegionAt(Vector3 _Position)
         {
-            /*int var_SizeX = (Region.Region.regionSizeX * Chunk.Chunk.chunkSizeX * Block.Block.BlockSize);
-            int var_SizeY = (Region.Region.regionSizeY * Chunk.Chunk.chunkSizeY * Block.Block.BlockSize);
-
-            int var_RestX = _PosX % var_SizeX;
-            int var_RestY = _PosY % var_SizeY;
-
-            if (_PosX < 0)
-            {
-                _PosX = _PosX - (var_SizeX + var_RestX);
-            }
-            else
-            {
-                _PosX = _PosX - var_RestX;
-            }
-            if (_PosY < 0)
-            {
-                _PosY = _PosY - (var_SizeY + var_RestY);
-            }
-            else
-            {
-                _PosY = _PosY - var_RestY;
-            }*/
-
             _Position = Region.Region.parsePosition(_Position);
 
             Region.Region var_Region = this.loadRegion(_Position);
@@ -148,8 +125,12 @@ namespace GameLibrary.Map.World
             {
                 int var_RegionType = Utility.Random.Random.GenerateGoodRandomNumber(0, Enum.GetValues(typeof(RegionEnum)).Length);
                 var_Region = GameLibrary.Factory.RegionFactory.regionFactory.generateRegion("Region" + Region.Region._id, (int)_Position.X, (int)_Position.Y, (RegionEnum)var_RegionType, this);
+
+                var_Region = new DungeonGeneration.CaveDungeon("", _Position, new Vector3(Region.Region.regionSizeX, Region.Region.regionSizeY, 0), RegionEnum.Dungeon, this);
             }
             this.addRegion(var_Region);
+
+            ((DungeonGeneration.Dungeon)var_Region).createDungeon();
 
             return var_Region;
         }
