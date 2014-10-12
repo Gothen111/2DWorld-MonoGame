@@ -1,0 +1,268 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{01613C7A-B783-4A5E-93DB-B42EF0B53B74}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>GameLibrary</RootNamespace>
+    <AssemblyName>GameLibrary</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Lidgren.Network, Version=2011.3.12.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Extern Libs\Lidgren.Network.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoGame.Framework, Version=3.1.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\MonoGame\v3.0\Assemblies\Windows\MonoGame.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Behaviour\Behaviour.cs" />
+    <Compile Include="Behaviour\BehaviourItem.cs" />
+    <Compile Include="Behaviour\Member\Faction.cs" />
+    <Compile Include="Behaviour\Member\Race.cs" />
+    <Compile Include="Camera\Camera.cs" />
+    <Compile Include="Collison\QuadTree.cs" />
+    <Compile Include="Commands\CommandManager\CommandManager.cs" />
+    <Compile Include="Commands\CommandTypes\AttackCommand.cs" />
+    <Compile Include="Commands\CommandTypes\Command.cs" />
+    <Compile Include="Commands\CommandTypes\WalkDownCommand.cs" />
+    <Compile Include="Commands\CommandTypes\WalkLeftCommand.cs" />
+    <Compile Include="Commands\CommandTypes\WalkRightCommand.cs" />
+    <Compile Include="Commands\CommandTypes\WalkUpCommand.cs" />
+    <Compile Include="Commands\ECommandType.cs" />
+    <Compile Include="Commands\Executer\Executer.cs" />
+    <Compile Include="Configuration\Configuration.cs" />
+    <Compile Include="Connection\Client.cs" />
+    <Compile Include="Connection\EClientStatus.cs" />
+    <Compile Include="Connection\Event.cs" />
+    <Compile Include="Connection\Message\CreatureEquipmentToInventoryMessage.cs" />
+    <Compile Include="Connection\Message\CreatureInventoryItemPositionChangeMessage.cs" />
+    <Compile Include="Connection\Message\CreatureInventoryToEquipmentMessage.cs" />
+    <Compile Include="Connection\Message\EIGameMessageType.cs" />
+    <Compile Include="Connection\Message\IGameMessage.cs" />
+    <Compile Include="Connection\Message\PlayerCommandMessage.cs" />
+    <Compile Include="Connection\Message\RemoveObjectMessage.cs" />
+    <Compile Include="Connection\Message\RequestBlockMessage.cs" />
+    <Compile Include="Connection\Message\RequestChunkMessage.cs" />
+    <Compile Include="Connection\Message\RequestLivingObjectMessage.cs" />
+    <Compile Include="Connection\Message\RequestPlayerMessage.cs" />
+    <Compile Include="Connection\Message\RequestRegionMessage.cs" />
+    <Compile Include="Connection\Message\RequestWorldMessage.cs" />
+    <Compile Include="Connection\Message\UpdateAnimatedObjectBodyMessage.cs" />
+    <Compile Include="Connection\Message\UpdateBlockMessage.cs" />
+    <Compile Include="Connection\Message\UpdateChunkMessage.cs" />
+    <Compile Include="Connection\Message\UpdateCreatureInventoryMessage.cs" />
+    <Compile Include="Connection\Message\UpdateFactionsMessage.cs" />
+    <Compile Include="Connection\Message\UpdateObjectHealthMessage.cs" />
+    <Compile Include="Connection\Message\UpdateObjectMessage.cs" />
+    <Compile Include="Connection\Message\UpdateObjectMovementMessage.cs" />
+    <Compile Include="Connection\Message\UpdateObjectPositionMessage.cs" />
+    <Compile Include="Connection\Message\UpdatePlayerMessage.cs" />
+    <Compile Include="Connection\Message\UpdateRacesMessage.cs" />
+    <Compile Include="Connection\Message\UpdateRegionMessage.cs" />
+    <Compile Include="Connection\Message\UpdateWorldMessage.cs" />
+    <Compile Include="Connection\NetworkManager.cs" />
+    <Compile Include="Factory\BehaviourFactory.cs" />
+    <Compile Include="Factory\ChunkFactory.cs" />
+    <Compile Include="Factory\CreatureFactory.cs" />
+    <Compile Include="Factory\DungeonFactory.cs" />
+    <Compile Include="Factory\EnvironmentFactory.cs" />
+    <Compile Include="Factory\EquipmentFactory.cs" />
+    <Compile Include="Factory\FactoryEnums\ArmorEnum.cs" />
+    <Compile Include="Factory\FactoryEnums\CreatureEnum.cs" />
+    <Compile Include="Factory\FactoryEnums\EnvironmentEnum.cs" />
+    <Compile Include="Factory\FactoryEnums\FactionEnum.cs" />
+    <Compile Include="Factory\FactoryEnums\GenderEnum.cs" />
+    <Compile Include="Factory\FactoryEnums\ItemEnum.cs" />
+    <Compile Include="Factory\FactoryEnums\RaceEnum.cs" />
+    <Compile Include="Factory\FactoryEnums\WeaponEnum.cs" />
+    <Compile Include="Factory\FarmFactory.cs" />
+    <Compile Include="Factory\ItemFactory.cs" />
+    <Compile Include="Factory\NameFactory.cs" />
+    <Compile Include="Factory\RegionFactory.cs" />
+    <Compile Include="GameManager.cs" />
+    <Compile Include="Gui\Button.cs" />
+    <Compile Include="Gui\Checkbox.cs" />
+    <Compile Include="Gui\Component.cs" />
+    <Compile Include="Gui\Container.cs" />
+    <Compile Include="Gui\ContainerStrategy\OverlayStrategy.cs" />
+    <Compile Include="Gui\ContainerStrategy\Strategy.cs" />
+    <Compile Include="Gui\DragAndDrop.cs" />
+    <Compile Include="Gui\EquipmentField.cs" />
+    <Compile Include="Gui\Healthbar.cs" />
+    <Compile Include="Gui\InventoryField.cs" />
+    <Compile Include="Gui\InventoryItem.cs" />
+    <Compile Include="Gui\ListView.cs" />
+    <Compile Include="Gui\MenuManager.cs" />
+    <Compile Include="Gui\Menu\CharacterCreationMenu.cs" />
+    <Compile Include="Gui\Menu\CharacterMenu.cs" />
+    <Compile Include="Gui\Menu\ConnectToServerMenu.cs" />
+    <Compile Include="Gui\Menu\GameSurface.cs" />
+    <Compile Include="Gui\Menu\InventoryMenu.cs" />
+    <Compile Include="Gui\Menu\LoadingMenu.cs" />
+    <Compile Include="Gui\Menu\StartMenu.cs" />
+    <Compile Include="Gui\Slider.cs" />
+    <Compile Include="Gui\TextField.cs" />
+    <Compile Include="Logger\IO\Load.cs" />
+    <Compile Include="Logger\IO\Save.cs" />
+    <Compile Include="Logger\Logger.cs" />
+    <Compile Include="Map\Block\Block.cs" />
+    <Compile Include="Map\Block\BlockEnum.cs" />
+    <Compile Include="Map\Block\BlockLayerEnum.cs" />
+    <Compile Include="Map\Box.cs" />
+    <Compile Include="Map\Chunk\Chunk.cs" />
+    <Compile Include="Map\Chunk\ChunkEnum.cs" />
+    <Compile Include="Map\DungeonGeneration\CaveDungeon.cs" />
+    <Compile Include="Map\DungeonGeneration\Dungeon.cs" />
+    <Compile Include="Map\Region\Region.cs" />
+    <Compile Include="Map\Region\RegionDependency.cs" />
+    <Compile Include="Map\Region\RegionEnum.cs" />
+    <Compile Include="Map\Room\Room.cs" />
+    <Compile Include="Object\AnimatedObject.cs" />
+    <Compile Include="Object\Animation\AnimatedObjectAnimation.cs" />
+    <Compile Include="Object\Animation\Animations\AttackAnimation.cs" />
+    <Compile Include="Object\Animation\Animations\MoveAnimation.cs" />
+    <Compile Include="Object\Animation\Animations\OpenChestAnimation.cs" />
+    <Compile Include="Object\Animation\Animations\StandAnimation.cs" />
+    <Compile Include="Object\Animation\Animations\TakeDamageAnimation.cs" />
+    <Compile Include="Object\Body\Body.cs" />
+    <Compile Include="Object\Body\BodyHuman.cs" />
+    <Compile Include="Object\Body\BodyPart.cs" />
+    <Compile Include="Object\Body\BodyPlant.cs" />
+    <Compile Include="Object\CreatureObject.cs" />
+    <Compile Include="Object\EnvironmentObject.cs" />
+    <Compile Include="Object\EquipmentObject.cs" />
+    <Compile Include="Object\Equipment\Attack\Attack.cs" />
+    <Compile Include="Object\Equipment\Attack\AttackType.cs" />
+    <Compile Include="Object\Equipment\EquipmentArmor.cs" />
+    <Compile Include="Object\Equipment\EquipmentWeapon.cs" />
+    <Compile Include="Object\FactionObject.cs" />
+    <Compile Include="Object\Interaction\Interactions\ChestInteraction.cs" />
+    <Compile Include="Object\Interaction\LivingObjectInteraction.cs" />
+    <Compile Include="Object\Inventory\Inventory.cs" />
+    <Compile Include="Object\ItemObject.cs" />
+    <Compile Include="Object\LivingObject.cs" />
+    <Compile Include="Object\NpcObject.cs" />
+    <Compile Include="Object\Object.cs" />
+    <Compile Include="Object\ObjectEnums\DirectionEnum.cs" />
+    <Compile Include="Object\PlayerObject.cs" />
+    <Compile Include="Object\RaceObject.cs" />
+    <Compile Include="Object\Task\Aggro\AggroSystem.cs" />
+    <Compile Include="Object\Task\LivingObjectTask.cs" />
+    <Compile Include="Object\Task\Tasks\AttackRandomTask.cs" />
+    <Compile Include="Object\Task\Tasks\StandTask.cs" />
+    <Compile Include="Object\Task\Tasks\TaskPriority.cs" />
+    <Compile Include="Object\Task\Tasks\WalkRandomTask.cs" />
+    <Compile Include="Path\AStar\AStarAlgorithm.cs" />
+    <Compile Include="Path\AStar\COPY2\AStarAlgorithm.cs" />
+    <Compile Include="Path\AStar\COPY2\PriorityQueue.cs" />
+    <Compile Include="Path\AStar\COPY\AStarAlgorithm.cs" />
+    <Compile Include="Path\AStar\COPY\PriorityQueue.cs" />
+    <Compile Include="Path\AStar\PriorityQueue.cs" />
+    <Compile Include="Path\JPS\General\SingletonHolder.cs" />
+    <Compile Include="Path\JPS\PathFinder\GridPos.cs" />
+    <Compile Include="Path\JPS\PathFinder\GridRect.cs" />
+    <Compile Include="Path\JPS\PathFinder\Grid\BaseGrid.cs" />
+    <Compile Include="Path\JPS\PathFinder\Grid\DynamicGrid.cs" />
+    <Compile Include="Path\JPS\PathFinder\Grid\DynamicGridWPool.cs" />
+    <Compile Include="Path\JPS\PathFinder\Grid\PartialGridWPool.cs" />
+    <Compile Include="Path\JPS\PathFinder\Grid\StaticGrid.cs" />
+    <Compile Include="Path\JPS\PathFinder\Heuristic.cs" />
+    <Compile Include="Path\JPS\PathFinder\JumpPointFinder.cs" />
+    <Compile Include="Path\JPS\PathFinder\NodePool.cs" />
+    <Compile Include="Path\Path.cs" />
+    <Compile Include="Path\PathFinderAStar.cs" />
+    <Compile Include="Path\PathFinderJPS.cs" />
+    <Compile Include="Path\PathNode.cs" />
+    <Compile Include="Player\InputAction.cs" />
+    <Compile Include="Player\PlayerContoller.cs" />
+    <Compile Include="Ressourcen\Font\EFont.cs" />
+    <Compile Include="Ressourcen\ObjectPositionComparer.cs" />
+    <Compile Include="Ressourcen\RessourcenManager.cs" />
+    <Compile Include="Setting\Setting.cs" />
+    <Compile Include="WorldElement.cs" />
+    <Compile Include="Map\World\SearchFlags\CreatureObjectFlag.cs" />
+    <Compile Include="Map\World\SearchFlags\DeadFlag.cs" />
+    <Compile Include="Map\World\SearchFlags\EnvironmentObjectFlag.cs" />
+    <Compile Include="Map\World\SearchFlags\FactionFlag.cs" />
+    <Compile Include="Map\World\SearchFlags\IsDamagedFlag.cs" />
+    <Compile Include="Map\World\SearchFlags\NpcObjectFlag.cs" />
+    <Compile Include="Map\World\SearchFlags\PlayerObjectFlag.cs" />
+    <Compile Include="Map\World\SearchFlags\RaceFlag.cs" />
+    <Compile Include="Map\World\SearchFlags\Searchflag.cs" />
+    <Compile Include="Map\World\World.Childs.cs" />
+    <Compile Include="Map\World\World.Collision.cs" />
+    <Compile Include="Map\World\World.cs" />
+    <Compile Include="Map\World\World.Draw.cs" />
+    <Compile Include="Map\World\World.Objects.cs" />
+    <Compile Include="Map\World\World.Player.cs" />
+    <Compile Include="Map\World\World.Update.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Input\Input.csproj">
+      <Project>{8B945AD9-564F-4D0D-B779-E8B10BB22056}</Project>
+      <Name>Input</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lidgren\Lidgren.csproj">
+      <Project>{F909AA7C-654A-41C1-909E-D986A87876CB}</Project>
+      <Name>Lidgren</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utility\Utility.csproj">
+      <Project>{278FED0A-6BF7-4CD3-8E7E-96ACF53B0056}</Project>
+      <Name>Utility</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="MonoGame_RemoveXnaAssemblies" AfterTargets="ImplicitlyExpandTargetFramework">
+    <Message Text="MonoGame - Removing XNA Assembly references!" Importance="normal" />
+    <ItemGroup>
+      <ReferencePath Remove="@(ReferencePath)" Condition="'%(Filename)%(Extension)'=='Microsoft.Xna.Framework.dll'" />
+      <ReferencePath Remove="@(ReferencePath)" Condition="'%(Filename)%(Extension)'=='Microsoft.Xna.Framework.GamerServices.dll'" />
+      <ReferencePath Remove="@(ReferencePath)" Condition="'%(Filename)%(Extension)'=='Microsoft.Xna.Framework.GamerServicesExtensions.dll'" />
+      <ReferencePath Remove="@(ReferencePath)" Condition="'%(Filename)%(Extension)'=='Microsoft.Xna.Framework.Input.Touch.dll'" />
+      <ReferencePath Remove="@(ReferencePath)" Condition="'%(Filename)%(Extension)'=='Microsoft.Xna.Framework.MediaLibraryExtensions.dll'" />
+    </ItemGroup>
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

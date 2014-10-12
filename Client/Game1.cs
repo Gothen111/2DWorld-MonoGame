@@ -7,6 +7,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
 using Microsoft.Xna.Framework.GamerServices;
+using GameLibrary.Setting;
+using Utility.Gui;
+using GameLibrary.Configuration;
 #endregion
 
 namespace Client
@@ -19,11 +22,28 @@ namespace Client
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        private FrameCounter frameCounter = new FrameCounter();
+
         public Game1()
             : base()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
+            graphics.PreferredBackBufferWidth = Setting.resolutionX;
+            graphics.PreferredBackBufferHeight = Setting.resolutionY;
+
+            this.IsMouseVisible = true;
+
+            /*Configuration.isHost = false;
+            Configuration.commandManager = new ClientCommandManager();
+            Configuration.networkManager = new ClientNetworkManager();*/
+
+            Setting.logInstance = "Log/ClientLog-" + DateTime.Now.ToShortDateString() + "-" + DateTime.Now.ToShortTimeString().Replace(":", ".") + ".txt";
+
+            //Configuration.networkManager.client = new GameLibrary.Connection.Client();
+
+            Configuration.gameManager = new ClientGameManager();
         }
 
         /// <summary>
@@ -35,7 +55,7 @@ namespace Client
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
+            GameLibrary.Camera.Camera.camera = new GameLibrary.Camera.Camera(GraphicsDevice.Viewport);
             base.Initialize();
         }
 
@@ -47,6 +67,7 @@ namespace Client
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            GameLibrary.Ressourcen.RessourcenManager.ressourcenManager.loadRessources(Content);
 
             // TODO: use this.Content to load your game content here
         }
@@ -67,10 +88,30 @@ namespace Client
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+            {
+                this.Exit();
+            }
 
-            // TODO: Add your update logic here
+            if (Keyboard.GetState().IsKeyDown(Keys.F))
+            {
+                graphics.ToggleFullScreen();
+            }
+
+            GameLibrary.Player.PlayerContoller.playerContoller.update();
+            if (this.IsActive)
+            {
+                Input.Keyboard.KeyboardManager.keyboardManager.update();
+                Input.Mouse.MouseManager.mouseManager.update();
+            }
+            if (GameLibrary.Map.World.World.world != null)
+            {
+                GameLibrary.Map.World.World.world.update(gameTime);
+            }
+
+            GameLibrary.Camera.Camera.camera.update(gameTime);
+
+            GameLibrary.Gui.MenuManager.menuManager.ActiveContainer.update();
 
             base.Update(gameTime);
         }
@@ -83,7 +124,23 @@ namespace Client
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
+            GameLibrary.Gui.MenuManager.menuManager.ActiveContainer.draw(GraphicsDevice, spriteBatch);
+
+            spriteBatch.Begin();
+            if (gameTime.ElapsedGameTime.Milliseconds > 0)
+            {
+                var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+                frameCounter.Update(deltaTime);
+
+                var fps = string.Format("FPS: {0}", frameCounter.AverageFramesPerSecond);
+
+                spriteBatch.DrawString(GameLibrary.Ressourcen.RessourcenManager.ressourcenManager.Fonts["Arial"], fps, new Vector2(100, 0), Color.White);
+
+                spriteBatch.DrawString(GameLibrary.Ressourcen.RessourcenManager.ressourcenManager.Fonts["Arial"], "FPS:" + (1000 / gameTime.ElapsedGameTime.Milliseconds), new Vector2(0, 0), Color.White);
+            }
+
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }

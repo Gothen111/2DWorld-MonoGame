@@ -2,7 +2,6 @@
 *.sln
 *.cache
 *.txt
-*.dll
 *.exe
 *.pdb
 *.xnb
