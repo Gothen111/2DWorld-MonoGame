@@ -11,6 +11,7 @@
 *.sav
 *.force
 *.vsp
+*.dll
 !/Lidgren.Network.dll
 !/Lidgren.Network.Xna.dll
 *.cachefile
