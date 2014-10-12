@@ -25,5 +25,31 @@ namespace Client
 
             GameLibrary.Map.World.World.world = new GameLibrary.Map.World.World("Welt");
         }
+
+        /*public override void startMultiPlayerGame()
+        {
+            Configuration.isSinglePlayer = false;
+            Configuration.isHost = true;
+            Configuration.isDedicatedServer = false;
+
+            Configuration.commandManager = new ClientCommandManager();
+            Configuration.networkManager = new ClientNetworkManager();
+
+            Configuration.networkManager.client = new GameLibrary.Connection.Client();
+
+            GameLibrary.Map.World.World.world = new GameLibrary.Map.World.World("Welt");
+        }*/
+
+        public override void connectToServer()
+        {
+            Configuration.isSinglePlayer = false;
+            Configuration.isHost = false;
+            Configuration.isDedicatedServer = false;
+
+            Configuration.commandManager = new ClientCommandManager();
+            Configuration.networkManager = new ClientNetworkManager();
+
+            Configuration.networkManager.client = new GameLibrary.Connection.Client();
+        }
     }
 }

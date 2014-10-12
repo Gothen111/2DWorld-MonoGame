@@ -59,10 +59,10 @@ namespace GameLibrary.Map.World
                     }
                     this.addObject(_PlayerObject);
                 }
-                /*if (Configuration.Configuration.isHost)
+                if (Configuration.Configuration.isHost)
                 {
                     this.checkPlayerObjectNeighbourChunks(_PlayerObject);
-                }*/
+                }
             }
         }
 

@@ -7,6 +7,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
 using Microsoft.Xna.Framework.GamerServices;
+using GameLibrary.Setting;
+using GameLibrary.Configuration;
 #endregion
 
 namespace Server
@@ -24,6 +26,16 @@ namespace Server
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
+            graphics.PreferredBackBufferWidth = Setting.resolutionX;
+            graphics.PreferredBackBufferHeight = Setting.resolutionY;
+
+            Setting.logInstance = "Log/ServerLog-" + DateTime.Now.ToShortDateString() + "-" + DateTime.Now.ToShortTimeString().Replace(":", ".") + ".txt";
+
+            Configuration.gameManager = new ServerGameManager();
+            Configuration.gameManager.startDedicatedServer();
+
+            this.IsMouseVisible = true;
         }
 
         /// <summary>
@@ -34,7 +46,11 @@ namespace Server
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            GameLibrary.Camera.Camera.camera = new GameLibrary.Camera.Camera(GraphicsDevice.Viewport);
+
+            Configuration.networkManager.Start("", "14242");
+
+            GameLibrary.Map.World.World.world = new GameLibrary.Map.World.World("Welt");
 
             base.Initialize();
         }
@@ -47,6 +63,8 @@ namespace Server
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            GameLibrary.Ressourcen.RessourcenManager.ressourcenManager.loadRessources(Content);
 
             // TODO: use this.Content to load your game content here
         }
@@ -67,10 +85,8 @@ namespace Server
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
-
-            // TODO: Add your update logic here
+            GameLibrary.Map.World.World.world.update(gameTime);
+            GameLibrary.Camera.Camera.camera.update(gameTime);
 
             base.Update(gameTime);
         }
@@ -83,7 +99,21 @@ namespace Server
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
+            spriteBatch.Begin(SpriteSortMode.Deferred,
+                    BlendState.AlphaBlend, null, null, null, null,
+                    GameLibrary.Camera.Camera.camera.getMatrix());
+            if (GameLibrary.Camera.Camera.camera.Target != null)
+            {
+                GameLibrary.Map.World.World.world.draw(GraphicsDevice, spriteBatch, GameLibrary.Camera.Camera.camera.Target);
+            }
+
+            spriteBatch.End();
+
+            spriteBatch.Begin();
+            if (gameTime.ElapsedGameTime.Milliseconds > 0)
+                spriteBatch.DrawString(GameLibrary.Ressourcen.RessourcenManager.ressourcenManager.Fonts["Arial"], "FPS:" + (1000 / gameTime.ElapsedGameTime.Milliseconds), new Vector2(0, 0), Color.White);
+            //spriteBatch.DrawString(Ressourcen.RessourcenManager.ressourcenManager.Fonts["Arial"], "Units: " + world.QuadTree.Root.quadObjects.ToString(), new Vector2(100, 0), Color.White);
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }

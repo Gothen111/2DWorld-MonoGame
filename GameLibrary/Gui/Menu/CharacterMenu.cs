@@ -26,6 +26,7 @@ namespace GameLibrary.Gui.Menu
 		Button createNewCharacterButton;
 
         Button singlePlayerButton;
+        Button multiPlayerButton;
 		Button connectToServerButton;
 
         List<PlayerObject> charactersList;
@@ -52,7 +53,12 @@ namespace GameLibrary.Gui.Menu
             this.add(this.singlePlayerButton);
             this.singlePlayerButton.Action = startSinglePlayer;
 
-			this.connectToServerButton = new Button(new Rectangle(300, 300, 289, 85));
+            this.multiPlayerButton = new Button(new Rectangle(300, 300, 289, 85));
+            this.multiPlayerButton.Text = "Host Game";
+            this.add(this.multiPlayerButton);
+            this.multiPlayerButton.Action = startMulitPlayer;
+
+			this.connectToServerButton = new Button(new Rectangle(590, 300, 289, 85));
 			this.connectToServerButton.Text = "Connect";
 			this.add(this.connectToServerButton);
 			this.connectToServerButton.Action = openConnectToServerMenu;
@@ -153,10 +159,32 @@ namespace GameLibrary.Gui.Menu
             }
         }
 
+        private void startMulitPlayer()
+        {
+            /*if (this.characterHasBeenChoosen())
+            {
+                Configuration.Configuration.gameManager.startMultiPlayerGame();
+                PlayerObject var_PlayerObject = this.getPlayerObjectFromCharactersListView();
+                Configuration.Configuration.networkManager.client.PlayerObject = var_PlayerObject;
+
+                GameLibrary.Map.World.World.world.addPlayerObject(var_PlayerObject);
+                GameLibrary.Player.PlayerContoller.playerContoller.addInputAction(new GameLibrary.Player.InputAction(new List<Keys>() { Keys.W }, new GameLibrary.Commands.CommandTypes.WalkUpCommand(var_PlayerObject)));
+                GameLibrary.Player.PlayerContoller.playerContoller.addInputAction(new GameLibrary.Player.InputAction(new List<Keys>() { Keys.S }, new GameLibrary.Commands.CommandTypes.WalkDownCommand(var_PlayerObject)));
+                GameLibrary.Player.PlayerContoller.playerContoller.addInputAction(new GameLibrary.Player.InputAction(new List<Keys>() { Keys.A }, new GameLibrary.Commands.CommandTypes.WalkLeftCommand(var_PlayerObject)));
+                GameLibrary.Player.PlayerContoller.playerContoller.addInputAction(new GameLibrary.Player.InputAction(new List<Keys>() { Keys.D }, new GameLibrary.Commands.CommandTypes.WalkRightCommand(var_PlayerObject)));
+                GameLibrary.Player.PlayerContoller.playerContoller.addInputAction(new GameLibrary.Player.InputAction(new List<Keys>() { Keys.Space }, new GameLibrary.Commands.CommandTypes.AttackCommand(var_PlayerObject)));
+
+                GameLibrary.Camera.Camera.camera.setTarget(var_PlayerObject);
+
+                MenuManager.menuManager.setMenu(new GameSurface());
+            }*/
+        }
+
 		private void openConnectToServerMenu()
 		{
 			if (this.characterHasBeenChoosen()) 
 			{
+                Configuration.Configuration.gameManager.connectToServer();
                 Configuration.Configuration.networkManager.client.PlayerObject = this.getPlayerObjectFromCharactersListView();
                 MenuManager.menuManager.setMenu(new ConnectToServerMenu());
 			}

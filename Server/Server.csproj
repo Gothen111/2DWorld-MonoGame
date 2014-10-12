@@ -35,11 +35,20 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="ServerGameManager.cs" />
+    <Compile Include="Commands\CommandManager\ServerCommandManager.cs" />
+    <Compile Include="Connection\ServerIGameMessageManager.cs" />
+    <Compile Include="Connection\ServerMessageManager.cs" />
+    <Compile Include="Connection\ServerNetworkManager.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Lidgren.Network, Version=2011.3.12.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Extern Libs\Lidgren.Network.dll</HintPath>
+    </Reference>
     <Reference Include="MonoGame.Framework">
       <HintPath>$(MSBuildExtensionsPath)\..\MonoGame\v3.0\Assemblies\Windows\MonoGame.Framework.dll</HintPath>
     </Reference>
@@ -56,6 +65,18 @@
     <ProjectReference Include="..\GameContent\GameContent\GameContent.csproj">
       <Project>{10FBC7D8-EA6F-47EB-A336-58B235558956}</Project>
       <Name>GameContent</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GameLibrary\GameLibrary.csproj">
+      <Project>{01613C7A-B783-4A5E-93DB-B42EF0B53B74}</Project>
+      <Name>GameLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Input\Input.csproj">
+      <Project>{8B945AD9-564F-4D0D-B779-E8B10BB22056}</Project>
+      <Name>Input</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utility\Utility.csproj">
+      <Project>{278FED0A-6BF7-4CD3-8E7E-96ACF53B0056}</Project>
+      <Name>Utility</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
