@@ -50,18 +50,18 @@ namespace GameLibrary.Map.World
 
                 if (!_OnlyToPlayerList)
                 {
-                    Region.Region var_Region = World.world.getRegionAtPosition(_PlayerObject.Position)
+                    /*Region.Region var_Region = World.world.getRegionAtPosition(_PlayerObject.Position)
                                                 ?? World.world.createRegionAt(_PlayerObject.Position);
                     if (var_Region != null)
                     {
                         Chunk.Chunk var_Chunk = var_Region.getChunkAtPosition(_PlayerObject.Position)
                                                 ?? var_Region.createChunkAt(_PlayerObject.Position);
-                    }
+                    }*/
                     this.addObject(_PlayerObject);
                 }
                 if (Configuration.Configuration.isHost)
                 {
-                    this.checkPlayerObjectNeighbourChunks(_PlayerObject);
+                    //this.checkPlayerObjectNeighbourChunks(_PlayerObject);
                 }
             }
         }

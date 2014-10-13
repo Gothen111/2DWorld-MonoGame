@@ -123,14 +123,17 @@ namespace GameLibrary.Map.World
             Region.Region var_Region = this.loadRegion(_Position);
             if (var_Region == null)
             {
-                int var_RegionType = Utility.Random.Random.GenerateGoodRandomNumber(0, Enum.GetValues(typeof(RegionEnum)).Length);
+                int var_RegionType = Utility.Random.Random.GenerateGoodRandomNumber(0, Enum.GetValues(typeof(RegionEnum)).Length - 1);
                 var_Region = GameLibrary.Factory.RegionFactory.regionFactory.generateRegion("Region" + Region.Region._id, (int)_Position.X, (int)_Position.Y, (RegionEnum)var_RegionType, this);
 
-                var_Region = new DungeonGeneration.CaveDungeon("", _Position, new Vector3(Region.Region.regionSizeX, Region.Region.regionSizeY, 0), RegionEnum.Dungeon, this);
+                //var_Region = new DungeonGeneration.CaveDungeon("", _Position, new Vector3(Region.Region.regionSizeX, Region.Region.regionSizeY, 0), RegionEnum.Dungeon, this);
             }
             this.addRegion(var_Region);
 
-            ((DungeonGeneration.Dungeon)var_Region).createDungeon();
+            if (Configuration.Configuration.isHost || Configuration.Configuration.isSinglePlayer)
+            {
+                //((DungeonGeneration.Dungeon)var_Region).createDungeon();
+            }
 
             return var_Region;
         }

@@ -147,6 +147,7 @@ namespace GameLibrary.Object
             if (this.CurrentBlock == null)
             {
                 this.CurrentBlock = Map.World.World.world.getBlockAtCoordinate(this.Position);
+                this.CurrentBlock.addObject(this);
             }
             Map.Block.Block var_Block = this.CurrentBlock;
 
@@ -201,7 +202,7 @@ namespace GameLibrary.Object
                         this.Position += this.Velocity * (20 / _GameTime.ElapsedGameTime.Milliseconds);
                         checkChangedBlock();
                     }
-                    if (Configuration.Configuration.isHost)
+                    if (Configuration.Configuration.isHost && !(this is PlayerObject))
                     {
                         Configuration.Configuration.networkManager.addEvent(new GameLibrary.Connection.Message.UpdateObjectPositionMessage((LivingObject)this), GameLibrary.Connection.GameMessageImportance.UnImportant);
                     }

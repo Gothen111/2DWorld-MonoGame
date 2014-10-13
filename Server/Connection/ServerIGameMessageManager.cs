@@ -212,7 +212,7 @@ namespace Server.Connection
                     break;
             }
             //TODO: Hier nochmal überlegen :/ ob man das hier sendet. damit keine animation o ä hängt
-            Configuration.networkManager.addEvent(new GameLibrary.Connection.Message.UpdateObjectPositionMessage((LivingObject)var_PlayerObject), GameLibrary.Connection.GameMessageImportance.VeryImportant);
+            //Configuration.networkManager.addEvent(new GameLibrary.Connection.Message.UpdateObjectPositionMessage((LivingObject)var_PlayerObject), GameLibrary.Connection.GameMessageImportance.VeryImportant);
         }
         private static void handleRequestLivingObjectMessage(NetIncomingMessage _Im)
         {

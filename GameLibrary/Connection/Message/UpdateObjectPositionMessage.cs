@@ -14,6 +14,7 @@ using System.Runtime.Serialization;
 
 #region Using Statements Class Specific
 using Lidgren.Network;
+using GameLibrary.Object;
 #endregion
 
 namespace GameLibrary.Connection.Message
@@ -27,16 +28,20 @@ namespace GameLibrary.Connection.Message
             this.Decode(im);
         }
 
-        public UpdateObjectPositionMessage(Object.LivingObject _LivingObject)
+        public UpdateObjectPositionMessage(Object.Object _Object)
         {
-            this.Id = _LivingObject.Id;
+            this.Id = _Object.Id;
             this.MessageTime = NetTime.Now;
-            this.Position = _LivingObject.Position;
-            this.Velocity = _LivingObject.Velocity;
-            this.MoveUp = _LivingObject.MoveUp;
-            this.MoveDown = _LivingObject.MoveDown;
-            this.MoveLeft = _LivingObject.MoveLeft;
-            this.MoveRight = _LivingObject.MoveRight;
+            this.Position = _Object.Position;
+            this.Velocity = _Object.Velocity;
+
+            if (_Object is AnimatedObject)
+            {
+                this.MoveUp = ((AnimatedObject)_Object).MoveUp;
+                this.MoveDown = ((AnimatedObject)_Object).MoveDown;
+                this.MoveLeft = ((AnimatedObject)_Object).MoveLeft;
+                this.MoveRight = ((AnimatedObject)_Object).MoveRight;
+            }
         }
 
         #endregion

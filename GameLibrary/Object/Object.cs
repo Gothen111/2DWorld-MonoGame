@@ -122,6 +122,12 @@ namespace GameLibrary.Object
                 this.currentBlock = var_Block;
                 this.currentBlock.addObject(this);  
                 this.Position = _Position;
+
+                if (Configuration.Configuration.isHost)
+                {
+                    Configuration.Configuration.networkManager.addEvent(new GameLibrary.Connection.Message.UpdateObjectPositionMessage(this), GameLibrary.Connection.GameMessageImportance.VeryImportant);          
+                }
+
                 return true;
             }
 

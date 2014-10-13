@@ -61,7 +61,7 @@ namespace GameLibrary.Map.DungeonGeneration
         }
 
 
-        // 1 == Floor ! 0 == Wall ! 2 == StairUp ! 3 == Treasure
+        // 0 == Wall ! 1 == Floor  ! 2 == StairUp ! 3 == Treasure
         private void generateDungeon(int _Width, int _Heigth)
         {
             int var_Width = _Width * 10;

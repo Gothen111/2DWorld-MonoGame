@@ -173,14 +173,14 @@ namespace Client.Connection
                 {
                     if (var_LivingObject.LastUpdateTime < message.MessageTime)
                     {
-                        if (Configuration.networkManager.client.PlayerObject != var_LivingObject)
-                        {
+                        //if (Configuration.networkManager.client.PlayerObject != var_LivingObject)
+                        //{
                             var_LivingObject.Position = message.Position += (message.Velocity * timeDelay);
                             var_LivingObject.MoveUp = message.MoveUp;
                             var_LivingObject.MoveDown = message.MoveDown;
                             var_LivingObject.MoveLeft = message.MoveLeft;
                             var_LivingObject.MoveRight = message.MoveRight;
-                        }
+                        //}
                         var_LivingObject.checkChangedBlock();
 
                         var_LivingObject.LastUpdateTime = message.MessageTime;

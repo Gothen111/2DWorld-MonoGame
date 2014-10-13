@@ -154,10 +154,14 @@ namespace GameLibrary.Map.World
                 this.chunksOutOfRange.Remove(var_Chunk);
             }
 
-            if (_PlayerObject != null && !Configuration.Configuration.isHost && _NewUpdateObjectsList && _PlayerObject.CurrentBlock != null)
+            if (_PlayerObject != null && _NewUpdateObjectsList)
             {
+                Vector3 var_PlayerPos = _PlayerObject.Position;
+
                 if (_PlayerObject.CurrentBlock != null)
                 {
+                    var_PlayerPos = _PlayerObject.CurrentBlock.Position;
+                }
                     int var_DrawSizeX = Setting.Setting.blockDrawRange;
                     int var_DrawSizeY = Setting.Setting.blockDrawRange;
 
@@ -165,7 +169,7 @@ namespace GameLibrary.Map.World
                     {
                         for (int y = 0; y < var_DrawSizeY; y++)
                         {
-                            Vector3 var_Position = new Vector3(_PlayerObject.CurrentBlock.Position.X + (-var_DrawSizeX / 2 + x) * Block.Block.BlockSize, _PlayerObject.CurrentBlock.Position.Y + (-var_DrawSizeY / 2 + y) * Block.Block.BlockSize, 0);
+                            Vector3 var_Position = new Vector3(var_PlayerPos.X + (-var_DrawSizeX / 2 + x) * Block.Block.BlockSize, var_PlayerPos.Y + (-var_DrawSizeY / 2 + y) * Block.Block.BlockSize, 0);
                             Block.Block var_Block = this.getBlockAtCoordinate(var_Position);
                             if (var_Block != null)
                             {
@@ -189,7 +193,7 @@ namespace GameLibrary.Map.World
                             }
                         }
                     }
-                }
+                //}
             }
 
             if (_NewUpdateObjectsList)

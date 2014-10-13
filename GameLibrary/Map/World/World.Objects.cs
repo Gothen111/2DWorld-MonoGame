@@ -70,12 +70,16 @@ namespace GameLibrary.Map.World
 
         public Object.Object addObject(Object.Object _Object, Boolean insertInQuadTree)
         {
-            Region.Region region = getRegionObjectIsIn(_Object);
+            Region.Region region = this.getRegionObjectIsIn(_Object);
             return addObject(_Object, insertInQuadTree, region);
         }
 
         public Object.Object addObject(Object.Object _Object, Boolean insertInQuadTree, Region.Region _Region)
         {
+            if (insertInQuadTree)
+            {
+                this.quadTreeObject.Insert(_Object);
+            }
             if (_Region != null)
             {
                 Chunk.Chunk chunk = _Region.getChunkObjectIsIn(_Object);
@@ -87,10 +91,10 @@ namespace GameLibrary.Map.World
                         if (var_Block != null)
                         {
                             var_Block.addObject(_Object);
-                            if (insertInQuadTree)
+                            /*if (insertInQuadTree)
                             {
                                 this.quadTreeObject.Insert(_Object);
-                            }
+                            }*/
                             if (Configuration.Configuration.isHost)
                             {
                                 Configuration.Configuration.networkManager.addEvent(new GameLibrary.Connection.Message.UpdateObjectMessage(_Object), GameMessageImportance.VeryImportant);
