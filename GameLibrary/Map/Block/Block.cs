@@ -156,6 +156,10 @@ namespace GameLibrary.Map.Block
             }*/
         }
 
+        public virtual void onObjectEntersBlock(Object.Object var_Object)
+        {
+        }
+
         public Color drawColor = Color.White;
 
         public void drawBlock(GraphicsDevice _GraphicsDevice, SpriteBatch _SpriteBatch)
@@ -170,9 +174,11 @@ namespace GameLibrary.Map.Block
                 {
                     var_Color = Color.Green;
                 }
+                else
+                {
+                    var_Color = this.drawColor;
+                }
             }
-
-            var_Color = this.drawColor;
 
             String var_RegionType = ((Region.Region)this.Parent.Parent).RegionEnum.ToString();
 

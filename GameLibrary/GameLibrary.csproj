@@ -140,6 +140,7 @@
     <Compile Include="Map\Block\Block.cs" />
     <Compile Include="Map\Block\BlockEnum.cs" />
     <Compile Include="Map\Block\BlockLayerEnum.cs" />
+    <Compile Include="Map\Block\Blocks\TeleportBlock.cs" />
     <Compile Include="Map\Box.cs" />
     <Compile Include="Map\Chunk\Chunk.cs" />
     <Compile Include="Map\Chunk\ChunkEnum.cs" />

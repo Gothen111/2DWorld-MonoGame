@@ -96,7 +96,7 @@ namespace GameLibrary.Map.Chunk
             //info.AddValue("blocks", this.blocks, typeof(Block.Block[,]));
         }
 
-        public bool setBlockAtCoordinate(Vector2 _Position, Block.Block _Block)
+        public bool setBlockAtCoordinate(Vector3 _Position, Block.Block _Block)
         {
             int var_X = (int)Math.Abs(_Position.X - this.Position.X) / Block.Block.BlockSize;
             int var_Y = (int)Math.Abs(_Position.Y - this.Position.Y) / Block.Block.BlockSize;

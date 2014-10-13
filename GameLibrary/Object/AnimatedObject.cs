@@ -347,7 +347,7 @@ namespace GameLibrary.Object
                 }
                 else if (var_Position.X > (var_BlockPosX + 1) * Map.Block.Block.BlockSize)
                 {
-                    this.CurrentBlock.removeObject((LivingObject)this);
+                    this.CurrentBlock.removeObject(this);
                     if (this.CurrentBlock.RightNeighbour != null)
                     {
                         ((Map.Block.Block)this.CurrentBlock.RightNeighbour).addObject(this);
@@ -356,7 +356,7 @@ namespace GameLibrary.Object
                 }
                 else if (var_Position.Y < var_BlockPosY * Map.Block.Block.BlockSize)
                 {
-                    this.CurrentBlock.removeObject((LivingObject)this);
+                    this.CurrentBlock.removeObject(this);
                     if (this.CurrentBlock.TopNeighbour != null)
                     {
                         ((Map.Block.Block)this.CurrentBlock.TopNeighbour).addObject(this);
@@ -365,7 +365,7 @@ namespace GameLibrary.Object
                 }
                 else if (var_Position.Y > (var_BlockPosY + 1) * Map.Block.Block.BlockSize)
                 {
-                    this.CurrentBlock.removeObject((LivingObject)this);
+                    this.CurrentBlock.removeObject(this);
                     if (this.CurrentBlock.BottomNeighbour != null)
                     {
                         ((Map.Block.Block)this.CurrentBlock.BottomNeighbour).addObject(this);
@@ -376,6 +376,9 @@ namespace GameLibrary.Object
                 if (var_BlockChanged)
                 {
                     this.onChangedBlock();
+
+                    this.CurrentBlock.onObjectEntersBlock(this);
+
                     if (var_OldBlock.Parent != this.CurrentBlock.Parent)
                     {
                         this.onChangedChunk();

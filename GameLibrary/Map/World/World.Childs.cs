@@ -185,6 +185,16 @@ namespace GameLibrary.Map.World
             return null;
         }
 
+        public bool setBlockAtCoordinate(Vector3 _Position, Block.Block _Block)
+        {
+            Chunk.Chunk var_Chunk = World.world.getChunkAtPosition(_Position);
+            if (var_Chunk != null)
+            {
+                return var_Chunk.setBlockAtCoordinate(_Position, _Block);
+            }
+            return false;
+        }
+
         #endregion
     }
 }

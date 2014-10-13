@@ -88,8 +88,10 @@ namespace GameLibrary.Map.DungeonGeneration
                     else if (var_Map[x, y] == 3)
                     {
                         Block.Block var_Block = World.World.world.getBlockAtCoordinate(this.Position + new Vector3(x, y, 0) * Block.Block.BlockSize);
+                        var_Block = new Block.Blocks.TeleportBlock(this.Position + new Vector3(x, y, 0) * Block.Block.BlockSize, Block.BlockEnum.Ground1, (Chunk.Chunk)var_Block.Parent, World.World.world.getBlockAtCoordinate(new Vector3(0, 0, 0)));
                         var_Block.setFirstLayer(Block.BlockEnum.Ground1);
                         var_Block.drawColor = Color.Yellow;
+                        World.World.world.setBlockAtCoordinate(this.Position + new Vector3(x, y, 0) * Block.Block.BlockSize, var_Block);
                     }
                 }
             }
