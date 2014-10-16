@@ -58,6 +58,8 @@ namespace GameLibrary.Map.DungeonGeneration
             //this.FillMapRoom(this.Position, new Vector3(3,3,0), this.Position, this.Position);
 
             this.generateDungeon(var_Width, var_Heigth);
+
+            this.setAllNeighboursOfChunks();
         }
 
 
@@ -76,22 +78,22 @@ namespace GameLibrary.Map.DungeonGeneration
                 {
                     if (var_Map[x, y] == 1)
                     {
-                        Block.Block var_Block = World.World.world.getBlockAtCoordinate(this.Position + new Vector3(x, y, 0) * Block.Block.BlockSize);
+                        Block.Block var_Block = this.getBlockAtCoordinate(this.Position + new Vector3(x, y, 0) * Block.Block.BlockSize);
                         var_Block.setFirstLayer(Block.BlockEnum.Ground1);
                     }
                     else if (var_Map[x, y] == 2)
                     {
-                        Block.Block var_Block = World.World.world.getBlockAtCoordinate(this.Position + new Vector3(x, y, 0) * Block.Block.BlockSize);
+                        Block.Block var_Block = this.getBlockAtCoordinate(this.Position + new Vector3(x, y, 0) * Block.Block.BlockSize);
                         var_Block.setFirstLayer(Block.BlockEnum.Ground1);
                         var_Block.drawColor = Color.Green;
                     }
                     else if (var_Map[x, y] == 3)
                     {
-                        Block.Block var_Block = World.World.world.getBlockAtCoordinate(this.Position + new Vector3(x, y, 0) * Block.Block.BlockSize);
-                        var_Block = new Block.Blocks.TeleportBlock(this.Position + new Vector3(x, y, 0) * Block.Block.BlockSize, Block.BlockEnum.Ground1, (Chunk.Chunk)var_Block.Parent, World.World.world.getBlockAtCoordinate(new Vector3(0, 0, 0)));
+                        Block.Block var_Block = this.getBlockAtCoordinate(this.Position + new Vector3(x, y, 0) * Block.Block.BlockSize);
+                        var_Block = new Block.Blocks.TeleportBlock(this.Position + new Vector3(x, y, 0) * Block.Block.BlockSize, Block.BlockEnum.Ground1, (Chunk.Chunk)var_Block.Parent, World.World.world.getBlockAtCoordinate(new Vector3(0, 0, 0)), false);
                         var_Block.setFirstLayer(Block.BlockEnum.Ground1);
                         var_Block.drawColor = Color.Yellow;
-                        World.World.world.setBlockAtCoordinate(this.Position + new Vector3(x, y, 0) * Block.Block.BlockSize, var_Block);
+                        this.setBlockAtCoordinate(this.Position + new Vector3(x, y, 0) * Block.Block.BlockSize, var_Block);
                     }
                 }
             }

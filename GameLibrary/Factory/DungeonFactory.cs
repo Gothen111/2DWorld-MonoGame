@@ -25,14 +25,14 @@ namespace GameLibrary.Factory
 
     public class DungeonFactory
     {
-        public static Region createDungeon(Vector3 _Position, Vector3 _Size, DungeonType _DungeonType, World _ParentWorld)
+        public static Dungeon createDungeon(Vector3 _Position, Vector3 _Size, DungeonType _DungeonType, World _ParentWorld)
         {
             Dungeon var_Dungeon = null;
 
             switch (_DungeonType)
             {
                 case DungeonType.Cave:
-                    var_Dungeon = new CaveDungeon("", _Position, _Size, RegionEnum.Grassland, _ParentWorld);
+                    var_Dungeon = new CaveDungeon("", _Position, _Size, RegionEnum.Dungeon, _ParentWorld);
                     break;
             }
             if (var_Dungeon != null)

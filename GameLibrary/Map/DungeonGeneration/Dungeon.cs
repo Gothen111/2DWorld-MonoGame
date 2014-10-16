@@ -8,11 +8,12 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
 using Microsoft.Xna.Framework.GamerServices;
 using System.Runtime.Serialization;
-using GameLibrary.Map.Region;
-using Utility.Corpus;
 #endregion
 
 #region Using Statements Class Specific
+using GameLibrary.Map.Region;
+using Utility.Corpus;
+using GameLibrary.Collison;
 #endregion
 
 
@@ -21,11 +22,20 @@ namespace GameLibrary.Map.DungeonGeneration
     [Serializable()]
     public class Dungeon : Region.Region
     {
+        private QuadTree<Object.Object> quadTreeObject;
+
+        public QuadTree<Object.Object> QuadTreeObject
+        {
+            get { return quadTreeObject; }
+            set { quadTreeObject = value; }
+        }
+
         private List<Room.Room> rooms;
 
         public Dungeon(String _Name, Vector3 _Position, Vector3 _Size, RegionEnum _RegionEnum, World.World _ParentWorld)
             : base(_Name, (int)_Position.X, (int)_Position.Y, _Size, _RegionEnum, _ParentWorld)
         {
+            this.quadTreeObject = new QuadTree<Object.Object>(new Vector3(32, 32, 0), 20);
             this.rooms = new List<Room.Room>();
         }
 

@@ -195,7 +195,7 @@ namespace GameLibrary.Map.World
                 addAllObjectsInRange(currentNode, bounds, result, _SearchFlags);
                 return;
             }
-            if (currentNode.Equals(this.quadTreeObject.Root))
+            else//if (currentNode.Equals(this.quadTreeObject.Root))
             {
                 addAllObjectsInRange(currentNode, bounds, result, _SearchFlags);
             }

@@ -123,9 +123,11 @@ namespace GameLibrary.Map.World
             Region.Region var_Region = this.loadRegion(_Position);
             if (var_Region == null)
             {
-                int var_RegionType = Utility.Random.Random.GenerateGoodRandomNumber(0, Enum.GetValues(typeof(RegionEnum)).Length - 1);
+                int var_RegionType = 0;// Utility.Random.Random.GenerateGoodRandomNumber(0, Enum.GetValues(typeof(RegionEnum)).Length - 1);
                 var_Region = GameLibrary.Factory.RegionFactory.regionFactory.generateRegion("Region" + Region.Region._id, (int)_Position.X, (int)_Position.Y, (RegionEnum)var_RegionType, this);
 
+                
+                //this.setBlockAtCoordinate(_Position + new Vector3(32, 32, 0), new GameLibrary.Map.Block.Blocks.TeleportBlock(_Position + new Vector3(32, 32, 0), Block.BlockEnum.Ground2, var_Chunk, Vector3.Zero, true));
                 //var_Region = new DungeonGeneration.CaveDungeon("", _Position, new Vector3(Region.Region.regionSizeX, Region.Region.regionSizeY, 0), RegionEnum.Dungeon, this);
             }
             this.addRegion(var_Region);
@@ -180,20 +182,20 @@ namespace GameLibrary.Map.World
 
         public Block.Block getBlockAtCoordinate(Vector3 _Position)
         {
-            Chunk.Chunk var_Chunk = World.world.getChunkAtPosition(_Position);
-            if (var_Chunk != null)
+            Region.Region var_Region = World.world.getRegionAtPosition(_Position);
+            if (var_Region != null)
             {
-                return var_Chunk.getBlockAtCoordinate(_Position);
+                return var_Region.getBlockAtCoordinate(_Position);
             }
             return null;
         }
 
         public bool setBlockAtCoordinate(Vector3 _Position, Block.Block _Block)
         {
-            Chunk.Chunk var_Chunk = World.world.getChunkAtPosition(_Position);
-            if (var_Chunk != null)
+            Region.Region var_Region = World.world.getRegionAtPosition(_Position);
+            if (var_Region != null)
             {
-                return var_Chunk.setBlockAtCoordinate(_Position, _Block);
+                return var_Region.setBlockAtCoordinate(_Position, _Block);
             }
             return false;
         }

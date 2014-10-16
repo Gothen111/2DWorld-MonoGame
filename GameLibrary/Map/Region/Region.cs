@@ -49,6 +49,14 @@ namespace GameLibrary.Map.Region
             set { regionEnum = value; }
         }
 
+        private List<DungeonGeneration.Dungeon> dungeons;
+
+        public List<DungeonGeneration.Dungeon> Dungeons
+        {
+            get { return dungeons; }
+            set { dungeons = value; }
+        }
+
         public Region(String _Name, int _PosX, int _PosY, Vector3 _Size, RegionEnum _RegionEnum, World.World _ParentWorld)
         {
             this.Name = _Name;
@@ -61,6 +69,8 @@ namespace GameLibrary.Map.Region
             this.regionEnum = _RegionEnum;
 
             this.Parent = _ParentWorld;
+
+            this.dungeons = new List<DungeonGeneration.Dungeon>();
 
             if (Configuration.Configuration.isHost || Configuration.Configuration.isSinglePlayer)
             {
@@ -168,7 +178,16 @@ namespace GameLibrary.Map.Region
 
         public void setAllNeighboursOfChunk(Chunk.Chunk _Chunk)
         {
-            Chunk.Chunk var_ChunkNeighbourLeft = World.World.world.getChunkAtPosition(new Vector3(_Chunk.Position.X - Chunk.Chunk.chunkSizeX*Block.Block.BlockSize, _Chunk.Position.Y, 0));
+            Chunk.Chunk var_ChunkNeighbourLeft = null;
+            if(this is DungeonGeneration.Dungeon)
+            {
+                var_ChunkNeighbourLeft = this.getChunkAtPosition(new Vector3(_Chunk.Position.X - Chunk.Chunk.chunkSizeX * Block.Block.BlockSize, _Chunk.Position.Y, 0));
+            
+            }
+            else
+            {
+                var_ChunkNeighbourLeft = World.World.world.getChunkAtPosition(new Vector3(_Chunk.Position.X - Chunk.Chunk.chunkSizeX * Block.Block.BlockSize, _Chunk.Position.Y, 0));
+            }
 
             if (var_ChunkNeighbourLeft != null)
             {
@@ -187,8 +206,16 @@ namespace GameLibrary.Map.Region
                 }
             }
 
-            Chunk.Chunk var_ChunkNeighbourRight = World.World.world.getChunkAtPosition(new Vector3(_Chunk.Position.X + Chunk.Chunk.chunkSizeX * Block.Block.BlockSize, _Chunk.Position.Y, 0));
+            Chunk.Chunk var_ChunkNeighbourRight = null;
+            if (this is DungeonGeneration.Dungeon)
+            {
+                var_ChunkNeighbourRight = this.getChunkAtPosition(new Vector3(_Chunk.Position.X + Chunk.Chunk.chunkSizeX * Block.Block.BlockSize, _Chunk.Position.Y, 0));
 
+            }
+            else
+            {
+                var_ChunkNeighbourRight = World.World.world.getChunkAtPosition(new Vector3(_Chunk.Position.X + Chunk.Chunk.chunkSizeX * Block.Block.BlockSize, _Chunk.Position.Y, 0));
+            }
             if (var_ChunkNeighbourRight != null)
             {
                 _Chunk.RightNeighbour = var_ChunkNeighbourRight;
@@ -206,7 +233,16 @@ namespace GameLibrary.Map.Region
                 }
             }
 
-            Chunk.Chunk var_ChunkNeighbourTop = World.World.world.getChunkAtPosition(new Vector3(_Chunk.Position.X, _Chunk.Position.Y - Chunk.Chunk.chunkSizeX * Block.Block.BlockSize, 0));
+            Chunk.Chunk var_ChunkNeighbourTop = null;
+            if(this is DungeonGeneration.Dungeon)
+            {
+                var_ChunkNeighbourTop = this.getChunkAtPosition(new Vector3(_Chunk.Position.X, _Chunk.Position.Y - Chunk.Chunk.chunkSizeX * Block.Block.BlockSize, 0));
+            
+            }
+            else
+            {
+                var_ChunkNeighbourTop = World.World.world.getChunkAtPosition(new Vector3(_Chunk.Position.X, _Chunk.Position.Y - Chunk.Chunk.chunkSizeX * Block.Block.BlockSize, 0));
+            }
 
             if (var_ChunkNeighbourTop != null)
             {
@@ -225,7 +261,15 @@ namespace GameLibrary.Map.Region
                 }
             }
 
-            Chunk.Chunk var_ChunkNeighbourBottom = World.World.world.getChunkAtPosition(new Vector3(_Chunk.Position.X, _Chunk.Position.Y + Chunk.Chunk.chunkSizeX * Block.Block.BlockSize, 0));
+            Chunk.Chunk var_ChunkNeighbourBottom = null;
+            if(this is DungeonGeneration.Dungeon)
+            {
+                var_ChunkNeighbourBottom = this.getChunkAtPosition(new Vector3(_Chunk.Position.X, _Chunk.Position.Y + Chunk.Chunk.chunkSizeX * Block.Block.BlockSize, 0));
+            }
+            else
+            {
+                var_ChunkNeighbourBottom = World.World.world.getChunkAtPosition(new Vector3(_Chunk.Position.X, _Chunk.Position.Y + Chunk.Chunk.chunkSizeX * Block.Block.BlockSize, 0));
+            }
 
             if (var_ChunkNeighbourBottom != null)
             {
@@ -384,6 +428,26 @@ namespace GameLibrary.Map.Region
             {
                 Configuration.Configuration.networkManager.addEvent(new RequestRegionMessage(this.Position), GameMessageImportance.VeryImportant);
             }
+        }
+
+        public Block.Block getBlockAtCoordinate(Vector3 _Position)
+        {
+            Chunk.Chunk var_Chunk = this.getChunkAtPosition(_Position);
+            if (var_Chunk != null)
+            {
+                return var_Chunk.getBlockAtCoordinate(_Position);
+            }
+            return null;
+        }
+
+        public bool setBlockAtCoordinate(Vector3 _Position, Block.Block _Block)
+        {
+            Chunk.Chunk var_Chunk = this.getChunkAtPosition(_Position);
+            if (var_Chunk != null)
+            {
+                return var_Chunk.setBlockAtCoordinate(_Position, _Block);
+            }
+            return false;
         }
     }
 }

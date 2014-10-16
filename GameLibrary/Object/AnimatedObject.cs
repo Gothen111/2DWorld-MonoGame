@@ -193,7 +193,7 @@ namespace GameLibrary.Object
             if (var_X != 0 || var_Y != 0)
             {
                 Rectangle nextBounds = new Rectangle((int)(this.Bounds.Left + this.Velocity.X), (int)(this.Bounds.Top + this.Velocity.Y), (int)this.Bounds.Width, (int)this.Bounds.Height);
-                List<Object> objectsColliding = World.world.getObjectsColliding(nextBounds); // World.getObjectsColliding(nextBounds);
+                List<Object> objectsColliding = World.world.getObjectsColliding(nextBounds, this.getQuadTreeIsIn().Root); // World.getObjectsColliding(nextBounds);
                 objectsColliding.Remove(this as LivingObject);
                 if (objectsColliding.Count < 1)
                 {
