@@ -17,6 +17,7 @@ using GameLibrary.Object;
 using GameLibrary.Map.World;
 using GameLibrary.Map.Region;
 using GameLibrary.Map.Chunk;
+using GameLibrary.Enums;
 #endregion
 
 namespace GameLibrary.Factory
@@ -25,24 +26,24 @@ namespace GameLibrary.Factory
     {
         public static RegionFactory regionFactory = new RegionFactory();
 
-        public Region generateRegion(String _Name, int _PosX, int _PosY, RegionEnum _RegionEnum, World _ParentWorld)
+        public Region createRegion(String _Name, int _PosX, int _PosY, RegionEnum _RegionEnum, World _ParentWorld)
         {
             Region var_Region = null;
             switch (_RegionEnum)
             {
                 case RegionEnum.Grassland:
                     {
-                        var_Region = generateRegionGrassland(_Name, _PosX, _PosY, _ParentWorld);
+                        var_Region = createRegionGrassland(_Name, _PosX, _PosY, _ParentWorld);
                         break;
                     }
                 case RegionEnum.Snowland:
                     {
-                        var_Region = generateRegionSnowland(_Name, _PosX, _PosY, _ParentWorld);
+                        var_Region = createRegionSnowland(_Name, _PosX, _PosY, _ParentWorld);
                         break;
                     }
                 case RegionEnum.Lavaland:
                     {
-                        var_Region = generateRegionLavaland(_Name, _PosX, _PosY, _ParentWorld);
+                        var_Region = createRegionLavaland(_Name, _PosX, _PosY, _ParentWorld);
                         break;
                     }
             }
@@ -55,7 +56,7 @@ namespace GameLibrary.Factory
             return var_Region;
         }
 
-        private Region generateRegionGrassland(String _Name, int _PosX, int _PosY, World _ParentWorld)
+        private Region createRegionGrassland(String _Name, int _PosX, int _PosY, World _ParentWorld)
         {
             Region var_Result;
 
@@ -68,7 +69,7 @@ namespace GameLibrary.Factory
             return var_Result;
         }
 
-        private Region generateRegionSnowland(String _Name, int _PosX, int _PosY, World _ParentWorld)
+        private Region createRegionSnowland(String _Name, int _PosX, int _PosY, World _ParentWorld)
         {
             Region var_Result;
 
@@ -79,7 +80,7 @@ namespace GameLibrary.Factory
             return var_Result;
         }
 
-        private Region generateRegionLavaland(String _Name, int _PosX, int _PosY, World _ParentWorld)
+        private Region createRegionLavaland(String _Name, int _PosX, int _PosY, World _ParentWorld)
         {
             Region var_Result;
 

@@ -24,7 +24,7 @@ namespace GameLibrary.Map.World.SearchFlags
             this.faction = _Faction;
         }
 
-        public FactionFlag(GameLibrary.Factory.FactoryEnums.FactionEnum _FactionEnum)
+        public FactionFlag(GameLibrary.Enums.FactionEnum _FactionEnum)
         {
             this.faction = GameLibrary.Factory.BehaviourFactory.behaviourFactory.getFaction(_FactionEnum);
         }

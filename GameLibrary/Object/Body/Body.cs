@@ -13,6 +13,7 @@ using System.Runtime.Serialization;
 #region Using Statements Class Specific
 using GameLibrary.Object.ObjectEnums;
 using GameLibrary.Object.Animation.Animations;
+using GameLibrary.Enums;
 #endregion
 
 namespace GameLibrary.Object.Body
@@ -50,7 +51,7 @@ namespace GameLibrary.Object.Body
             this.bodyColor = Color.White;
 
             this.mainBody = new BodyPart(0, new Vector3(0, 0, 0), this.BodyColor, "");
-            this.mainBody.AcceptedItemTypes.Add(Factory.FactoryEnums.ItemEnum.Armor);
+            this.mainBody.AcceptedItemTypes.Add(ItemEnum.Armor);
             this.bodyParts.Add(this.mainBody);
         }
 

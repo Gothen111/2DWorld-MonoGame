@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 using GameLibrary.Ressourcen.Font;
+using GameLibrary.Enums;
 
 namespace GameLibrary.Ressourcen
 {
@@ -46,9 +47,9 @@ namespace GameLibrary.Ressourcen
 
         private void loadMapTextures(ContentManager _ContentManager)
         {
-            for (int i = 0; i < Enum.GetValues(typeof(Map.Region.RegionEnum)).Length; i++)
+            for (int i = 0; i < Enum.GetValues(typeof(RegionEnum)).Length; i++)
             {
-                String var_RegionType = Enum.GetValues(typeof(Map.Region.RegionEnum)).GetValue(i).ToString();
+                String var_RegionType = Enum.GetValues(typeof(RegionEnum)).GetValue(i).ToString();
                 String var_Path = "Region/" + var_RegionType + "/" + var_RegionType;
                 this.loadTexture(_ContentManager, var_Path, var_Path);
             }

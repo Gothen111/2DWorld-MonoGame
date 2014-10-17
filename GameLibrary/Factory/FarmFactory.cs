@@ -18,7 +18,7 @@ using GameLibrary.Map.World;
 using GameLibrary.Map.Region;
 using GameLibrary.Map.Chunk;
 using GameLibrary.Map.Block;
-using GameLibrary.Factory.FactoryEnums;
+using GameLibrary.Enums;
 #endregion
 
 namespace GameLibrary.Factory
@@ -39,7 +39,7 @@ namespace GameLibrary.Factory
             var_Count = _MaxCount;
             for (int i = 0; i < var_Count; i++)
             {
-                EnvironmentObject var_EnvironmentObject = EnvironmentFactory.environmentFactory.createEnvironmentObject(_Region.RegionEnum, FactoryEnums.EnvironmentEnum.FarmHouse1);
+                EnvironmentObject var_EnvironmentObject = EnvironmentFactory.environmentFactory.createEnvironmentObject(_Region.RegionEnum, EnvironmentEnum.FarmHouse1);
                 var_EnvironmentObject.Position = new Microsoft.Xna.Framework.Vector3(500, 500, 0);
                 //var_EnvironmentObject.CollisionBounds.Add(new Microsoft.Xna.Framework.Rectangle(var_EnvironmentObject.DrawBounds.Left + 40, var_EnvironmentObject.DrawBounds.Bottom - 105, 280, 65)); 
                 ((World)_Region.Parent).addObject(var_EnvironmentObject,true, _Region); // Region wird erst world zugewiesen. dannach könne erst objetek hin :(

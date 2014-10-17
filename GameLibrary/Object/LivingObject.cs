@@ -15,7 +15,7 @@ using System.Runtime.Serialization;
 #region Using Statements Class Specific
 using GameLibrary.Object.Task;
 using GameLibrary.Object.Interaction;
-using GameLibrary.Factory.FactoryEnums;
+using GameLibrary.Enums;
 using GameLibrary.Connection;
 #endregion
 

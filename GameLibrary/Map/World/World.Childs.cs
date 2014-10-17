@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Storage;
 using Microsoft.Xna.Framework.GamerServices;
 using System.Runtime.Serialization;
 using GameLibrary.Map.Region;
+using GameLibrary.Enums;
 #endregion
 
 #region Using Statements Class Specific
@@ -124,7 +125,7 @@ namespace GameLibrary.Map.World
             if (var_Region == null)
             {
                 int var_RegionType = 0;// Utility.Random.Random.GenerateGoodRandomNumber(0, Enum.GetValues(typeof(RegionEnum)).Length - 1);
-                var_Region = GameLibrary.Factory.RegionFactory.regionFactory.generateRegion("Region" + Region.Region._id, (int)_Position.X, (int)_Position.Y, (RegionEnum)var_RegionType, this);
+                var_Region = GameLibrary.Factory.RegionFactory.regionFactory.createRegion("Region" + Region.Region._id, (int)_Position.X, (int)_Position.Y, (RegionEnum)var_RegionType, this);
 
                 
                 //this.setBlockAtCoordinate(_Position + new Vector3(32, 32, 0), new GameLibrary.Map.Block.Blocks.TeleportBlock(_Position + new Vector3(32, 32, 0), Block.BlockEnum.Ground2, var_Chunk, Vector3.Zero, true));

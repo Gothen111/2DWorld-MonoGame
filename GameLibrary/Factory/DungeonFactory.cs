@@ -14,6 +14,7 @@ using System.Runtime.Serialization;
 using GameLibrary.Map.Region;
 using GameLibrary.Map.DungeonGeneration;
 using GameLibrary.Map.World;
+using GameLibrary.Enums;
 #endregion
 
 namespace GameLibrary.Factory

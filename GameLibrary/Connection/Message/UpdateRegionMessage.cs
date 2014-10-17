@@ -15,6 +15,7 @@ using System.Runtime.Serialization;
 #region Using Statements Class Specific
 using Lidgren.Network;
 using GameLibrary.Map.Region;
+using GameLibrary.Enums;
 #endregion
 
 namespace GameLibrary.Connection.Message

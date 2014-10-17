@@ -13,6 +13,7 @@ using GameLibrary.Connection;
 #endregion
 
 #region Using Statements Class Specific
+using GameLibrary.Enums;
 #endregion
 
 namespace GameLibrary.Map.Block.Blocks

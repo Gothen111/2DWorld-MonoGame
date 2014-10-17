@@ -17,7 +17,7 @@ using Input.Keyboard;
 using Input.Mouse;
 using Input.Mouse.MouseEnum;
 using GameLibrary.Object;
-using GameLibrary.Factory.FactoryEnums;
+using GameLibrary.Enums;
 #endregion
 
 namespace GameLibrary.Gui

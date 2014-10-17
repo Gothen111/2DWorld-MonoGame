@@ -24,7 +24,7 @@ namespace GameLibrary.Map.World.SearchFlags
             this.race = _Race;
         }
 
-        public RaceFlag(GameLibrary.Factory.FactoryEnums.RaceEnum _RaceEnum)
+        public RaceFlag(GameLibrary.Enums.RaceEnum _RaceEnum)
         {
             this.race = GameLibrary.Factory.BehaviourFactory.behaviourFactory.getRace(_RaceEnum);
         }
