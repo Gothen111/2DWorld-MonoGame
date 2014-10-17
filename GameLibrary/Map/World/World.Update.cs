@@ -196,22 +196,22 @@ namespace GameLibrary.Map.World
                                 
                                 if(_PlayerObject.IsInDungeon)
                                 {
-                                    if (var_Region != null)
-                                    {
-                                        var_Region = var_Region.Dungeons[0];
-                                    }
+                                    //if (var_Region != null)
+                                    //{
+                                        var_Region = _PlayerObject.getRegionIsIn();//var_Region.Dungeons[_PlayerObject.DungeonId];
+                                    //}
                                 }
                                 
                                 if (var_Region == null)
                                 {
-                                    if (!_PlayerObject.IsInDungeon || (_PlayerObject.IsInDungeon && _PlayerObject.getRegionIsIn() == null))
-                                    {
+                                    //if (!_PlayerObject.IsInDungeon || (_PlayerObject.IsInDungeon && _PlayerObject.getRegionIsIn() == null))
+                                    //{
                                         var_Region = this.createRegionAt(var_Position);
                                         /*if (_PlayerObject.IsInDungeon)
                                         {
                                             // Create Dungeon
                                         }*/ // das stimmt nicht ;) wird ja mit region zusammen estellt
-                                    }
+                                    //}
                                 }
                                 else
                                 {

@@ -19,6 +19,7 @@ using GameLibrary.Map.Region;
 using GameLibrary.Map.Chunk;
 using GameLibrary.Map.Block;
 using GameLibrary.Enums;
+using GameLibrary.Map.DungeonGeneration;
 #endregion
 
 namespace GameLibrary.Factory
@@ -167,6 +168,7 @@ namespace GameLibrary.Factory
             if (Configuration.Configuration.isHost || Configuration.Configuration.isSinglePlayer)
             {
                 generatePaths(_Chunk);
+                generateExits(_Chunk);
             }
             else
             {
@@ -510,6 +512,22 @@ namespace GameLibrary.Factory
                     var_Entry.X 
                 }
             }*/
+        }
+
+        private void generateExits(Chunk _Chunk)
+        {
+            Region var_Region = (Region)_Chunk.Parent;
+            if (var_Region != null)
+            {
+                foreach(Dungeon var_Dungeon in var_Region.Dungeons)
+                {
+                    foreach(Block var_Exit in var_Dungeon.Exits)
+                    {
+                        Block var_Block = new GameLibrary.Map.Block.Blocks.TeleportBlock(var_Exit.Position, BlockEnum.Ground2, _Chunk, var_Exit.Position, true, var_Dungeon.DungeonId);
+                        _Chunk.setBlockAtCoordinate(var_Exit.Position, var_Block);
+                    }
+                }
+            }
         }
 
         /*private void generateWall(Chunk _Chunk)

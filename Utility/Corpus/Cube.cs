@@ -148,5 +148,20 @@ namespace Utility.Corpus
             }
             return false;
         }
+
+        public bool intersects(Vector3 _Position)
+        {
+            if (_Position.X >= this.Left && _Position.X <= this.Right)
+            {
+                if (_Position.Y >= this.Top && _Position.Y <= this.Bottom)
+                {
+                    if (_Position.Z >= this.Front && _Position.Z <= this.Back)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
     }
 }
