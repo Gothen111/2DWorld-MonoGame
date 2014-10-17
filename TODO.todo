@@ -1,3 +1,4 @@
 - Gebe Dungeon eigenes Koord.-System
 - Regionen bekommen Liste von Dungeons
 - Bei update usw. gucke ob Player in Dungeon oder World
+- Items die aufgenommen werden, in Inveanta.cs werden nur aus wolrd quadtee gelöscht und nicht dungeon

@@ -14,6 +14,8 @@ using System.Runtime.Serialization;
 using GameLibrary.Object.ObjectEnums;
 using GameLibrary.Map.Block;
 using GameLibrary.Map.World;
+using GameLibrary.Map.Region;
+using GameLibrary.Map.DungeonGeneration;
 #endregion
 
 namespace GameLibrary.Object
@@ -146,8 +148,7 @@ namespace GameLibrary.Object
 
             if (this.CurrentBlock == null)
             {
-                this.CurrentBlock = Map.World.World.world.getBlockAtCoordinate(this.Position);
-                this.CurrentBlock.addObject(this);
+                this.setCurrentBlock();
             }
             Map.Block.Block var_Block = this.CurrentBlock;
 
@@ -314,6 +315,22 @@ namespace GameLibrary.Object
             }*/
 
             this.body.draw(_GraphicsDevice, _SpriteBatch, var_Position);
+        }
+
+        private void setCurrentBlock()
+        {
+            if (this.IsInDungeon)
+            {
+                Region var_Region = Map.World.World.world.getRegionAtPosition(this.Position);
+                Block var_BlockAt = var_Region.Dungeons[0].getBlockAtCoordinate(this.Position);
+                var_BlockAt.addObject(this);
+                ((Dungeon)var_Region.Dungeons[0]).QuadTreeObject.Insert(this);
+            }
+            else
+            {
+                Block var_BlockAt = Map.World.World.world.getBlockAtCoordinate(this.Position);
+                var_BlockAt.addObject(this);
+            }
         }
 
         public virtual void onChangedBlock()

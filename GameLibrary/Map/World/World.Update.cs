@@ -196,7 +196,10 @@ namespace GameLibrary.Map.World
                                 
                                 if(_PlayerObject.IsInDungeon)
                                 {
-                                    var_Region = var_Region.Dungeons[0];
+                                    if (var_Region != null)
+                                    {
+                                        var_Region = var_Region.Dungeons[0];
+                                    }
                                 }
                                 
                                 if (var_Region == null)
