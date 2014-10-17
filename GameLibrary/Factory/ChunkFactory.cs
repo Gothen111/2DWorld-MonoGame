@@ -523,7 +523,8 @@ namespace GameLibrary.Factory
                 {
                     foreach(Block var_Exit in var_Dungeon.Exits)
                     {
-                        Block var_Block = new GameLibrary.Map.Block.Blocks.TeleportBlock(var_Exit.Position, BlockEnum.Ground2, _Chunk, var_Exit.Position, true, var_Dungeon.DungeonId);
+                        Block var_Block = new GameLibrary.Map.Block.Blocks.TeleportBlock(var_Exit.Position, BlockEnum.Ground1, _Chunk, var_Exit.Position, true, var_Dungeon.DungeonId);
+                        var_Block.drawColor = Color.Blue;
                         _Chunk.setBlockAtCoordinate(var_Exit.Position, var_Block);
                     }
                 }

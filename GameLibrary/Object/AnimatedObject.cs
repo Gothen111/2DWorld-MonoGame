@@ -324,7 +324,7 @@ namespace GameLibrary.Object
                 Region var_Region = Map.World.World.world.getRegionAtPosition(this.Position);
                 Block var_BlockAt = var_Region.Dungeons[this.DungeonId].getBlockAtCoordinate(this.Position);
                 var_BlockAt.addObject(this);
-                ((Dungeon)var_Region.Dungeons[this.DungeonId]).QuadTreeObject.Insert(this);
+                //((Dungeon)var_Region.Dungeons[this.DungeonId]).QuadTreeObject.Insert(this);
             }
             else
             {
