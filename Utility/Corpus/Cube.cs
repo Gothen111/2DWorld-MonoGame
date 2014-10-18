@@ -123,6 +123,11 @@ namespace Utility.Corpus
             get { return new Rectangle((int)this.position.X, (int)this.position.Y, (int)this.size.X, (int)this.size.Y); }
         }
 
+        public Vector3 Center
+        {
+            get { return new Vector3(this.Left + (Math.Abs(this.Right) - Math.Abs(this.Left)) / 2, this.Top + (Math.Abs(this.Bottom) - Math.Abs(this.Top)) / 2, this.Front + (Math.Abs(this.Back) - Math.Abs(this.Front)) / 2); }
+        }
+
         public bool intersects(Cube var_Cube)
         {
             if(var_Cube.Right >= this.Left && var_Cube.Left <= this.Right)

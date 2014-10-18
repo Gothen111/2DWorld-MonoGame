@@ -82,14 +82,14 @@ namespace GameLibrary.Map.DungeonGeneration
                     {
                         Block.Block var_Block = this.getBlockAtCoordinate(this.Position + new Vector3(x, y, 0) * Block.Block.BlockSize);
                         var_Block.setFirstLayer(BlockEnum.Ground1);
-                        var_Block.drawColor = Color.Green;
+                        var_Block.DrawColor = Color.Green;
                     }
                     else if (var_Map[x, y] == 3)
                     {
                         Block.Block var_Block = this.getBlockAtCoordinate(this.Position + new Vector3(x, y, 0) * Block.Block.BlockSize);
                         var_Block = new Block.Blocks.TeleportBlock(this.Position + new Vector3(x, y, 0) * Block.Block.BlockSize, BlockEnum.Ground1, (Chunk.Chunk)var_Block.Parent, this.Position + new Vector3(x, y, 0) * Block.Block.BlockSize, false, 0);
                         var_Block.setFirstLayer(BlockEnum.Ground1);
-                        var_Block.drawColor = Color.Yellow;
+                        var_Block.DrawColor = Color.Yellow;
                         this.setBlockAtCoordinate(this.Position + new Vector3(x, y, 0) * Block.Block.BlockSize, var_Block);
                         this.Exits.Add(var_Block);
                     }

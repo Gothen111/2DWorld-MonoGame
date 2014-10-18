@@ -1,0 +1,2 @@
+MonoGame Bugs:
+- new Color(float,float,float) erzeugt ne farbe 255,255,255. Egal was man eingibt. Also immer schön int :)

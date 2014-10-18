@@ -63,6 +63,21 @@ namespace GameLibrary.Map.Block
             set { height = value; }
         }
 
+        private Color drawColor;
+
+        public Color DrawColor
+        {
+            get { return drawColor; }
+            set { drawColor = value; }
+        }
+
+        private float lightLevel;
+
+        public float LightLevel
+        {
+            get { return lightLevel; }
+            set { lightLevel = value; }
+        }
 
         public Block(int _PosX, int _PosY, BlockEnum _BlockEnum, Chunk.Chunk _ParentChunk)
             :base()
@@ -78,6 +93,8 @@ namespace GameLibrary.Map.Block
             this.isWalkAble = true;
             this.height = 0;
             this.Size = new Vector3(Block.BlockSize, Block.BlockSize, 0);
+
+            this.drawColor = Color.White;
         }
 
         public Block(SerializationInfo info, StreamingContext ctxt) 
@@ -169,13 +186,36 @@ namespace GameLibrary.Map.Block
                     var_LivingObject.update();
                 }
             }*/
+            //this.calculateLightLevel();
+        }
+
+        private void calculateLightLevel()
+        {
+            float var_LightLevelNeighbours = 0;
+
+            if (this.LeftNeighbour != null)
+            {
+                var_LightLevelNeighbours += ((Block)this.LeftNeighbour).lightLevel;
+            }
+            if (this.RightNeighbour != null)
+            {
+                var_LightLevelNeighbours += ((Block)this.RightNeighbour).lightLevel;
+            }
+            if (this.TopNeighbour != null)
+            {
+                var_LightLevelNeighbours += ((Block)this.TopNeighbour).lightLevel;
+            }
+            if (this.BottomNeighbour != null)
+            {
+                var_LightLevelNeighbours += ((Block)this.BottomNeighbour).lightLevel;
+            }
+
+            this.lightLevel = var_LightLevelNeighbours / 2;
         }
 
         public virtual void onObjectEntersBlock(Object.Object var_Object)
         {
         }
-
-        public Color drawColor = Color.White;
 
         public void drawBlock(GraphicsDevice _GraphicsDevice, SpriteBatch _SpriteBatch)
         {
@@ -192,6 +232,11 @@ namespace GameLibrary.Map.Block
                 else
                 {
                     var_Color = this.drawColor;
+                    if (var_Color == Color.White)
+                    {
+                        int var_AmountGrey = (int)(255 * this.lightLevel);
+                        var_Color = new Color(var_AmountGrey, var_AmountGrey, var_AmountGrey);
+                    }
                 }
             }
 
@@ -216,7 +261,7 @@ namespace GameLibrary.Map.Block
             }
         }
 
-        public static Vector2 parsePosition(Vector2 _Position)
+        public static Vector3 parsePosition(Vector3 _Position)
         {
             int _PosX = (int)_Position.X;
             int _PosY = (int)_Position.Y;
@@ -250,7 +295,7 @@ namespace GameLibrary.Map.Block
                 }
             }
 
-            return new Vector2(_PosX, _PosY);
+            return new Vector3(_PosX, _PosY, 0);
         }
 
         public override void requestFromServer()

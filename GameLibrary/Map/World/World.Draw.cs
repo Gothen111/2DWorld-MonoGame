@@ -64,6 +64,20 @@ namespace GameLibrary.Map.World
                                     {
                                         if (Setting.Setting.drawBlocks)
                                         {
+                                            /*float var_Distance = Vector3.Distance(_Target.Position, var_Block.Position);
+                                            int var_MaxDistance = 320;
+                                            if (var_Distance >= var_MaxDistance)
+                                            {
+                                                var_Block.LightLevel = 0.0f;
+                                            }
+                                            else if (var_Block.Layer[0] == Enums.BlockEnum.Ground2)
+                                            {
+                                                var_Block.LightLevel = (1 - (var_Distance / (var_MaxDistance / 4)));
+                                            }
+                                            else
+                                            {
+                                                var_Block.LightLevel = (1 - (var_Distance / var_MaxDistance));
+                                            }*/
                                             var_Block.drawBlock(_GraphicsDevice, _SpriteBatch);
                                         }
                                         var_PreEnviornmentObjectsToDraw.AddRange(var_Block.ObjectsPreEnviorment);

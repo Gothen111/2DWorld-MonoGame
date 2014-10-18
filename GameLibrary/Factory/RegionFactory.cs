@@ -51,7 +51,8 @@ namespace GameLibrary.Factory
 
             if(var_Region!=null)
             {
-                var_Region.Dungeons.Add(DungeonFactory.createDungeon(new Vector3(_PosX,_PosY,0), new Vector3(Region.regionSizeX, Region.regionSizeY, 0), DungeonType.Cave, _ParentWorld, var_Region.Dungeons.Count));
+                var_Region.Dungeons.Add(DungeonFactory.createDungeon(new Vector3(_PosX, _PosY, 0), new Vector3(Region.regionSizeX, Region.regionSizeY, 0), DungeonEnum.Room, _ParentWorld, var_Region.Dungeons.Count));
+                var_Region.Dungeons.Add(DungeonFactory.createDungeon(new Vector3(_PosX, _PosY, 0), new Vector3(Region.regionSizeX, Region.regionSizeY, 0), DungeonEnum.Cave, _ParentWorld, var_Region.Dungeons.Count));
             }
 
             return var_Region;
