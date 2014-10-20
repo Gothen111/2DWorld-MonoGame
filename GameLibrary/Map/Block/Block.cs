@@ -212,7 +212,7 @@ namespace GameLibrary.Map.Block
                 }
             }*/
             //this.calculateLightLevel();
-
+            //this.LightLevel = this.nextLightLevel;
             if (Setting.Setting.lightTwo)
             {
                 float var_SmoothFactor = 40; // 100 ist Fackel
@@ -327,9 +327,9 @@ namespace GameLibrary.Map.Block
                 }
                 else
                 {
-                    //var_Color = this.drawColor;
-                    //if (var_Color == Color.White)
-                    //{
+                    var_Color = this.drawColor;
+                    if (var_Color == Color.White)
+                    {
                         /*if (this.lightLevel <= 0.1f)
                         {
                             this.lightLevel = 0.0f;
@@ -352,13 +352,13 @@ namespace GameLibrary.Map.Block
                     //int var_AmountGreen = (int)(var_Lerp.G * this.LightLevel);
                     //int var_AmountBlue = (int)(var_Lerp.B * this.LightLevel);
 
-                        float correctionFactor = 0.5f;
+                        float correctionFactor = 0.3f;
                         int var_AmountRed = (int)(((255 - var_Lerp.R) * correctionFactor + var_Lerp.R) * this.LightLevel);
                         int var_AmountGreen = (int)(((255 - var_Lerp.G) * correctionFactor + var_Lerp.G) * this.LightLevel);
                         int var_AmountBlue = (int)(((255 - var_Lerp.B) * correctionFactor + var_Lerp.B) * this.LightLevel);
 
                         var_Color = new Color(var_AmountRed, var_AmountGreen, var_AmountBlue);
-                    //}
+                    }
                 }
             }
 

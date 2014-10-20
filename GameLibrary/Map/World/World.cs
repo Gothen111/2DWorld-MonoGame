@@ -66,8 +66,8 @@ namespace GameLibrary.Map.World
 
             this.blocksToDraw = new Block.Block[Setting.Setting.blockDrawRange * Setting.Setting.blockDrawRange];
 
-            this.worldTimeMax = 24000;
-            this.worldTime = this.worldTimeMax;
+            this.worldTimeMax = 2400;
+            this.worldTime = 1300;//this.worldTimeMax;
 
             Logger.Logger.LogInfo("Welt " + _Name + " wurde erstellt!");
         }
