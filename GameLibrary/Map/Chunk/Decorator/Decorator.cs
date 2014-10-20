@@ -26,8 +26,8 @@ namespace GameLibrary.Map.Chunk.Decorator
             this.decoratorItems = new Dictionary<RegionEnum, List<DecoratorItem>>();
 
             List<DecoratorItem> var_DecoratorItems_Grassland = new List<DecoratorItem>();
-            //var_DecoratorItems_Grassland.Add(new EnvironmentDecoratorItem(EnvironmentEnum.Tree_Normal_1, false, 1, 10, 0, RegionEnum.Grassland));
-            //var_DecoratorItems_Grassland.Add(new EnvironmentDecoratorItem(EnvironmentEnum.Flower_1, true, 20, 40, 0, RegionEnum.Grassland));
+            //var_DecoratorItems_Grassland.Add(new EnvironmentDecoratorItem(EnvironmentEnum.Tree_Normal_1, false, 5, 15, 0, RegionEnum.Grassland));
+            //var_DecoratorItems_Grassland.Add(new EnvironmentDecoratorItem(EnvironmentEnum.Flower_1, true, 30, 50, 0, RegionEnum.Grassland));
             //var_DecoratorItems_Grassland.Add(new NpcDecoratorItem(RaceEnum.Human, 1, 2, 0, RegionEnum.Grassland));
             //var_DecoratorItems_Grassland.Add(new ItemDecoratorItem(ItemEnum.GoldCoin, 1, 2, 0, RegionEnum.Grassland));
             //var_DecoratorItems_Grassland.Add(new EquipmentDecoratorItem(ItemEnum.Armor, 1, 2, 0, RegionEnum.Grassland));

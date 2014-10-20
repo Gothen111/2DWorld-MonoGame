@@ -33,5 +33,11 @@ namespace GameLibrary.Setting
 
         public static int resolutionX = 1024;
         public static int resolutionY = 768;
+
+        public static bool light = true;
+        public static bool goodLight = true;
+
+        public static bool lightOne = false;
+        public static bool lightTwo = true;
     }
 }
