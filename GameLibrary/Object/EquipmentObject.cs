@@ -44,7 +44,7 @@ namespace GameLibrary.Object
         {
             try
             {
-                _SpriteBatch.Draw(Ressourcen.RessourcenManager.ressourcenManager.Texture[this.Body.MainBody.TexturePath], new Microsoft.Xna.Framework.Vector2(this.Position.X, this.Position.Y), _Animation.sourceRectangle(), _Animation.drawColor(), 0f, Microsoft.Xna.Framework.Vector2.Zero, new Microsoft.Xna.Framework.Vector2(this.Scale, this.Scale), Microsoft.Xna.Framework.Graphics.SpriteEffects.None, 1.0f);
+                _SpriteBatch.Draw(Ressourcen.RessourcenManager.ressourcenManager.Texture[this.Body.MainBody.TexturePath], new Microsoft.Xna.Framework.Vector2(this.Position.X, this.Position.Y), _Animation.sourceRectangle(), _Color/*_Animation.drawColor()*/, 0f, Microsoft.Xna.Framework.Vector2.Zero, new Microsoft.Xna.Framework.Vector2(this.Scale, this.Scale), Microsoft.Xna.Framework.Graphics.SpriteEffects.None, 1.0f);
             }
             catch (Exception e)
             {

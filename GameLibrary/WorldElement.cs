@@ -60,8 +60,17 @@ namespace GameLibrary
             set { lastUpdateTime = value; }
         }
 
+        private float lightLevel;
+
+        public float LightLevel
+        {
+            get { return lightLevel; }
+            set { lightLevel = value; }
+        }
+
         public WorldElement()
         {
+            this.lightLevel = 0.0f;
         }
 
         public WorldElement(SerializationInfo info, StreamingContext ctxt)

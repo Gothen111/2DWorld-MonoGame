@@ -45,12 +45,20 @@ namespace GameLibrary.Object.Body
             set { mainBody = value; }
         }
 
+        private float lightLevel;
+
+        public float LightLevel
+        {
+            get { return lightLevel; }
+            set { lightLevel = value; }
+        }
+
         public Body()
         {         
             this.bodyParts = new List<BodyPart>();
             this.bodyColor = Color.White;
 
-            this.mainBody = new BodyPart(0, new Vector3(0, 0, 0), this.BodyColor, "");
+            this.mainBody = new BodyPart(0, new Vector3(0, 0, 0), this.bodyColor, "");
             this.mainBody.AcceptedItemTypes.Add(ItemEnum.Armor);
             this.bodyParts.Add(this.mainBody);
         }
@@ -207,7 +215,16 @@ namespace GameLibrary.Object.Body
             this.bodyColor = _Color;
             foreach (BodyPart var_BodyPart in this.bodyParts)
             {
-                var_BodyPart.Color = _Color;
+                var_BodyPart.DrawColor = _Color;
+            }
+        }
+
+        public void setLightLevel(float _LightLevel)
+        {
+            this.lightLevel = _LightLevel;
+            foreach (BodyPart var_BodyPart in this.bodyParts)
+            {
+                var_BodyPart.LightLevel = _LightLevel;
             }
         }
 
