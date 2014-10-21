@@ -121,6 +121,8 @@ namespace GameLibrary.Map.World
         {
             _Position = Region.Region.parsePosition(_Position);
 
+            
+
             Region.Region var_Region = this.loadRegion(_Position);
             if (var_Region == null)
             {

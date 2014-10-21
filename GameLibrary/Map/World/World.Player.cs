@@ -105,7 +105,6 @@ namespace GameLibrary.Map.World
                 Logger.Logger.LogErr("World.Player.checkPlayerObjectNeighbourChunks -> PlayerObject ist null");
             }
         }
-
         #endregion
     }
 }

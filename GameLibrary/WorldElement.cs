@@ -70,7 +70,7 @@ namespace GameLibrary
 
         public WorldElement()
         {
-            this.lightLevel = 0.0f;
+            this.lightLevel = 1.0f;
         }
 
         public WorldElement(SerializationInfo info, StreamingContext ctxt)
