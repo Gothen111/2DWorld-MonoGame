@@ -382,7 +382,7 @@ namespace GameLibrary.Object
                     //Rectangle lifebarBounds = new Rectangle((int)(this.Position.X + Ressourcen.RessourcenManager.ressourcenManager.Texture[this.GraphicPath].Bounds.Width / 2 - lifebarWidth / 2 - this.Size.X / 2), (int)(this.Position.Y - 5 - this.Size.Y), (int)lifebarWidth / 2, lifebar.Bounds.Height / 2);
                     Rectangle lifebarBounds = new Rectangle((int)(this.Position.X - this.Size.X / 2), (int)(this.Position.Y - 5 - this.Size.Y), (int)lifebarWidth / 2, lifebar.Bounds.Height / 2);
 
-                    _SpriteBatch.Draw(lifebar, lifebarBounds, Color.White);
+                    _SpriteBatch.Draw(lifebar, lifebarBounds, Color.White * this.LightLevel);
                 }
                 catch (Exception e)
                 {

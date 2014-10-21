@@ -200,7 +200,7 @@ namespace GameLibrary.Object.Body
                 int var_AmountRed = (int)(this.drawColor.R * this.LightLevel);
                 int var_AmountGreen = (int)(this.drawColor.G * this.LightLevel);
                 int var_AmountBlue = (int)(this.drawColor.B * this.LightLevel);
-                Color var_DrawColor = new Color(var_AmountRed, var_AmountGreen, var_AmountBlue);
+                Color var_DrawColor = new Color(var_AmountRed, var_AmountGreen, var_AmountBlue, (int)this.drawColor.A);
 
                 this.equipment.drawWearingEquipment(_GraphicsDevice, _SpriteBatch, var_DrawColor, this.animation);
             }
@@ -213,7 +213,7 @@ namespace GameLibrary.Object.Body
             int var_AmountRed = (int)(this.drawColor.R * this.LightLevel);
             int var_AmountGreen = (int)(this.drawColor.G * this.LightLevel);
             int var_AmountBlue = (int)(this.drawColor.B * this.LightLevel);
-            Color var_DrawColor = new Color(var_AmountRed, var_AmountGreen, var_AmountBlue);
+            Color var_DrawColor = new Color(var_AmountRed, var_AmountGreen, var_AmountBlue, (int)this.drawColor.A);
 
             if (!this.animation.graphicPath().Equals(""))
             {

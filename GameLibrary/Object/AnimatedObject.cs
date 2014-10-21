@@ -134,6 +134,7 @@ namespace GameLibrary.Object
         public override void update(GameTime _GameTime)
         {
             base.update(_GameTime);
+            //this.body.setColor(new Color(this.body.BodyColor, (int)255));
             this.body.update(_GameTime);
             this.move(_GameTime);          
         }
@@ -198,10 +199,11 @@ namespace GameLibrary.Object
                 objectsColliding.Remove(this as LivingObject);
                 if (objectsColliding.Count < 1)
                 {
+                    //this.body.setColor(new Color(this.body.BodyColor, (int)255));
                     if ((Configuration.Configuration.isHost && !(this is PlayerObject)) || Configuration.Configuration.isSinglePlayer || (!Configuration.Configuration.isHost && this == Configuration.Configuration.networkManager.client.PlayerObject))
                     {
                         this.Position += this.Velocity * (20 / _GameTime.ElapsedGameTime.Milliseconds);
-                        checkChangedBlock();
+                        this.checkChangedBlock();
                     }
                     if (Configuration.Configuration.isHost && !(this is PlayerObject))
                     {
@@ -224,6 +226,7 @@ namespace GameLibrary.Object
                     {
                         foreach (AnimatedObject var_AnimatedObject in objectsColliding)
                         {
+                            //this.body.setColor(new Color(this.body.BodyColor, (int)10));
                             var_AnimatedObject.onCollide(this);
                             this.onCollide(var_AnimatedObject);
                         }
@@ -314,12 +317,14 @@ namespace GameLibrary.Object
                 var_DrawColor = Color.Lerp(this.objectDrawColor, this.animation.drawColor(), 0.1f);
             }*/
             this.body.setLightLevel(this.LightLevel);
+            Color var_Lerp = Color.Lerp(this.DrawColor, this.LightColor, 0.4f);
+            this.body.setColor(var_Lerp);
             this.body.draw(_GraphicsDevice, _SpriteBatch, var_Position);
         }
 
         private void setCurrentBlock()
         {
-            if (this.IsInDungeon)
+            /*if (this.IsInDungeon)
             {
                 Region var_Region = Map.World.World.world.getRegionAtPosition(this.Position);
                 Block var_BlockAt = var_Region.Dungeons[this.DungeonId].getBlockAtCoordinate(this.Position);
@@ -330,7 +335,10 @@ namespace GameLibrary.Object
             {
                 Block var_BlockAt = Map.World.World.world.getBlockAtCoordinate(this.Position);
                 var_BlockAt.addObject(this);
-            }
+            }*/
+
+            Block var_BlockAt = World.world.getRegionObjectIsIn(this).getBlockAtCoordinate(this.Position);
+            var_BlockAt.addObject(this);
         }
 
         public virtual void onChangedBlock()

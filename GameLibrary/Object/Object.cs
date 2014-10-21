@@ -157,6 +157,8 @@ namespace GameLibrary.Object
             this.isInDungeon = _ToDungeon;
             this.dungeonId = _DungeonId;
 
+            this.Position = _Position;
+
             World.world.addObject(this);
 
             //TODO: Hat noch Bugs, wenn map noch nicht da ist :/ also block gleich null.... da muss man sich was überlegen :)
@@ -177,9 +179,9 @@ namespace GameLibrary.Object
             }
             else
             {*/
-                this.currentBlock.removeObject(this);
-                this.currentBlock = null;
-                this.Position = _Position;
+                //this.currentBlock.removeObject(this);
+                //this.currentBlock = null;
+                //this.Position = _Position;
 
                 if (Configuration.Configuration.isHost)
                 {

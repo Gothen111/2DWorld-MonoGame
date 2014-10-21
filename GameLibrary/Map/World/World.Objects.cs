@@ -233,6 +233,10 @@ namespace GameLibrary.Map.World
                                 {
                                     result.Add(var_Object);
                                 }
+                                /*if (var_Object is EnvironmentObject)
+                                {
+                                    ((EnvironmentObject)var_Object).Body.setColor(new Color(((EnvironmentObject)var_Object).Body.BodyColor, (int)20));
+                                }*/
                             }
                         }
                     }
