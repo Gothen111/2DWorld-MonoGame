@@ -86,7 +86,7 @@ namespace GameLibrary
 
         public WorldElement()
         {
-            this.lightLevel = 0.0f;
+            this.lightLevel = 1.0f;
             this.drawColor = Color.White;
             this.lightColor = Color.White;
         }
