@@ -14,6 +14,7 @@ using GameLibrary.Connection;
 
 #region Using Statements Class Specific
 using GameLibrary.Enums;
+using GameLibrary.Map.World.SearchFlags;
 #endregion
 
 namespace GameLibrary.Map.Block.Blocks
@@ -33,12 +34,16 @@ namespace GameLibrary.Map.Block.Blocks
             set { dungeonId = value; }
         }
 
+        private List<Searchflag> allowedFlags;
+
         public TeleportBlock(Vector3 _Position, BlockEnum _BlockEnum, Chunk.Chunk _ParentChunk, Vector3 _Destination, bool _ToDungeon, int _DungeonId)
             : base((int)_Position.X, (int)_Position.Y, _BlockEnum, _ParentChunk)
         {
             this.destinationLocation = _Destination;
             this.toDungeon = _ToDungeon;
             this.dungeonId = _DungeonId;
+            this.allowedFlags = new List<Searchflag>();
+            this.allowedFlags.Add(new PlayerObjectFlag());
         }
 
         public TeleportBlock(SerializationInfo info, StreamingContext ctxt) 
@@ -54,7 +59,15 @@ namespace GameLibrary.Map.Block.Blocks
         public override void onObjectEntersBlock(Object.Object var_Object)
         {
             base.onObjectEntersBlock(var_Object);
-            var_Object.teleportTo(this.destinationLocation, this.toDungeon, this.dungeonId);
+
+            foreach (Searchflag var_Searchflag in this.allowedFlags)
+            {
+                if (var_Searchflag.hasFlag(var_Object))
+                {
+                    var_Object.teleportTo(this.destinationLocation, this.toDungeon, this.dungeonId);
+                    return;
+                }
+            }
         }
     }
 }

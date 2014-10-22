@@ -202,8 +202,8 @@ namespace GameLibrary.Map.World
                             {
                                 int var_ArrayPos = x + y * var_DrawSizeX;
                                 this.blocksToDraw[var_ArrayPos] = var_Block;
-                                //var_Block.LightLevel = 1.0f;
-                                this.lightInit(var_Block);
+                                var_Block.LightLevel = 1.0f;
+                                //this.lightInit(var_Block);
                             }
                             else
                             {
@@ -252,7 +252,7 @@ namespace GameLibrary.Map.World
                     }
             }
 
-            this.light();
+            //this.light();
 
             for (int i = 0; i < this.blocksToDraw.Length; i++)
             {
@@ -418,11 +418,11 @@ namespace GameLibrary.Map.World
                         var_AmbientColor = new Color(50, 50, 100);
                     }
 
-                    if (true) //DUNGEON!
+                    /*if (true) //DUNGEON!
                     {
                         var_AmbientLight = 0.0f;
                         var_AmbientColor = Color.LightPink;
-                    }
+                    }*/
 
 
                     //var_Lights.Add(new Utility.Object.Light(new Vector3(0,0,0), Color.Blue, 200));
@@ -452,7 +452,8 @@ namespace GameLibrary.Map.World
                                     }
                                     else
                                     {
-                                        //var_Lights.Add(new Utility.Object.Light(this.blocksToDraw[i].Objects[z].Position, Color.White, 200));
+                                        var_Lights.Add(new Utility.Object.Light(this.blocksToDraw[i].Objects[z].Position, Color.White, 200));
+                                        this.blocksToDraw[i].LightShadow = 0.0f;
                                     }
 
                                     //this.blocksToDraw[i].LightAbsorb = 0.0f;
