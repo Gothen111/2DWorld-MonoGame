@@ -22,13 +22,11 @@ namespace GameLibrary.Map.Chunk
     [Serializable()]
     public class Chunk : Box
     {
-        public static int _id = 0;
-        private int id = _id++;
+        private static int chunkId = 0;
 
-        public int Id
+        private static int getChunkId()
         {
-            get { return id; }
-            set { id = value; }
+            return chunkId++;
         }
 
         public static int chunkSizeX = 10;
@@ -58,17 +56,22 @@ namespace GameLibrary.Map.Chunk
             set { chunkEnum = value; }
         }
 
+        protected override void Init()
+        {
+            base.Init();
+            this.roadPairs = new List<Road.RoadPair>();
+        }
+
         public Chunk(String _Name, int _PosX, int _PosY, Region.Region _ParentRegion)
             :base()
         {
+            this.Id = getChunkId();
             this.Name = _Name;
             this.Position = new Vector3(_PosX, _PosY, 0);
             this.Size = new Vector3(chunkSizeX, chunkSizeY, 0);
             this.Bounds = new Cube(this.Position, new Vector3((chunkSizeX * Block.Block.BlockSize - 1), (int)(chunkSizeY * Block.Block.BlockSize - 1), 0));
 
             this.blocks = new Block.Block[chunkSizeX * chunkSizeY];
-
-            this.roadPairs = new List<Road.RoadPair>();
 
             this.Parent = _ParentRegion;
 
@@ -84,17 +87,17 @@ namespace GameLibrary.Map.Chunk
         public Chunk(SerializationInfo info, StreamingContext ctxt) 
             :base(info, ctxt)
         {
-            this.id = (int)info.GetValue("id", typeof(int));
-            //this.blocks = (Block.Block[,])info.GetValue("blocks", typeof(Block.Block[,]));
-            this.blocks = new Block.Block[(int)this.Size.X * (int)this.Size.Y];
-            //setAllNeighboursOfBlocks();
+            this.Id = (int)info.GetValue("Id", typeof(int));
+            this.blocks = (Block.Block[])info.GetValue("blocks", typeof(Block.Block[]));
+            //this.blocks = new Block.Block[(int)this.Size.X * (int)this.Size.Y];
+            setAllNeighboursOfBlocks();
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext ctxt)
         {
             base.GetObjectData(info, ctxt);
-            info.AddValue("id", this.id);
-            //info.AddValue("blocks", this.blocks, typeof(Block.Block[,]));
+            info.AddValue("Id", this.Id);
+            info.AddValue("blocks", this.blocks, typeof(Block.Block[]));
         }
 
         public bool setBlockAtCoordinate(Vector3 _Position, Block.Block _Block)

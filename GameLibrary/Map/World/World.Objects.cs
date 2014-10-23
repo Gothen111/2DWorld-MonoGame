@@ -57,9 +57,9 @@ namespace GameLibrary.Map.World
         {
             if (insertInQuadTree)
             {
-                if (_Region is DungeonGeneration.Dungeon)
+                if (_Region is Dungeon.Dungeon)
                 {
-                    ((DungeonGeneration.Dungeon)_Region).QuadTreeObject.Insert(_Object);
+                    ((Dungeon.Dungeon)_Region).QuadTreeObject.Insert(_Object);
                 }
                 else
                 {
@@ -101,9 +101,9 @@ namespace GameLibrary.Map.World
             Region.Region var_Region = this.getRegionObjectIsIn(_Object);
             if (var_Region != null)
             {
-                if (var_Region is DungeonGeneration.Dungeon)
+                if (var_Region is Dungeon.Dungeon)
                 {
-                    ((DungeonGeneration.Dungeon)var_Region).QuadTreeObject.Remove(_Object);
+                    ((Dungeon.Dungeon)var_Region).QuadTreeObject.Remove(_Object);
                 }
             }
 

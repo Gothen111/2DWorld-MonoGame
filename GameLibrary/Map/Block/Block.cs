@@ -95,28 +95,30 @@ namespace GameLibrary.Map.Block
             set { lightShadow = value; }
         }
 
+        protected override void Init()
+        {
+            base.Init();
+            this.objects = new List<Object.Object>();
+            this.objectsPreEnviorment = new List<Object.Object>();
+        }
 
         public Block(int _PosX, int _PosY, BlockEnum _BlockEnum, Chunk.Chunk _ParentChunk)
             :base()
         {
             this.layer = new BlockEnum[Enum.GetValues(typeof(BlockLayerEnum)).Length];
             this.layer[0] = _BlockEnum;
-            this.objects = new List<Object.Object>();
             this.Position = new Vector3(_PosX, _PosY, 0);
             this.Parent = _ParentChunk;
-
-            objectsPreEnviorment = new List<Object.Object>();
-
             this.isWalkAble = true;
             this.height = 0;
-            this.Size = new Vector3(Block.BlockSize, Block.BlockSize, 0);
+            this.Size = new Vector3(Block.BlockSize, Block.BlockSize, 0);     
         }
 
         public Block(SerializationInfo info, StreamingContext ctxt) 
             :base(info, ctxt)
         {
             this.layer = (BlockEnum[])info.GetValue("layer", typeof(BlockEnum[]));
-            this.objects = (List<Object.Object>)info.GetValue("objects", typeof(List<Object.Object>));
+            /*this.objects = (List<Object.Object>)info.GetValue("objects", typeof(List<Object.Object>));
             foreach (Object.Object var_Object in this.objects)
             {
                 GameLibrary.Map.World.World.world.QuadTreeObject.Insert(var_Object);
@@ -126,7 +128,8 @@ namespace GameLibrary.Map.Block
             foreach (Object.Object var_Object in this.objectsPreEnviorment)
             {
                 var_Object.CurrentBlock = this;
-            }
+            }*/
+
             this.height = (int)info.GetValue("height", typeof(int));
             this.isWalkAble = (bool)info.GetValue("isWalkAble", typeof(bool));
         }
@@ -135,8 +138,12 @@ namespace GameLibrary.Map.Block
         {
             base.GetObjectData(info, ctxt);
             info.AddValue("layer", this.layer, typeof(BlockEnum[]));
-            info.AddValue("objects", this.objects, this.objects.GetType());
-            info.AddValue("objectsPreEnviorment", this.objectsPreEnviorment, this.objectsPreEnviorment.GetType());
+            if (this.Position.X == 64 && this.Position.Y == 32)
+            {
+
+            }
+            //info.AddValue("objects", this.objects, this.objects.GetType());
+            //info.AddValue("objectsPreEnviorment", this.objectsPreEnviorment, this.objectsPreEnviorment.GetType());
             info.AddValue("height", this.height, typeof(int));
             info.AddValue("isWalkAble", this.isWalkAble, typeof(bool));
         }

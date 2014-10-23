@@ -51,8 +51,8 @@ namespace GameLibrary.Factory
 
             if(var_Region!=null)
             {
-                var_Region.Dungeons.Add(DungeonFactory.createDungeon(new Vector3(_PosX, _PosY, 0), new Vector3(Region.regionSizeX, Region.regionSizeY, 0), DungeonEnum.Room, _ParentWorld, var_Region.Dungeons.Count));
-                var_Region.Dungeons.Add(DungeonFactory.createDungeon(new Vector3(_PosX, _PosY, 0), new Vector3(Region.regionSizeX, Region.regionSizeY, 0), DungeonEnum.Cave, _ParentWorld, var_Region.Dungeons.Count));
+                //var_Region.Dungeons.Add(DungeonFactory.createDungeon(new Vector3(_PosX, _PosY, 0), new Vector3(Region.regionSizeX, Region.regionSizeY, 0), DungeonEnum.Room, _ParentWorld, var_Region.Dungeons.Count));
+                //var_Region.Dungeons.Add(DungeonFactory.createDungeon(new Vector3(_PosX, _PosY, 0), new Vector3(Region.regionSizeX, Region.regionSizeY, 0), DungeonEnum.Cave, _ParentWorld, var_Region.Dungeons.Count));
             }
 
             return var_Region;
@@ -93,29 +93,10 @@ namespace GameLibrary.Factory
             return var_Result;
         }
 
-        private void addChunkToRegion(Region _Region, int _PosX, int _PosY, Chunk _ChunkToAdd)
-        {
-            if (_Region.setChunkAtPosition(new Vector3(_PosX, _PosY, 0), _ChunkToAdd))
-            {
-            }
-            else
-            {
-                Logger.Logger.LogErr("RegionFactory->addChunkToRegion(...) : Chunk kann der Region " + _Region.Name + " nicht hinzufügt werden!");
-            }
-        }
-
         public Chunk createChunkInRegion(Region _Region, int _PosX, int _PosY)
         {
             Chunk var_Chunk = null;
             var_Chunk = ChunkFactory.chunkFactory.createChunk((int)(_PosX), (int)(_PosY), _Region.RegionEnum, RegionDependency.regionDependency.getLayer(_Region.RegionEnum), _Region);
-
-            if (var_Chunk != null)
-            {
-                this.addChunkToRegion(_Region, _PosX, _PosY, var_Chunk);
-                ChunkFactory.chunkFactory.generateChunk(var_Chunk);
-                Decorator.decorator.decorateChunk(var_Chunk);
-            }  
-
             return var_Chunk;
         }
     }

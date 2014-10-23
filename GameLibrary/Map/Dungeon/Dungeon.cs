@@ -18,7 +18,7 @@ using GameLibrary.Enums;
 #endregion
 
 
-namespace GameLibrary.Map.DungeonGeneration
+namespace GameLibrary.Map.Dungeon
 {
     [Serializable()]
     public class Dungeon : Region.Region

@@ -39,9 +39,9 @@ namespace GameLibrary.Map.World
             {
                 this.regions.Add(_Region);
 
-                if (GameLibrary.Configuration.Configuration.isHost)
+                if (GameLibrary.Configuration.Configuration.isHost || GameLibrary.Configuration.Configuration.isSinglePlayer)
                 {
-                    //this.saveRegion(_Region);
+                    this.saveRegion(_Region);
                 }
                 else
                 {
@@ -83,19 +83,6 @@ namespace GameLibrary.Map.World
                     }
                 }
             }
-
-            //Load Region
-
-            if (GameLibrary.Configuration.Configuration.isHost)
-            {
-                //return this.loadChunk(0);
-            }
-            else
-            {
-                //return this.loadChunk(0);
-            }
-            //return this.loadRegion(_PosX, _PosY);
-
             return null;
         }
 
@@ -121,24 +108,13 @@ namespace GameLibrary.Map.World
         {
             _Position = Region.Region.parsePosition(_Position);
 
-            
-
             Region.Region var_Region = this.loadRegion(_Position);
             if (var_Region == null)
             {
                 int var_RegionType = 0;//Utility.Random.Random.GenerateGoodRandomNumber(0, Enum.GetValues(typeof(RegionEnum)).Length - 1);
-                var_Region = GameLibrary.Factory.RegionFactory.regionFactory.createRegion("Region" + Region.Region._id, (int)_Position.X, (int)_Position.Y, (RegionEnum)var_RegionType, this);
-
-                
-                //this.setBlockAtCoordinate(_Position + new Vector3(32, 32, 0), new GameLibrary.Map.Block.Blocks.TeleportBlock(_Position + new Vector3(32, 32, 0), Block.BlockEnum.Ground2, var_Chunk, Vector3.Zero, true));
-                //var_Region = new DungeonGeneration.RoomDungeon("", _Position, new Vector3(Region.Region.regionSizeX, Region.Region.regionSizeY, 0), RegionEnum.Dungeon, this, 0);
+                var_Region = GameLibrary.Factory.RegionFactory.regionFactory.createRegion("Region", (int)_Position.X, (int)_Position.Y, (RegionEnum)var_RegionType, this);
             }
             this.addRegion(var_Region);
-
-            if (Configuration.Configuration.isHost || Configuration.Configuration.isSinglePlayer)
-            {
-                //((DungeonGeneration.Dungeon)var_Region).createDungeon();
-            }
 
             return var_Region;
         }

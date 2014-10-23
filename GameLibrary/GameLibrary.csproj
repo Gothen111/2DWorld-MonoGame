@@ -152,9 +152,9 @@
     <Compile Include="Map\Chunk\Decorator\EquipmentDecoratorItem.cs" />
     <Compile Include="Map\Chunk\Decorator\NpcDecoratorItem.cs" />
     <Compile Include="Map\Chunk\Road\RoadPair.cs" />
-    <Compile Include="Map\DungeonGeneration\CaveDungeon.cs" />
-    <Compile Include="Map\DungeonGeneration\Dungeon.cs" />
-    <Compile Include="Map\DungeonGeneration\RoomDungeon.cs" />
+    <Compile Include="Map\Dungeon\Dungeons\CaveDungeon.cs" />
+    <Compile Include="Map\Dungeon\Dungeon.cs" />
+    <Compile Include="Map\Dungeon\Dungeons\RoomDungeon.cs" />
     <Compile Include="Map\Region\Region.cs" />
     <Compile Include="Map\Region\RegionDependency.cs" />
     <Compile Include="Enums\RegionEnum.cs" />

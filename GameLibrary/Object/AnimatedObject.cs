@@ -15,7 +15,7 @@ using GameLibrary.Object.ObjectEnums;
 using GameLibrary.Map.Block;
 using GameLibrary.Map.World;
 using GameLibrary.Map.Region;
-using GameLibrary.Map.DungeonGeneration;
+using GameLibrary.Map.Dungeon;
 #endregion
 
 namespace GameLibrary.Object
@@ -324,19 +324,6 @@ namespace GameLibrary.Object
 
         private void setCurrentBlock()
         {
-            /*if (this.IsInDungeon)
-            {
-                Region var_Region = Map.World.World.world.getRegionAtPosition(this.Position);
-                Block var_BlockAt = var_Region.Dungeons[this.DungeonId].getBlockAtCoordinate(this.Position);
-                var_BlockAt.addObject(this);
-                //((Dungeon)var_Region.Dungeons[this.DungeonId]).QuadTreeObject.Insert(this);
-            }
-            else
-            {
-                Block var_BlockAt = Map.World.World.world.getBlockAtCoordinate(this.Position);
-                var_BlockAt.addObject(this);
-            }*/
-
             Block var_BlockAt = World.world.getRegionObjectIsIn(this).getBlockAtCoordinate(this.Position);
             var_BlockAt.addObject(this);
         }

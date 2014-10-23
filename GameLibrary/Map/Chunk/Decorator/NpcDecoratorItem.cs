@@ -13,7 +13,7 @@ using System.Runtime.Serialization;
 #region Using Statements Class Specific
 using GameLibrary.Enums;
 using GameLibrary.Object;
-using GameLibrary.Map.DungeonGeneration;
+using GameLibrary.Map.Dungeon;
 using GameLibrary.Factory;
 #endregion
 
@@ -54,9 +54,9 @@ namespace GameLibrary.Map.Chunk.Decorator
                         var_Block.addObject(var_NpcObject);
                         if (_Chunk.Parent != null)
                         {
-                            if (_Chunk.Parent is Dungeon)
+                            if (_Chunk.Parent is Dungeon.Dungeon)
                             {
-                                ((Dungeon)_Chunk.Parent).QuadTreeObject.Insert(var_NpcObject);
+                                ((Dungeon.Dungeon)_Chunk.Parent).QuadTreeObject.Insert(var_NpcObject);
                             }
                             else
                             {

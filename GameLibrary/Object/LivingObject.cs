@@ -113,10 +113,9 @@ namespace GameLibrary.Object
             this.maxHealthPoints = 20;
             this.aggroRange = 300;
             this.isDead = false;
-            tasks = new List<LivingObjectTask>();
-            aggroSystem = new Task.Aggro.AggroSystem<LivingObject>();
-            MovementSpeed = 1f;
-            currentTask = null;
+            this.tasks = new List<LivingObjectTask>();
+            this.aggroSystem = new Task.Aggro.AggroSystem<LivingObject>();
+            this.currentTask = null;
             this.canBeEffected = true;
             this.interactions = new List<LivingObjectInteraction>();
             this.path = null;
