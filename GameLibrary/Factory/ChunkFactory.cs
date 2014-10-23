@@ -20,6 +20,7 @@ using GameLibrary.Map.Chunk;
 using GameLibrary.Map.Block;
 using GameLibrary.Enums;
 using GameLibrary.Map.DungeonGeneration;
+using GameLibrary.Map.Chunk.Road;
 #endregion
 
 namespace GameLibrary.Factory
@@ -434,76 +435,189 @@ namespace GameLibrary.Factory
 
         private void generatePaths(Chunk _Chunk)
         {
-            List<Vector3> var_PossiblePathEntries = new List<Vector3>();
+            List<RoadPair> var_PossibleRoadPairs = new List<RoadPair>();
             if (_Chunk.LeftNeighbour != null)
             {
-                foreach (Vector3 var_Entry in ((Chunk)_Chunk.LeftNeighbour).PathEntries)
+                foreach (RoadPair var_RoadPairEntry in ((Chunk)_Chunk.LeftNeighbour).RoadPairs)
                 {
-                    if (var_Entry.X >= _Chunk.Position.X - (Block.BlockSize + 5))
+                    if (var_RoadPairEntry.Position.X >= _Chunk.Position.X - (Block.BlockSize + 5))
                     {
-                        var_PossiblePathEntries.Add(var_Entry + new Vector3(Block.BlockSize,0,0));
+                        if (!var_RoadPairEntry.RoadEnd)
+                        {
+                            RoadPair var_NewRoadPair = new RoadPair();
+                            var_NewRoadPair.Position = var_RoadPairEntry.Position + new Vector3(Block.BlockSize, 0, 0);
+                            var_NewRoadPair.Destination = var_RoadPairEntry.Destination;
+                            if (var_NewRoadPair.Position == var_NewRoadPair.Destination)
+                            {
+                                var_NewRoadPair.RoadEnd = true;
+                            }
+                            else
+                            {
+                                var_NewRoadPair.RoadEnd = false;
+                            }
+                            var_PossibleRoadPairs.Add(var_NewRoadPair);
+                        }
                     }
                 }
             }
             if (_Chunk.RightNeighbour != null)
             {
-                foreach (Vector3 var_Entry in ((Chunk)_Chunk.RightNeighbour).PathEntries)
+                foreach (RoadPair var_RoadPairEntry in ((Chunk)_Chunk.RightNeighbour).RoadPairs)
                 {
-                    if (var_Entry.X <= _Chunk.Bounds.Right + (Block.BlockSize + 5))
+                    if (var_RoadPairEntry.Position.X <= _Chunk.Bounds.Right + (Block.BlockSize + 5))
                     {
-                        var_PossiblePathEntries.Add(var_Entry + new Vector3(-Block.BlockSize, 0, 0));
+                        if (!var_RoadPairEntry.RoadEnd)
+                        {
+                            RoadPair var_NewRoadPair = new RoadPair();
+                            var_NewRoadPair.Position = var_RoadPairEntry.Position + new Vector3(-Block.BlockSize, 0, 0);
+                            var_NewRoadPair.Destination = var_RoadPairEntry.Destination;
+                            if (var_NewRoadPair.Position == var_NewRoadPair.Destination)
+                            {
+                                var_NewRoadPair.RoadEnd = true;
+                            }
+                            else
+                            {
+                                var_NewRoadPair.RoadEnd = false;
+                            }
+                            var_PossibleRoadPairs.Add(var_NewRoadPair);
+                        }
                     }
                 }
             }
             if (_Chunk.TopNeighbour != null)
             {
-                foreach (Vector3 var_Entry in ((Chunk)_Chunk.TopNeighbour).PathEntries)
+                foreach (RoadPair var_RoadPairEntry in ((Chunk)_Chunk.TopNeighbour).RoadPairs)
                 {
-                    if (var_Entry.Y >= _Chunk.Position.Y - (Block.BlockSize + 5))
+                    if (var_RoadPairEntry.Position.Y >= _Chunk.Position.Y - (Block.BlockSize + 5))
                     {
-                        var_PossiblePathEntries.Add(var_Entry + new Vector3(0, Block.BlockSize, 0));
+                        if (!var_RoadPairEntry.RoadEnd)
+                        {
+                            RoadPair var_NewRoadPair = new RoadPair();
+                            var_NewRoadPair.Position = var_RoadPairEntry.Position + new Vector3(0, Block.BlockSize, 0);
+                            var_NewRoadPair.Destination = var_RoadPairEntry.Destination;
+                            if (var_NewRoadPair.Position == var_NewRoadPair.Destination)
+                            {
+                                var_NewRoadPair.RoadEnd = true;
+                            }
+                            else
+                            {
+                                var_NewRoadPair.RoadEnd = false;
+                            }
+                            var_PossibleRoadPairs.Add(var_NewRoadPair);
+                        }
                     }
                 }
             }
             if (_Chunk.BottomNeighbour != null)
             {
-                foreach (Vector3 var_Entry in ((Chunk)_Chunk.BottomNeighbour).PathEntries)
+                foreach (RoadPair var_RoadPairEntry in ((Chunk)_Chunk.BottomNeighbour).RoadPairs)
                 {
-                    if (var_Entry.Y <= _Chunk.Bounds.Bottom + (Block.BlockSize + 5))
+                    if (var_RoadPairEntry.Position.Y <= _Chunk.Bounds.Bottom + (Block.BlockSize + 5))
                     {
-                        var_PossiblePathEntries.Add(var_Entry + new Vector3(0, -Block.BlockSize, 0));
+                        if (!var_RoadPairEntry.RoadEnd)
+                        {
+                            RoadPair var_NewRoadPair = new RoadPair();
+                            var_NewRoadPair.Position = var_RoadPairEntry.Position + new Vector3(0, -Block.BlockSize, 0);
+                            var_NewRoadPair.Destination = var_RoadPairEntry.Destination;
+                            if (var_NewRoadPair.Position == var_NewRoadPair.Destination)
+                            {
+                                var_NewRoadPair.RoadEnd = true;
+                            }
+                            else
+                            {
+                                var_NewRoadPair.RoadEnd = false;
+                            }
+                            var_PossibleRoadPairs.Add(var_NewRoadPair);
+                        }
                     }
                 }
             }
 
-            if(var_PossiblePathEntries.Count == 0)
+            if (var_PossibleRoadPairs.Count == 0 && _Chunk.Position.X == 0 && _Chunk.Position.Y == 0)
             {
-                var_PossiblePathEntries.Add(_Chunk.Position);
+                RoadPair var_RoadPairExit = new RoadPair();
+                var_RoadPairExit.Position = _Chunk.Position + new Vector3(Block.BlockSize * (Chunk.chunkSizeX - 2), Block.BlockSize * (Chunk.chunkSizeY - 1), 0);
+                var_RoadPairExit.Destination = new Vector3(Block.BlockSize * Chunk.chunkSizeX * 5, Block.BlockSize * Chunk.chunkSizeY * 10, 0);
+                var_RoadPairExit.RoadEnd = false;
+
+                _Chunk.RoadPairs.Add(var_RoadPairExit);
+
+                RoadPair var_RoadPairEntry = new RoadPair();
+                var_RoadPairEntry.Position = _Chunk.Position + new Vector3(Block.BlockSize, Block.BlockSize, 0);
+                var_RoadPairEntry.Destination = new Vector3(Block.BlockSize * Chunk.chunkSizeX * 5, Block.BlockSize * Chunk.chunkSizeY * 10, 0);
+                var_RoadPairEntry.RoadEnd = true;
+                var_RoadPairEntry.Exit = var_RoadPairExit;
+
+                var_RoadPairExit.Exit = var_RoadPairEntry;
+
+                _Chunk.RoadPairs.Add(var_RoadPairEntry);
+
+                this.generatePathFromTwoPoints(_Chunk, var_RoadPairEntry.Position, var_RoadPairExit.Position);
             }
-
-            foreach (Vector3 var_Entry in var_PossiblePathEntries)
+            else
             {
-                Block var_BlockEntry =_Chunk.getBlockAtCoordinate(var_Entry);
-                if (var_BlockEntry != null)
+                foreach (RoadPair var_RoadPair in var_PossibleRoadPairs)
                 {
-                    var_BlockEntry.setLayerAt(BlockEnum.Ground1, BlockLayerEnum.Layer2);
-                    _Chunk.PathEntries.Add(var_Entry);
-
-                    Block var_BlockExit = _Chunk.getBlockAtCoordinate(var_Entry + new Vector3(0, (Chunk.chunkSizeY - 1) * Block.BlockSize, 0));
-                    if (var_BlockExit != null)
+                    Block var_BlockEntry = _Chunk.getBlockAtCoordinate(var_RoadPair.Position);
+                    if (var_BlockEntry != null && !var_RoadPair.RoadEnd)
                     {
-                        var_BlockExit.setLayerAt(BlockEnum.Ground1, BlockLayerEnum.Layer2);
-                        _Chunk.PathEntries.Add(var_BlockExit.Position);
-                        this.generatePathFromTwoPoints(_Chunk, var_BlockEntry, var_BlockExit);
+                        var_BlockEntry.setLayerAt(BlockEnum.Ground1, BlockLayerEnum.Layer2);
+                        _Chunk.RoadPairs.Add(var_RoadPair);
+
+                        RoadPair var_NewRoadPair = new RoadPair();
+                        var_NewRoadPair.Destination = var_RoadPair.Destination;
+                        var_NewRoadPair.Exit = var_RoadPair;
+
+                        var_RoadPair.Exit = var_NewRoadPair;
+
+                        if (_Chunk.getBlockAtCoordinate(var_NewRoadPair.Destination) != null)
+                        {
+                            var_NewRoadPair.RoadEnd = true;
+                            var_NewRoadPair.Position = var_NewRoadPair.Destination;
+                        }
+                        else
+                        {
+                            int var_Random = Utility.Random.Random.GenerateGoodRandomNumber(1,9);
+
+                            var_NewRoadPair.RoadEnd = false;
+                            Block var_BlockExit = null;
+                            if (var_NewRoadPair.Destination.X > var_RoadPair.Position.X)
+                            {
+                                var_BlockExit = _Chunk.getBlockAtPosition(Chunk.chunkSizeX - 1, var_Random);
+                            }
+                            else if (var_NewRoadPair.Destination.X < var_RoadPair.Position.X)
+                            {
+                                var_BlockExit = _Chunk.getBlockAtPosition(0, var_Random);
+                            }
+                            else if (var_NewRoadPair.Destination.Y > var_RoadPair.Position.Y)
+                            {
+                                var_BlockExit = _Chunk.getBlockAtPosition(var_Random, Chunk.chunkSizeY - 1);
+                            }
+                            else if (var_NewRoadPair.Destination.Y < var_RoadPair.Position.Y)
+                            {
+                                var_BlockExit = _Chunk.getBlockAtPosition(var_Random, 0);
+                            }
+                            else
+                            {
+
+                            }
+
+                            if (var_BlockExit != null)
+                            {
+                                var_NewRoadPair.Position = var_BlockExit.Position;
+                                _Chunk.RoadPairs.Add(var_NewRoadPair);
+                                this.generatePathFromTwoPoints(_Chunk, var_RoadPair.Position, var_NewRoadPair.Position);
+                            }
+                        }
                     }
                 }
             }
         }
 
-        private void generatePathFromTwoPoints(Chunk _Chunk, Block _Entry, Block _Exit)
+        private void generatePathFromTwoPoints(Chunk _Chunk, Vector3 _Entry, Vector3 _Exit)
         {
-            Vector3 var_Entry = _Chunk.getBlockPositionFromCoordinate(_Entry.Position);
-            Vector3 var_Exit = _Chunk.getBlockPositionFromCoordinate(_Exit.Position);
+            Vector3 var_Entry = _Chunk.getBlockPositionFromCoordinate(_Entry);
+            Vector3 var_Exit = _Chunk.getBlockPositionFromCoordinate(_Exit);
 
             Vector3 var_Pos = var_Entry;
 
@@ -524,14 +638,9 @@ namespace GameLibrary.Factory
                 else if (var_Pos.Y > var_Exit.Y)
                 {
                     var_Pos.Y -= 1;
-                }
-                if (var_Pos.X == var_Exit.X && var_Pos.Y == var_Exit.Y)
-                {
-                }
-                else
-                {
-                    _Chunk.getBlockAtPosition(var_Pos.X, var_Pos.Y).setLayerAt(BlockEnum.Ground1, BlockLayerEnum.Layer2);
-                }
+                }             
+                
+                _Chunk.getBlockAtPosition(var_Pos.X, var_Pos.Y).setLayerAt(BlockEnum.Ground1, BlockLayerEnum.Layer2);
             }
         }
 

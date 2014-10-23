@@ -42,12 +42,12 @@ namespace GameLibrary.Map.Chunk
             set { blocks = value; }
         }
 
-        private List<Vector3> pathEntries;
+        private List<Road.RoadPair> roadPairs;
 
-        public List<Vector3> PathEntries
+        public List<Road.RoadPair> RoadPairs
         {
-            get { return pathEntries; }
-            set { pathEntries = value; }
+            get { return roadPairs; }
+            set { roadPairs = value; }
         }
 
         private ChunkEnum chunkEnum;
@@ -68,7 +68,7 @@ namespace GameLibrary.Map.Chunk
 
             this.blocks = new Block.Block[chunkSizeX * chunkSizeY];
 
-            this.pathEntries = new List<Vector3>();
+            this.roadPairs = new List<Road.RoadPair>();
 
             this.Parent = _ParentRegion;
 
