@@ -313,7 +313,7 @@ namespace GameLibrary.Object
             {
                 var_DrawColor = Color.Lerp(this.objectDrawColor, this.animation.drawColor(), 0.1f);
             }*/
-            this.body.setLightLevel(this.LightLevel);
+
             this.body.draw(_GraphicsDevice, _SpriteBatch, var_Position);
         }
 

@@ -42,10 +42,6 @@ namespace GameLibrary.Map.World
 
         private Block.Block[] blocksToDraw;
 
-        private float worldTime;
-
-        private float worldTimeMax;
-
         #endregion
 
         #region Constructors
@@ -65,9 +61,6 @@ namespace GameLibrary.Map.World
             this.objectsToUpdateCounter = 0;
 
             this.blocksToDraw = new Block.Block[Setting.Setting.blockDrawRange * Setting.Setting.blockDrawRange];
-
-            this.worldTimeMax = 24000;
-            this.worldTime = this.worldTimeMax;
 
             Logger.Logger.LogInfo("Welt " + _Name + " wurde erstellt!");
         }

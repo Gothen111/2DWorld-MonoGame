@@ -71,6 +71,14 @@ namespace GameLibrary.Map.Block
             set { drawColor = value; }
         }
 
+        private float lightLevel;
+
+        public float LightLevel
+        {
+            get { return lightLevel; }
+            set { lightLevel = value; }
+        }
+
         private float nextLightLevel;
 
         public float NextLightLevel
@@ -119,6 +127,7 @@ namespace GameLibrary.Map.Block
             this.Size = new Vector3(Block.BlockSize, Block.BlockSize, 0);
 
             this.drawColor = Color.White;
+            this.lightLevel = 0.0f;
             this.lightColor = Color.White;
         }
 
@@ -215,38 +224,29 @@ namespace GameLibrary.Map.Block
 
             if (Setting.Setting.lightTwo)
             {
-                float var_SmoothFactor = 40; // 100 ist Fackel
+                float var_SmoothFactor = 50; // 100 ist Fackel
 
-                if (Math.Abs(this.LightLevel - this.nextLightLevel) <= 1 / var_SmoothFactor)
+                if (Math.Abs(this.lightLevel - this.nextLightLevel) <= 1 / var_SmoothFactor)
                 {
-                    this.LightLevel = this.nextLightLevel;
+                    this.lightLevel = this.nextLightLevel;
                 }
 
-                if (this.LightLevel == this.nextLightLevel)
+                if (this.lightLevel == this.nextLightLevel)
                 {
                 }
                 else
                 {
-                    float var_Diff = this.LightLevel - this.nextLightLevel;
-                    this.LightLevel -= var_Diff / (var_SmoothFactor);
+                    float var_Diff = this.lightLevel - this.nextLightLevel;
+                    this.lightLevel -= var_Diff / (var_SmoothFactor * 2);
                 }
             }
-
-            /*for (int i = 0; i < this.objects.Count; i++)
-            {
-                this.objects[i].LightLevel = this.LightLevel;
-            }
-            for (int i = 0; i < this.objectsPreEnviorment.Count; i++)
-            {
-                this.objectsPreEnviorment[i].LightLevel = this.LightLevel;
-            }*/
         }
 
         public void calculateLightLevelLeft()
         {
             if (this.LeftNeighbour != null)
             {
-                this.LightLevel = Math.Max(this.LightLevel, ((Block)this.LeftNeighbour).LightLevel - this.lightAbsorb);
+                this.lightLevel = Math.Max(this.lightLevel, ((Block)this.LeftNeighbour).lightLevel - this.lightAbsorb);
                 //this.lightColor = Color.Lerp(((Block)this.LeftNeighbour).lightColor * ((Block)this.LeftNeighbour).lightLevel, this.lightColor * this.lightLevel, 0.5f);
             }
         }
@@ -255,7 +255,7 @@ namespace GameLibrary.Map.Block
         {
             if (this.RightNeighbour != null)
             {
-                this.LightLevel = Math.Max(this.LightLevel, ((Block)this.RightNeighbour).LightLevel - this.lightAbsorb);
+                this.lightLevel = Math.Max(this.lightLevel, ((Block)this.RightNeighbour).lightLevel - this.lightAbsorb);
                 //this.lightColor = Color.Lerp(((Block)this.RightNeighbour).lightColor * ((Block)this.RightNeighbour).lightLevel, this.lightColor * this.lightLevel, 0.5f);
             }
         }
@@ -264,7 +264,7 @@ namespace GameLibrary.Map.Block
         {
             if (this.TopNeighbour != null)
             {
-                this.LightLevel = Math.Max(this.LightLevel, ((Block)this.TopNeighbour).LightLevel - this.lightAbsorb);
+                this.lightLevel = Math.Max(this.lightLevel, ((Block)this.TopNeighbour).lightLevel - this.lightAbsorb);
                 //this.lightColor = Color.Lerp(((Block)this.TopNeighbour).lightColor * ((Block)this.TopNeighbour).lightLevel, this.lightColor * this.lightLevel, 0.5f);
             }
         }
@@ -273,33 +273,34 @@ namespace GameLibrary.Map.Block
         {
             if (this.BottomNeighbour != null)
             {
-                this.LightLevel = Math.Max(this.LightLevel, ((Block)this.BottomNeighbour).LightLevel - this.lightAbsorb);
+                this.lightLevel = Math.Max(this.lightLevel, ((Block)this.BottomNeighbour).lightLevel - this.lightAbsorb);
                 //this.lightColor = Color.Lerp(((Block)this.BottomNeighbour).lightColor * ((Block)this.BottomNeighbour).lightLevel, this.lightColor * this.lightLevel, 0.5f);
             }
         }
 
         public void calculateLightLevel()
         {
+            float var_LightLevelNeighbours = 0;
             //Color var_Color = this.lightColor;
 
             if (this.LeftNeighbour != null)
             {
-                this.LightLevel = (this.LightLevel + ((Block)this.LeftNeighbour).LightLevel) / 2;
+                this.lightLevel = (this.lightLevel + ((Block)this.LeftNeighbour).lightLevel) / 2;
                 //var_Color = Color.Lerp(var_Color, ((Block)this.LeftNeighbour).lightColor, 0.9f);
             }
             if (this.RightNeighbour != null)
             {
-                this.LightLevel = (this.LightLevel + ((Block)this.RightNeighbour).LightLevel) / 2;
+                this.lightLevel = (this.lightLevel + ((Block)this.RightNeighbour).lightLevel) / 2;
                 //var_Color = Color.Lerp(var_Color, ((Block)this.RightNeighbour).lightColor, 0.9f);
             }
             if (this.TopNeighbour != null)
             {
-                this.LightLevel = (this.LightLevel + ((Block)this.TopNeighbour).LightLevel) / 2;
+                this.lightLevel = (this.lightLevel + ((Block)this.TopNeighbour).lightLevel) / 2;
                 //var_Color = Color.Lerp(var_Color, ((Block)this.TopNeighbour).lightColor, 0.9f);
             }
             if (this.BottomNeighbour != null)
             {
-                this.LightLevel = (this.LightLevel + ((Block)this.BottomNeighbour).LightLevel) / 2;
+                this.lightLevel = (this.lightLevel + ((Block)this.BottomNeighbour).lightLevel) / 2;
                 //var_Color = Color.Lerp(var_Color, ((Block)this.BottomNeighbour).lightColor, 0.9f);
             }
 
@@ -316,8 +317,6 @@ namespace GameLibrary.Map.Block
             Vector2 var_DrawPosition = new Vector2(this.Position.X, this.Position.Y);
 
             Color var_Color = Color.White;
-
-            Color var_Lerp = this.lightColor;//Color.Lerp(this.drawColor, this.lightColor, 0.7f);
 
             if (Setting.Setting.debugMode)
             {
@@ -346,17 +345,11 @@ namespace GameLibrary.Map.Block
                         {
                             this.lightLevel = 1.0f;
                         }*/
-                    int var_AmountGrey = (int)(255 * this.LightLevel);
-                        //Color var_Lerp = Color.Lerp(this.drawColor, this.lightColor, 0.8f); // this.lightColor
-                    //int var_AmountRed = (int)(var_Lerp.R * this.LightLevel);
-                    //int var_AmountGreen = (int)(var_Lerp.G * this.LightLevel);
-                    //int var_AmountBlue = (int)(var_Lerp.B * this.LightLevel);
-
-                        float correctionFactor = 0.5f;
-                        int var_AmountRed = (int)(((255 - var_Lerp.R) * correctionFactor + var_Lerp.R) * this.LightLevel);
-                        int var_AmountGreen = (int)(((255 - var_Lerp.G) * correctionFactor + var_Lerp.G) * this.LightLevel);
-                        int var_AmountBlue = (int)(((255 - var_Lerp.B) * correctionFactor + var_Lerp.B) * this.LightLevel);
-
+                        int var_AmountGrey = (int)(255 * this.lightLevel);
+                        Color var_Lerp = Color.Lerp(this.drawColor, Color.Yellow, 0.5f); // this.lightColor
+                        int var_AmountRed = (int)(var_Lerp.R * this.lightLevel);
+                        int var_AmountGreen = (int)(var_Lerp.G * this.lightLevel);
+                        int var_AmountBlue = (int)(var_Lerp.B * this.lightLevel);
                         var_Color = new Color(var_AmountRed, var_AmountGreen, var_AmountBlue);
                     //}
                 }
@@ -378,9 +371,7 @@ namespace GameLibrary.Map.Block
                 if (var_Enum != BlockEnum.Nothing)
                 {
                     _SpriteBatch.Draw(Ressourcen.RessourcenManager.ressourcenManager.Texture[var_TexturePath], var_DrawPosition, new Rectangle((int)(var_Enum - 1) * BlockSize, (int)(var_Layer) * BlockSize, BlockSize, BlockSize), var_Color);
-                    //_SpriteBatch.DrawString(GameLibrary.Ressourcen.RessourcenManager.ressourcenManager.Fonts["Arial"], ((int)(this.LightLevel*10)).ToString(), new Vector2(this.Position.X, this.Position.Y), Color.White,0,Vector2.Zero,0.5f,SpriteEffects.None,0.0f);
-                    //_SpriteBatch.DrawString(GameLibrary.Ressourcen.RessourcenManager.ressourcenManager.Fonts["Arial"], ("R:" + var_Lerp.R + "\n" + "G:" + var_Lerp.G + "\n" + "B:" + var_Lerp.B + "\n"), new Vector2(this.Position.X, this.Position.Y), Color.White, 0, Vector2.Zero, 0.5f, SpriteEffects.None, 0.0f);
-                
+                    //_SpriteBatch.DrawString(GameLibrary.Ressourcen.RessourcenManager.ressourcenManager.Fonts["Arial"], ((int)(this.lightLevel*10)).ToString(), new Vector2(this.Position.X, this.Position.Y), Color.White,0,Vector2.Zero,0.5f,SpriteEffects.None,0.0f);
                 }
                 var_Layer += 1;
             }
