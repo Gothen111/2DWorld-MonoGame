@@ -252,12 +252,12 @@ namespace GameLibrary.Map.World
                         }
                     }
 
-                    //int var_LightSize = 5;
-                    /*for (int x = 0; x < var_DrawSizeX; x++)
+                    /*int var_LightSize = 5;
+                    for (int x = 0; x < var_LightSize; x++)
                     {
-                        for (int y = 0; y < var_DrawSizeY; y++)
+                        for (int y = 0; y < var_LightSize; y++)
                         {
-                            Vector3 var_Position = new Vector3(var_PlayerPos.X + (-var_DrawSizeX / 2 + x) * Block.Block.BlockSize, var_PlayerPos.Y + (-var_DrawSizeY / 2 + y) * Block.Block.BlockSize, 0);
+                            Vector3 var_Position = new Vector3(var_PlayerPos.X + (-var_LightSize / 2 + x) * Block.Block.BlockSize, var_PlayerPos.Y + (-var_LightSize / 2 + y) * Block.Block.BlockSize, 0);
                             Block.Block var_Block = null;
 
                             if (_PlayerObject.IsInDungeon)
@@ -275,72 +275,7 @@ namespace GameLibrary.Map.World
 
                             if (var_Block != null)
                             {
-                                float var_LightLevelNeighbours = 0;
-
-                                if (var_Block.LeftNeighbour != null)
-                                {
-                                    var_LightLevelNeighbours += ((Block.Block)var_Block.LeftNeighbour).LightLevel;
-                                }
-                                if (var_Block.RightNeighbour != null)
-                                {
-                                    var_LightLevelNeighbours += ((Block.Block)var_Block.RightNeighbour).LightLevel;
-                                }
-                                if (var_Block.TopNeighbour != null)
-                                {
-                                    var_LightLevelNeighbours += ((Block.Block)var_Block.TopNeighbour).LightLevel;
-                                }
-                                if (var_Block.BottomNeighbour != null)
-                                {
-                                    var_LightLevelNeighbours += ((Block.Block)var_Block.BottomNeighbour).LightLevel;
-                                }
-
-                                var_Block.LightLevel = var_LightLevelNeighbours / 2.5f;
-                            }
-                        }
-                    }
-
-                    for (int x = var_DrawSizeX-1; x >= 0; x--)
-                    {
-                        for (int y = var_DrawSizeY-1; y >= 0; y--)
-                        {
-                            Vector3 var_Position = new Vector3(var_PlayerPos.X + (-var_DrawSizeX / 2 + x) * Block.Block.BlockSize, var_PlayerPos.Y + (-var_DrawSizeY / 2 + y) * Block.Block.BlockSize, 0);
-                            Block.Block var_Block = null;
-
-                            if (_PlayerObject.IsInDungeon)
-                            {
-                                if (_PlayerObject.getRegionIsIn() != null)
-                                {
-                                    var_Block = _PlayerObject.getRegionIsIn().getBlockAtCoordinate(var_Position);
-                                }
-                            }
-                            else
-                            {
-                                var_Block = this.getBlockAtCoordinate(var_Position);
-                            }
-
-
-                            if (var_Block != null)
-                            {
-                                float var_LightLevelNeighbours = 0;
-
-                                if (var_Block.LeftNeighbour != null)
-                                {
-                                    var_LightLevelNeighbours += ((Block.Block)var_Block.LeftNeighbour).LightLevel;
-                                }
-                                if (var_Block.RightNeighbour != null)
-                                {
-                                    var_LightLevelNeighbours += ((Block.Block)var_Block.RightNeighbour).LightLevel;
-                                }
-                                if (var_Block.TopNeighbour != null)
-                                {
-                                    var_LightLevelNeighbours += ((Block.Block)var_Block.TopNeighbour).LightLevel;
-                                }
-                                if (var_Block.BottomNeighbour != null)
-                                {
-                                    var_LightLevelNeighbours += ((Block.Block)var_Block.BottomNeighbour).LightLevel;
-                                }
-
-                                var_Block.LightLevel = var_LightLevelNeighbours / 2.5f;
+                                var_Block.LightLevel = (float)1 / (((x+1) * (y+1)) + 1);
                             }
                         }
                     }*/
@@ -351,13 +286,6 @@ namespace GameLibrary.Map.World
             /*for (int i = 0; i < this.blocksToDraw.Length; i++)
             {
                 if(this.blocksToDraw[i]!=null)
-                {
-                    this.blocksToDraw[i].update(_GameTime);
-                }
-            }
-            for (int i = this.blocksToDraw.Length - 1; i >= 0; i--)
-            {
-                if (this.blocksToDraw[i] != null)
                 {
                     this.blocksToDraw[i].update(_GameTime);
                 }
