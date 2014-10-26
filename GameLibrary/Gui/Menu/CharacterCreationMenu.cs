@@ -16,7 +16,6 @@ using System.Runtime.Serialization;
 using GameLibrary.Object;
 using Input.Mouse.MouseEnum;
 using System.IO;
-using GameLibrary.Enums;
 #endregion
 
 namespace GameLibrary.Gui.Menu
@@ -47,7 +46,7 @@ namespace GameLibrary.Gui.Menu
             this.plattformComponent.BackgroundGraphicPath = "Gui/Menu/CharacterCreation/Plattform";
             this.add(this.plattformComponent);
 
-            this.createCharacter(GenderEnum.Male);
+            this.createCharacter(Factory.FactoryEnums.GenderEnum.Male);
 
             /*this.characterComponent = new Component(new Rectangle(350, 100, 96, 128));//new Component(new Rectangle(320, 50, 170, 190));
             this.characterComponent.BackgroundGraphicPath = this.playerObject.Body.MainBody.TexturePath;//"Character/BodyMale";//"Character/Char1_Big";
@@ -137,9 +136,9 @@ namespace GameLibrary.Gui.Menu
             }
         }
 
-        private void createCharacter(GenderEnum _GenderEnum)
+        private void createCharacter(Factory.FactoryEnums.GenderEnum _GenderEnum)
         {
-            this.playerObject = Factory.CreatureFactory.creatureFactory.createPlayerObject(RaceEnum.Human, FactionEnum.Beerdrinker, CreatureEnum.Commandant, _GenderEnum);
+            this.playerObject = Factory.CreatureFactory.creatureFactory.createPlayerObject(Factory.FactoryEnums.RaceEnum.Human, Factory.FactoryEnums.FactionEnum.Beerdrinker, Factory.FactoryEnums.CreatureEnum.Commandant, _GenderEnum);
             this.playerObject.Body.stopWalk();
             this.playerObject.Position = new Vector3(400, 220, 0);
         }
@@ -160,12 +159,12 @@ namespace GameLibrary.Gui.Menu
 
         private void selectedMale()
         {
-            this.createCharacter(GenderEnum.Male);
+            this.createCharacter(Factory.FactoryEnums.GenderEnum.Male);
             //this.characterComponent.BackgroundGraphicPath = this.playerObject.GraphicPath;
         }
         private void selectedFemale()
         {
-            this.createCharacter(GenderEnum.Female);
+            this.createCharacter(Factory.FactoryEnums.GenderEnum.Female);
             //this.characterComponent.BackgroundGraphicPath = this.playerObject.GraphicPath;
         }
 

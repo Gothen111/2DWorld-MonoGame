@@ -17,7 +17,6 @@ using Lidgren.Network;
 using GameLibrary.Map.Block;
 using GameLibrary.Map.Chunk;
 using GameLibrary.Map.World;
-using GameLibrary.Enums;
 #endregion
 
 namespace GameLibrary.Connection.Message
@@ -78,7 +77,7 @@ namespace GameLibrary.Connection.Message
                 {
                     for (int i = 0; i < var_Size; i++)
                     {
-                        this.Block.Layer[i] = (BlockEnum)im.ReadInt32();
+                        this.Block.Layer[i] = (Map.Block.BlockEnum)im.ReadInt32();
                     }
                 }
                 this.Block.IsRequested = false;

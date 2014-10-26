@@ -1,7 +1,5 @@
 ﻿#region Using Statements Standard
 using System;
-using System.Linq;
-using System.Text;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -15,12 +13,12 @@ using System.Runtime.Serialization;
 #region Using Statements Class Specific
 #endregion
 
-namespace GameLibrary.Enums
+namespace GameLibrary.Map.Chunk
 {
-    public enum WeaponEnum
+    public enum ChunkEnum
     {
-        Sword,
-        Spear,
-        Paper
+        Grassland,
+        Snowland,
+        Lavaland
     }
 }

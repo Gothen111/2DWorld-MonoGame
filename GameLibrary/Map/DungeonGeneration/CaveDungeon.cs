@@ -12,7 +12,6 @@ using System.Runtime.Serialization;
 
 #region Using Statements Class Specific
 using GameLibrary.Map.Region;
-using GameLibrary.Enums;
 #endregion
 
 namespace GameLibrary.Map.DungeonGeneration
@@ -80,19 +79,19 @@ namespace GameLibrary.Map.DungeonGeneration
                     if (var_Map[x, y] == 1)
                     {
                         Block.Block var_Block = this.getBlockAtCoordinate(this.Position + new Vector3(x, y, 0) * Block.Block.BlockSize);
-                        var_Block.setFirstLayer(BlockEnum.Ground1);
+                        var_Block.setFirstLayer(Block.BlockEnum.Ground1);
                     }
                     else if (var_Map[x, y] == 2)
                     {
                         Block.Block var_Block = this.getBlockAtCoordinate(this.Position + new Vector3(x, y, 0) * Block.Block.BlockSize);
-                        var_Block.setFirstLayer(BlockEnum.Ground1);
+                        var_Block.setFirstLayer(Block.BlockEnum.Ground1);
                         var_Block.drawColor = Color.Green;
                     }
                     else if (var_Map[x, y] == 3)
                     {
                         Block.Block var_Block = this.getBlockAtCoordinate(this.Position + new Vector3(x, y, 0) * Block.Block.BlockSize);
-                        var_Block = new Block.Blocks.TeleportBlock(this.Position + new Vector3(x, y, 0) * Block.Block.BlockSize, BlockEnum.Ground1, (Chunk.Chunk)var_Block.Parent, World.World.world.getBlockAtCoordinate(new Vector3(0, 0, 0)), false);
-                        var_Block.setFirstLayer(BlockEnum.Ground1);
+                        var_Block = new Block.Blocks.TeleportBlock(this.Position + new Vector3(x, y, 0) * Block.Block.BlockSize, Block.BlockEnum.Ground1, (Chunk.Chunk)var_Block.Parent, World.World.world.getBlockAtCoordinate(new Vector3(0, 0, 0)), false);
+                        var_Block.setFirstLayer(Block.BlockEnum.Ground1);
                         var_Block.drawColor = Color.Yellow;
                         this.setBlockAtCoordinate(this.Position + new Vector3(x, y, 0) * Block.Block.BlockSize, var_Block);
                     }

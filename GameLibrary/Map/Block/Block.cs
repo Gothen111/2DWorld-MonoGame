@@ -8,12 +8,11 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
 using Microsoft.Xna.Framework.GamerServices;
 using System.Runtime.Serialization;
+using GameLibrary.Connection.Message;
+using GameLibrary.Connection;
 #endregion
 
 #region Using Statements Class Specific
-using GameLibrary.Connection.Message;
-using GameLibrary.Connection;
-using GameLibrary.Enums;
 #endregion
 
 namespace GameLibrary.Map.Block
@@ -139,20 +138,6 @@ namespace GameLibrary.Map.Block
         public void removeObject(Object.Object _Object)
         {
             this.objects.Remove(_Object);
-        }
-
-        public void addPreEnvironmentObject(Object.Object _Object)
-        {
-            if (!this.objectsPreEnviorment.Contains(_Object))
-            {
-                this.objectsPreEnviorment.Add(_Object);
-            }
-            _Object.CurrentBlock = this;
-        }
-
-        public void removePreEnvironmentObject(Object.Object _Object)
-        {
-            this.objectsPreEnviorment.Remove(_Object);
         }
 
         public override void update(GameTime _GameTime)

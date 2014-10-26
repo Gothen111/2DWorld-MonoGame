@@ -14,7 +14,6 @@ using System.Runtime.Serialization;
 using GameLibrary.Map.Region;
 using Utility.Corpus;
 using GameLibrary.Collison;
-using GameLibrary.Enums;
 #endregion
 
 

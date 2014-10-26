@@ -8,13 +8,12 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
 using Microsoft.Xna.Framework.GamerServices;
 using System.Runtime.Serialization;
-#endregion
-
-#region Using Statements Class Specific
 using Utility.Corpus;
 using GameLibrary.Connection.Message;
 using GameLibrary.Connection;
-using GameLibrary.Enums;
+#endregion
+
+#region Using Statements Class Specific
 #endregion
 
 namespace GameLibrary.Map.Region

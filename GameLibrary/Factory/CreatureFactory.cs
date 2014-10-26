@@ -18,7 +18,7 @@ using GameLibrary.Map.World;
 using GameLibrary.Map.Region;
 using GameLibrary.Map.Chunk;
 using GameLibrary.Map.Block;
-using GameLibrary.Enums;
+using GameLibrary.Factory.FactoryEnums;
 using GameLibrary.Object.Body;
 using GameLibrary.Object.Task.Tasks;
 #endregion
@@ -64,12 +64,12 @@ namespace GameLibrary.Factory
 
                         ((BodyHuman)_RaceObject.Body).Hair.TexturePath = "Character/Hair1";
 
-                        EquipmentObject var_EquipmentObject_Armor = GameLibrary.Factory.EquipmentFactory.equipmentFactory.createEquipmentArmorObject(GameLibrary.Enums.ArmorEnum.GoldenArmor);
+                        EquipmentObject var_EquipmentObject_Armor = GameLibrary.Factory.EquipmentFactory.equipmentFactory.createEquipmentArmorObject(GameLibrary.Factory.FactoryEnums.ArmorEnum.GoldenArmor);
                         var_EquipmentObject_Armor.PositionInInventory = 0;
 
                         _RaceObject.Body.setEquipmentObject(var_EquipmentObject_Armor);
 
-                        EquipmentObject var_EquipmentObject_Sword = GameLibrary.Factory.EquipmentFactory.equipmentFactory.createEquipmentWeaponObject(GameLibrary.Enums.WeaponEnum.Sword);
+                        EquipmentObject var_EquipmentObject_Sword = GameLibrary.Factory.EquipmentFactory.equipmentFactory.createEquipmentWeaponObject(GameLibrary.Factory.FactoryEnums.WeaponEnum.Sword);
                         var_EquipmentObject_Sword.PositionInInventory = 1;
 
                         _RaceObject.Body.setEquipmentObject(var_EquipmentObject_Sword);

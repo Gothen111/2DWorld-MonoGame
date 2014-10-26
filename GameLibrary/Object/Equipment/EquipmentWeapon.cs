@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
 using Microsoft.Xna.Framework.GamerServices;
 using System.Runtime.Serialization;
-using GameLibrary.Enums;
+using GameLibrary.Factory.FactoryEnums;
 #endregion
 
 #region Using Statements Class Specific
