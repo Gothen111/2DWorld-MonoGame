@@ -62,8 +62,7 @@ namespace GameLibrary.Map.Block.Blocks
                 if (this.destinationBlock != null)
                 {
                     //var_Object.teleportTo(this.destinationBlock.Position + new Vector3(Block.BlockSize / 2, Block.BlockSize / 2, 0), this.toDungeon);
-                    //var_Object.teleportTo(this.destinationBlock, this.toDungeon);
-                    var_Object.teleportTo(this.destinationLocation, this.toDungeon);
+                    var_Object.teleportTo(this.destinationBlock, this.toDungeon);
                 }
             }
             else

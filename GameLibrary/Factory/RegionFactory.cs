@@ -18,7 +18,6 @@ using GameLibrary.Map.World;
 using GameLibrary.Map.Region;
 using GameLibrary.Map.Chunk;
 using GameLibrary.Enums;
-using GameLibrary.Map.Chunk.Decorator;
 #endregion
 
 namespace GameLibrary.Factory
@@ -111,8 +110,8 @@ namespace GameLibrary.Factory
             if (var_Chunk != null)
             {
                 this.addChunkToRegion(_Region, _PosX, _PosY, var_Chunk);
-                ChunkFactory.chunkFactory.generateChunk(var_Chunk);
-                Decorator.decorator.decorateChunk(var_Chunk);
+
+                //ChunkFactory.chunkFactory.generateChunk(var_Chunk);
             }  
 
             return var_Chunk;

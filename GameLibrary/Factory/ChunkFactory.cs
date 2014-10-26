@@ -67,10 +67,6 @@ namespace GameLibrary.Factory
                     {
                         return generateChunkLavaland(_Chunk);
                     }
-                case ChunkEnum.Dungeon:
-                    {
-                        return generateChunkDungeon(_Chunk);
-                    }
             }
             return null;
         }
@@ -95,7 +91,7 @@ namespace GameLibrary.Factory
                 //generateFlowers(var_Result);
             }
 
-            //var_Result.setBlockAtCoordinate(new Vector3(_PosX + 32, _PosY + 32, 0), new GameLibrary.Map.Block.Blocks.TeleportBlock(new Vector3(_PosX + 32, _PosY + 32, 0), BlockEnum.Ground2, var_Result, _ParentRegion.Dungeons[0].getBlockAtCoordinate(Vector3.Zero), true));
+            var_Result.setBlockAtCoordinate(new Vector3(_PosX + 32, _PosY + 32, 0), new GameLibrary.Map.Block.Blocks.TeleportBlock(new Vector3(_PosX + 32, _PosY + 32, 0), BlockEnum.Ground2, var_Result, _ParentRegion.Dungeons[0].getBlockAtCoordinate(Vector3.Zero), true));
              
 
             return var_Result;
@@ -148,7 +144,7 @@ namespace GameLibrary.Factory
             Chunk var_Result;
 
             var_Result = new Chunk("Chunk", _PosX, _PosY, _ParentRegion);
-            var_Result.ChunkEnum = ChunkEnum.Dungeon;
+            var_Result.ChunkEnum = ChunkEnum.Lavaland;
             this.fillChunkWithBlock(var_Result, BlockEnum.Ground2);
 
             var_Result.setAllNeighboursOfBlocks();
@@ -167,6 +163,8 @@ namespace GameLibrary.Factory
             if (Configuration.Configuration.isHost || Configuration.Configuration.isSinglePlayer)
             {
                 generatePaths(_Chunk);
+                generateTrees(_Chunk);
+                generateNpc(_Chunk);
             }
             else
             {
@@ -180,6 +178,8 @@ namespace GameLibrary.Factory
             if (Configuration.Configuration.isHost || Configuration.Configuration.isSinglePlayer)
             {
                 generatePaths(_Chunk);
+                generateTrees(_Chunk);
+                generateNpc(_Chunk);
             }
             else
             {
@@ -193,18 +193,7 @@ namespace GameLibrary.Factory
             if (Configuration.Configuration.isHost || Configuration.Configuration.isSinglePlayer)
             {
                 generatePaths(_Chunk);
-            }
-            else
-            {
-            }
-
-            return _Chunk;
-        }
-
-        private Chunk generateChunkDungeon(Chunk _Chunk)
-        {
-            if (Configuration.Configuration.isHost || Configuration.Configuration.isSinglePlayer)
-            {
+                generateNpc(_Chunk);
             }
             else
             {
@@ -511,6 +500,123 @@ namespace GameLibrary.Factory
                 }
             }*/
         }
+
+        private void generateFlowers(Chunk _Chunk)
+        {
+            int var_Count = Chunk.chunkSizeX * Chunk.chunkSizeY / Utility.Random.Random.GenerateGoodRandomNumber(1, 5);
+            for (int i = 0; i < var_Count; i++)
+            {
+                EnvironmentObject var_EnvironmentObject = EnvironmentFactory.environmentFactory.createEnvironmentObject(((Region)_Chunk.Parent).RegionEnum,  EnvironmentEnum.Flower_1);
+
+                int var_X = Utility.Random.Random.GenerateGoodRandomNumber(1, Chunk.chunkSizeX * (Block.BlockSize) - 1);
+                int var_Y = Utility.Random.Random.GenerateGoodRandomNumber(1, Chunk.chunkSizeY * (Block.BlockSize) - 1);
+
+                var_EnvironmentObject.Position = new Vector3(var_X + _Chunk.Position.X, var_Y + _Chunk.Position.Y, 0);
+
+                Block var_Block = _Chunk.getBlockAtCoordinate(var_EnvironmentObject.Position);
+
+                if (var_Block.IsWalkAble && var_Block.Layer[1] == BlockEnum.Nothing)
+                {
+                    var_Block.ObjectsPreEnviorment.Add(var_EnvironmentObject);
+                    var_EnvironmentObject.CurrentBlock = var_Block;
+                    //((Model.Map.World.World)_Chunk.Parent.Parent).QuadTreeEnvironmentObject.Insert(var_EnvironmentObject);
+                    //Chunk ist noch null ;) in der world.... da noch nicht hinzugefügt
+                    //((Model.Map.World.World)_Chunk.Parent.Parent).addPreEnvironmentObject(var_EnvironmentObject);
+                }
+            }
+        }
+
+        private void generateNpc(Chunk _Chunk)
+        {
+            int var_Count = (Chunk.chunkSizeX * Chunk.chunkSizeY / 5 / Utility.Random.Random.GenerateGoodRandomNumber(1, 5)) / 2;
+            for (int i = 0; i < var_Count; i++)
+            {
+                NpcObject var_NpcObject = CreatureFactory.creatureFactory.createNpcObject(RaceEnum.Human, FactionEnum.Beerdrinker, CreatureEnum.Archer, GenderEnum.Male);
+
+                int var_X = Utility.Random.Random.GenerateGoodRandomNumber(1, Chunk.chunkSizeX * (Block.BlockSize) - 1);
+                int var_Y = Utility.Random.Random.GenerateGoodRandomNumber(1, Chunk.chunkSizeY * (Block.BlockSize) - 1);
+
+                var_NpcObject.Position = new Vector3(var_X + _Chunk.Position.X, var_Y + _Chunk.Position.Y, 0);
+
+                Block var_Block = _Chunk.getBlockAtCoordinate(var_NpcObject.Position);
+                if (var_Block.IsWalkAble && var_Block.Layer[1] == BlockEnum.Nothing)
+                {
+                    var_Block.Objects.Add(var_NpcObject);
+                    var_NpcObject.CurrentBlock = var_Block;
+                    ((World)_Chunk.Parent.Parent).QuadTreeObject.Insert(var_NpcObject);
+                }
+            }
+        }
+
+        private void generateTrees(Chunk _Chunk)
+        {
+            int var_Count = Chunk.chunkSizeX * Chunk.chunkSizeY / 8 / Utility.Random.Random.GenerateGoodRandomNumber(1, 5);
+            for (int i = 0; i < var_Count; i++)
+            {
+                EnvironmentObject var_EnvironmentObject = EnvironmentFactory.environmentFactory.createEnvironmentObject(((Region)_Chunk.Parent).RegionEnum, EnvironmentEnum.Tree_Normal_1);
+
+                int var_X = Utility.Random.Random.GenerateGoodRandomNumber(1, Chunk.chunkSizeX * (Block.BlockSize) - 1);
+                int var_Y = Utility.Random.Random.GenerateGoodRandomNumber(1, Chunk.chunkSizeY * (Block.BlockSize) - 1);
+
+                var_EnvironmentObject.Position = new Vector3(var_X + _Chunk.Position.X, var_Y + _Chunk.Position.Y, 0);
+                
+                Block var_Block = _Chunk.getBlockAtCoordinate(var_EnvironmentObject.Position);
+
+                if (var_Block.IsWalkAble)
+                {
+                    var_Block.Objects.Add(var_EnvironmentObject);
+                    var_EnvironmentObject.CurrentBlock = var_Block;
+                    ((World)_Chunk.Parent.Parent).QuadTreeObject.Insert(var_EnvironmentObject);
+
+                    //TODO: Das stimmt natürlich nicht ganz ;) aber erst mal für den AStar...
+                    //var_Block.IsWalkAble = false;
+                }
+            }
+        }
+
+        private void generateCoins(Chunk _Chunk)
+        {
+            int var_Count = 0;//Chunk.chunkSizeX * Chunk.chunkSizeY / 8 / Utility.Random.Random.GenerateGoodRandomNumber(1, 5);
+            for (int i = 0; i < var_Count; i++)
+            {
+                ItemObject var_itemObject = ItemFactory.itemFactory.createItemObject(ItemEnum.GoldCoin);
+
+                int var_X = Utility.Random.Random.GenerateGoodRandomNumber(1, Chunk.chunkSizeX * (Block.BlockSize) - 1);
+                int var_Y = Utility.Random.Random.GenerateGoodRandomNumber(1, Chunk.chunkSizeY * (Block.BlockSize) - 1);
+
+                var_itemObject.Position = new Vector3(var_X + _Chunk.Position.X, var_Y + _Chunk.Position.Y, 0);
+
+                Block var_Block = _Chunk.getBlockAtCoordinate(var_itemObject.Position);
+                if (var_Block.IsWalkAble)
+                {
+                    var_Block.Objects.Add(var_itemObject);
+                    ((World)_Chunk.Parent.Parent).QuadTreeObject.Insert(var_itemObject);
+                }
+            }
+        }
+
+        private void generateStuff(Chunk _Chunk)
+        {
+            int var_Count = 0;//Chunk.chunkSizeX * Chunk.chunkSizeY / 8 / Utility.Random.Random.GenerateGoodRandomNumber(1, 5);
+            for (int i = 0; i < var_Count; i++)
+            {
+                //GameLibrary.Model.Object.ItemObject var_itemObject = EquipmentFactory.equipmentFactory.createEquipmentWeaponObject(WeaponEnum.Sword);
+                ItemObject var_itemObject = EquipmentFactory.equipmentFactory.createEquipmentArmorObject(ArmorEnum.GoldenArmor);
+
+                int var_X = Utility.Random.Random.GenerateGoodRandomNumber(1, Chunk.chunkSizeX * (Block.BlockSize) - 1);
+                int var_Y = Utility.Random.Random.GenerateGoodRandomNumber(1, Chunk.chunkSizeY * (Block.BlockSize) - 1);
+
+                var_itemObject.Position = new Vector3(var_X + _Chunk.Position.X, var_Y + _Chunk.Position.Y, 0);
+
+                Block var_Block = _Chunk.getBlockAtCoordinate(var_itemObject.Position);
+                if (var_Block.IsWalkAble)
+                {
+                    var_Block.Objects.Add(var_itemObject);
+                    ((World)_Chunk.Parent.Parent).QuadTreeObject.Insert(var_itemObject);
+                }
+            }
+        }
+
 
         /*private void generateWall(Chunk _Chunk)
         {

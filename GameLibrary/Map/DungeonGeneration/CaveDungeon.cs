@@ -54,6 +54,10 @@ namespace GameLibrary.Map.DungeonGeneration
                 }
             }
 
+            //Block.Block var_Block = var_Chunk.getBlockAtCoordinate(var_Position);
+            //var_Block.setFirstLayer(Block.BlockEnum.Ground1);
+            //this.FillMapRoom(this.Position, new Vector3(3,3,0), this.Position, this.Position);
+
             this.generateDungeon(var_Width, var_Heigth);
 
             this.setAllNeighboursOfChunks();
@@ -87,7 +91,7 @@ namespace GameLibrary.Map.DungeonGeneration
                     else if (var_Map[x, y] == 3)
                     {
                         Block.Block var_Block = this.getBlockAtCoordinate(this.Position + new Vector3(x, y, 0) * Block.Block.BlockSize);
-                        var_Block = new Block.Blocks.TeleportBlock(this.Position + new Vector3(x, y, 0) * Block.Block.BlockSize, BlockEnum.Ground1, (Chunk.Chunk)var_Block.Parent, Vector3.Zero, false);
+                        var_Block = new Block.Blocks.TeleportBlock(this.Position + new Vector3(x, y, 0) * Block.Block.BlockSize, BlockEnum.Ground1, (Chunk.Chunk)var_Block.Parent, World.World.world.getBlockAtCoordinate(new Vector3(0, 0, 0)), false);
                         var_Block.setFirstLayer(BlockEnum.Ground1);
                         var_Block.drawColor = Color.Yellow;
                         this.setBlockAtCoordinate(this.Position + new Vector3(x, y, 0) * Block.Block.BlockSize, var_Block);

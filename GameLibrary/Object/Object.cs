@@ -165,6 +165,31 @@ namespace GameLibrary.Object
             return false;
         }
 
+        public virtual bool teleportTo(Block _Block, bool _ToDungeon)
+        {
+            this.isInDungeon = _ToDungeon;
+            this.currentBlock.removeObject(this);
+            this.currentBlock = _Block;
+            this.currentBlock.addObject(this);
+            this.Position = _Block.Position;
+
+            Region var_Region = this.getRegionIsIn();
+            if(var_Region != null)
+            {
+                if (var_Region is Dungeon)
+                {
+                    ((Dungeon)var_Region).QuadTreeObject.Insert(this);
+                }
+            }
+
+            if (Configuration.Configuration.isHost)
+            {
+                Configuration.Configuration.networkManager.addEvent(new GameLibrary.Connection.Message.UpdateObjectPositionMessage(this), GameLibrary.Connection.GameMessageImportance.VeryImportant);
+            }
+
+            return true;
+        }
+
         public QuadTree<Object> getQuadTreeIsIn()
         {
             if (this.currentBlock != null)

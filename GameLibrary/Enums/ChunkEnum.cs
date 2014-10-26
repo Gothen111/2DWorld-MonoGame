@@ -21,7 +21,6 @@ namespace GameLibrary.Enums
     {
         Grassland,
         Snowland,
-        Lavaland,
-        Dungeon
+        Lavaland
     }
 }
