@@ -144,7 +144,7 @@ namespace GameLibrary.Gui
                 //{
                     //_SpriteBatch.Draw(Ressourcen.RessourcenManager.ressourcenManager.Texture[this.BackgroundGraphicPath], new Vector2(this.Bounds.X, this.Bounds.Y), this.ComponentColor);
                 //}
-                foreach (Component var_Component in this.components)
+                foreach (Component var_Component in this.components.OrderBy(i => i.ZIndex))
                 {
                     var_Component.draw(_GraphicsDevice, _SpriteBatch);
                 }

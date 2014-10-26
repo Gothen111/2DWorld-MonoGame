@@ -55,6 +55,8 @@ namespace GameLibrary.Gui
 
             this.acceptedItemTypes = _AcceptedItemTypes;
 
+            this.AllowsDropIn = true;
+
             /*this.itemSpace = new Component(new Rectangle(this.Bounds.X, this.Bounds.Y, this.Bounds.Width, this.Bounds.Height));
             this.itemSpace.BackgroundGraphicPath = "Gui/Menu/Inventory/InventoryItemSpace";
             this.add(this.itemSpace);*/
@@ -101,6 +103,7 @@ namespace GameLibrary.Gui
                 {
                     if (this.acceptedItemTypes.Contains(((InventoryItem)_Component).ItemObject.ItemEnum))
                     {
+                        _Component.Bounds = this.Bounds;
                         this.itemDropedIn(((InventoryItem)_Component).ItemObject);
                         return true;
                     }

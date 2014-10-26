@@ -44,6 +44,14 @@ namespace GameLibrary.Object.Inventory
             set { inventoryChanged = value; }
         }
 
+        private EventHandler<ItemChangedArg> inventoryChangedEvent;
+
+        public EventHandler<ItemChangedArg> InventoryChangedEvent
+        {
+            get { return inventoryChangedEvent; }
+            set { inventoryChangedEvent = value; }
+        }
+
         public Inventory()
         {
             this.maxItems = 12;
@@ -96,6 +104,7 @@ namespace GameLibrary.Object.Inventory
                         World.world.removeObjectFromWorld(_ItemObject);
                     }
                     this.inventoryChanged = true;
+                    inventoryChangedEvent.Invoke(this, new ItemChangedArg(_ItemObject));
                     return true;
                 }
                 else
@@ -114,6 +123,7 @@ namespace GameLibrary.Object.Inventory
                 {
                     this.addItemObjectToInventoryAt(_ItemObject, this.getFreePlace());
                     this.inventoryChanged = true;
+                    inventoryChangedEvent.Invoke(this, new ItemChangedArg(_ItemObject));
                     return true;
                 }
             }
@@ -277,15 +287,33 @@ namespace GameLibrary.Object.Inventory
 
         public void dropItem(CreatureObject _InventoryOwner, ItemObject _ItemObject)
         {
-            this.items.Remove(_ItemObject);
-            this.InventoryChanged = true;
             if (Configuration.Configuration.isHost)
             {
             }
             else
             {
-                Configuration.Configuration.networkManager.addEvent(new GameLibrary.Connection.Message.CreatureInventoryItemPositionChangeMessage(_InventoryOwner.Id, _ItemObject.PositionInInventory, -1), GameMessageImportance.VeryImportant);
+                if (Configuration.Configuration.isSinglePlayer)
+                {
+                    changeItemPosition(_InventoryOwner, _ItemObject.PositionInInventory, -1);
+                }
+                else
+                {
+                    Configuration.Configuration.networkManager.addEvent(new GameLibrary.Connection.Message.CreatureInventoryItemPositionChangeMessage(_InventoryOwner.Id, _ItemObject.PositionInInventory, -1), GameMessageImportance.VeryImportant);
+                }
             }
+            this.items.Remove(_ItemObject);
+            this.InventoryChanged = true;
+            inventoryChangedEvent.Invoke(this, new ItemChangedArg(_ItemObject));
+        }
+
+        public class ItemChangedArg : EventArgs
+        {
+            public ItemChangedArg(ItemObject _ItemObject)
+            {
+                this.ItemObject = _ItemObject;
+            }
+
+            public ItemObject ItemObject { get; set; }
         }
     }
 }

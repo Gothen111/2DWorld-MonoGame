@@ -83,7 +83,7 @@ namespace GameLibrary.Gui.Menu
                     PlayerObject var_PlayerObject = (PlayerObject)Utility.IO.IOManager.LoadISerializeAbleObjectFromFile(var_Names[i]);//Utility.Serializer.DeSerializeObject(var_Names[i]);
                     _CharactersList.Add(var_PlayerObject);
                 }
-                catch (TargetInvocationException e)
+                catch (Exception e)
                 {
                     //TODO: Soll veraltete Player-Datei gelöscht werden oder konvertiert, o.ä.?!
                     File.Delete(var_Names[i]);

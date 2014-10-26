@@ -61,7 +61,7 @@ namespace GameLibrary.Gui
             {
                 Component var_Menu = MenuManager.menuManager.ActiveContainer;
                 Component var_TopComponent = var_Menu.getTopComponent(_Position);
-                return var_TopComponent.componentIsDropedIn(this);
+                return var_TopComponent.AllowsDropIn && var_TopComponent.componentIsDropedIn(this);
             }
             return false;
         }
@@ -74,12 +74,14 @@ namespace GameLibrary.Gui
                 if (!this.isDraged)
                 {
                     this.onDrag(_MousePosition);
+                    this.ZIndex = 100;
                     this.isDraged = true;                   
                 }
                 else
                 {
                     if (this.onDrop(_MousePosition))
                     {
+                        this.ZIndex = 0;
                         this.isDraged = false;
                     }
                 }
