@@ -372,7 +372,6 @@ namespace GameLibrary.Map.Block
                     _SpriteBatch.Draw(Ressourcen.RessourcenManager.ressourcenManager.Texture[var_TexturePath], var_DrawPosition, new Rectangle((int)(var_Enum - 1) * BlockSize, (int)(var_Layer) * BlockSize, BlockSize, BlockSize), var_Color);
                     //_SpriteBatch.DrawString(GameLibrary.Ressourcen.RessourcenManager.ressourcenManager.Fonts["Arial"], ((int)(this.LightLevel*10)).ToString(), new Vector2(this.Position.X, this.Position.Y), Color.White,0,Vector2.Zero,0.5f,SpriteEffects.None,0.0f);
                     //_SpriteBatch.DrawString(GameLibrary.Ressourcen.RessourcenManager.ressourcenManager.Fonts["Arial"], ("R:" + var_Lerp.R + "\n" + "G:" + var_Lerp.G + "\n" + "B:" + var_Lerp.B + "\n"), new Vector2(this.Position.X, this.Position.Y), Color.White, 0, Vector2.Zero, 0.5f, SpriteEffects.None, 0.0f);
-                    _SpriteBatch.DrawString(GameLibrary.Ressourcen.RessourcenManager.ressourcenManager.Fonts["Arial"], Position.X + "\n" + Position.Y, new Vector2(this.Position.X, this.Position.Y), Color.White, 0, Vector2.Zero, 0.5f, SpriteEffects.None, 0.0f);
                 
                 }
                 var_Layer += 1;

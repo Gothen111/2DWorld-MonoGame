@@ -151,7 +151,6 @@
     <Compile Include="Map\Chunk\Decorator\ItemDecoratorItem.cs" />
     <Compile Include="Map\Chunk\Decorator\EquipmentDecoratorItem.cs" />
     <Compile Include="Map\Chunk\Decorator\NpcDecoratorItem.cs" />
-    <Compile Include="Map\Chunk\Road\RoadPair.cs" />
     <Compile Include="Map\DungeonGeneration\CaveDungeon.cs" />
     <Compile Include="Map\DungeonGeneration\Dungeon.cs" />
     <Compile Include="Map\DungeonGeneration\RoomDungeon.cs" />
