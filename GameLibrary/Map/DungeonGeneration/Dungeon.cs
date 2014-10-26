@@ -23,14 +23,6 @@ namespace GameLibrary.Map.DungeonGeneration
     [Serializable()]
     public class Dungeon : Region.Region
     {
-        private int dungeonId;
-
-        public int DungeonId
-        {
-            get { return dungeonId; }
-            set { dungeonId = value; }
-        }
-
         private QuadTree<Object.Object> quadTreeObject;
 
         public QuadTree<Object.Object> QuadTreeObject
@@ -41,21 +33,11 @@ namespace GameLibrary.Map.DungeonGeneration
 
         private List<Room.Room> rooms;
 
-        private List<Block.Block> exits;
-
-        public List<Block.Block> Exits
-        {
-            get { return exits; }
-            set { exits = value; }
-        }
-
-        public Dungeon(String _Name, Vector3 _Position, Vector3 _Size, RegionEnum _RegionEnum, World.World _ParentWorld, int _DungeonId)
+        public Dungeon(String _Name, Vector3 _Position, Vector3 _Size, RegionEnum _RegionEnum, World.World _ParentWorld)
             : base(_Name, (int)_Position.X, (int)_Position.Y, _Size, _RegionEnum, _ParentWorld)
         {
             this.quadTreeObject = new QuadTree<Object.Object>(new Vector3(32, 32, 0), 20);
             this.rooms = new List<Room.Room>();
-            this.exits = new List<Block.Block>();
-            this.dungeonId = _DungeonId;
         }
 
         public Dungeon(SerializationInfo info, StreamingContext ctxt) 

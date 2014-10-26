@@ -22,23 +22,26 @@ namespace GameLibrary.Map.Block.Blocks
     public class TeleportBlock : Block
     {
         private Vector3 destinationLocation;
+        private Block destinationBlock;
+
+        private bool teleportToBlock;
 
         private bool toDungeon;
 
-        private int dungeonId;
-
-        public int DungeonId
-        {
-            get { return dungeonId; }
-            set { dungeonId = value; }
-        }
-
-        public TeleportBlock(Vector3 _Position, BlockEnum _BlockEnum, Chunk.Chunk _ParentChunk, Vector3 _Destination, bool _ToDungeon, int _DungeonId)
+        public TeleportBlock(Vector3 _Position, BlockEnum _BlockEnum, Chunk.Chunk _ParentChunk, Vector3 _Destination, bool _ToDungeon)
             : base((int)_Position.X, (int)_Position.Y, _BlockEnum, _ParentChunk)
         {
             this.destinationLocation = _Destination;
+            this.teleportToBlock = false;
             this.toDungeon = _ToDungeon;
-            this.dungeonId = _DungeonId;
+        }
+
+        public TeleportBlock(Vector3 _Position, BlockEnum _BlockEnum, Chunk.Chunk _ParentChunk, Block _DestinationBlock, bool _ToDungeon)
+            : base((int)_Position.X, (int)_Position.Y, _BlockEnum, _ParentChunk)
+        {
+            this.destinationBlock = _DestinationBlock;
+            this.teleportToBlock = true;
+            this.toDungeon = _ToDungeon;
         }
 
         public TeleportBlock(SerializationInfo info, StreamingContext ctxt) 
@@ -54,7 +57,19 @@ namespace GameLibrary.Map.Block.Blocks
         public override void onObjectEntersBlock(Object.Object var_Object)
         {
             base.onObjectEntersBlock(var_Object);
-            var_Object.teleportTo(this.destinationLocation, this.toDungeon, this.dungeonId);
+            if (teleportToBlock)
+            {
+                if (this.destinationBlock != null)
+                {
+                    //var_Object.teleportTo(this.destinationBlock.Position + new Vector3(Block.BlockSize / 2, Block.BlockSize / 2, 0), this.toDungeon);
+                    //var_Object.teleportTo(this.destinationBlock, this.toDungeon);
+                    var_Object.teleportTo(this.destinationLocation, this.toDungeon);
+                }
+            }
+            else
+            {
+                var_Object.teleportTo(this.destinationLocation, this.toDungeon);
+            }
         }
     }
 }

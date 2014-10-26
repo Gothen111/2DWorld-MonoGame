@@ -130,10 +130,9 @@ namespace GameLibrary.Object
             this.Bounds = new Cube(new Vector3(this.Position.X - this.Size.X / 2, this.Position.Y - this.Size.Y, 0), this.Size);
         }
 
-        public virtual bool teleportTo(Vector3 _Position, bool _ToDungeon, int _DungeonId)
+        public virtual bool teleportTo(Vector3 _Position, bool _ToDungeon)
         {
             this.isInDungeon = _ToDungeon;
-            this.dungeonId = _DungeonId;
             //TODO: Hat noch Bugs, wenn map noch nicht da ist :/ also block gleich null.... da muss man sich was überlegen :)
             /*GameLibrary.Map.Block.Block var_Block = GameLibrary.Map.World.World.world.getBlockAtCoordinate(_Position);
             if (var_Block != null)

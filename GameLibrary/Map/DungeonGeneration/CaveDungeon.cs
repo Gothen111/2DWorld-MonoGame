@@ -20,8 +20,8 @@ namespace GameLibrary.Map.DungeonGeneration
     [Serializable()]
     public class CaveDungeon : Dungeon
     {
-        public CaveDungeon(String _Name, Vector3 _Position, Vector3 _Size, RegionEnum _RegionEnum, World.World _ParentWorld, int _DungeonId)
-            : base(_Name, _Position, _Size, _RegionEnum, _ParentWorld, _DungeonId)
+        public CaveDungeon(String _Name, Vector3 _Position, Vector3 _Size, RegionEnum _RegionEnum, World.World _ParentWorld)
+            : base(_Name, _Position, _Size, _RegionEnum, _ParentWorld)
         {
         }
 
@@ -87,11 +87,10 @@ namespace GameLibrary.Map.DungeonGeneration
                     else if (var_Map[x, y] == 3)
                     {
                         Block.Block var_Block = this.getBlockAtCoordinate(this.Position + new Vector3(x, y, 0) * Block.Block.BlockSize);
-                        var_Block = new Block.Blocks.TeleportBlock(this.Position + new Vector3(x, y, 0) * Block.Block.BlockSize, BlockEnum.Ground1, (Chunk.Chunk)var_Block.Parent, this.Position + new Vector3(x, y, 0) * Block.Block.BlockSize, false, 0);
+                        var_Block = new Block.Blocks.TeleportBlock(this.Position + new Vector3(x, y, 0) * Block.Block.BlockSize, BlockEnum.Ground1, (Chunk.Chunk)var_Block.Parent, Vector3.Zero, false);
                         var_Block.setFirstLayer(BlockEnum.Ground1);
                         var_Block.drawColor = Color.Yellow;
                         this.setBlockAtCoordinate(this.Position + new Vector3(x, y, 0) * Block.Block.BlockSize, var_Block);
-                        this.Exits.Add(var_Block);
                     }
                 }
             }

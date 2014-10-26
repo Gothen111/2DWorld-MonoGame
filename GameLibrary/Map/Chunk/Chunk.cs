@@ -99,16 +99,9 @@ namespace GameLibrary.Map.Chunk
 
         public bool setBlockAtCoordinate(Vector3 _Position, Block.Block _Block)
         {
-            if(this.Bounds.intersects(_Position))
-            {
-                int var_X = (int)Math.Abs(_Position.X - this.Position.X) / Block.Block.BlockSize;
-                int var_Y = (int)Math.Abs(_Position.Y - this.Position.Y) / Block.Block.BlockSize;
-                return this.setBlockAtPosition(var_X, var_Y, _Block);
-            }
-            else
-            {
-                return false;
-            }
+            int var_X = (int)Math.Abs(_Position.X - this.Position.X) / Block.Block.BlockSize;
+            int var_Y = (int)Math.Abs(_Position.Y - this.Position.Y) / Block.Block.BlockSize;
+            return this.setBlockAtPosition(var_X, var_Y, _Block);
         }
 
         public bool setBlockAtPosition(int _PosX, int _PosY, Block.Block _Block)

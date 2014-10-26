@@ -103,34 +103,33 @@ namespace GameLibrary.Map.Region
             Chunk.Chunk var_Chunk = this.getChunkAtPosition(_Chunk.Position);
             if (var_Chunk == null)
             {
-                int var_X = (int)Math.Abs(_Position.X - this.Position.X) / (Block.Block.BlockSize * Chunk.Chunk.chunkSizeX);
-                int var_Y = (int)Math.Abs(_Position.Y - this.Position.Y) / (Block.Block.BlockSize * Chunk.Chunk.chunkSizeY);
-
-                int var_Position = (int)(var_X + var_Y * regionSizeX);
-
-                if (var_Position < this.chunks.Length)
+                /*if (_PosX >= Bounds.Left && _PosX <= Bounds.Right)
                 {
+                    if (_PosY >= Bounds.Top && _PosY <= Bounds.Bottom)
+                    {*/
+                        int var_X = (int)Math.Abs(_Position.X - this.Position.X) / (Block.Block.BlockSize * Chunk.Chunk.chunkSizeX);
+                        int var_Y = (int)Math.Abs(_Position.Y - this.Position.Y) / (Block.Block.BlockSize * Chunk.Chunk.chunkSizeY);
 
-                    this.chunks[var_Position] = _Chunk;
-                    this.setAllNeighboursOfChunks();
-                    //World.World.world.setAllNeighboursOfRegion((Region)_Chunk.Parent);
-                    if (GameLibrary.Configuration.Configuration.isHost)
-                    {
-                        //GameLibrary.Commands.Executer.Executer.executer.addCommand(new Commands.CommandTypes.UpdateChunkCommand(_Chunk));
-                        //this.saveChunk(_Chunk);
-                    }
-                    else
-                    {
+                        int var_Position = (int)(var_X + var_Y * regionSizeX);
+                        this.chunks[var_Position] = _Chunk;
+                        //this.setAllNeighboursOfChunk(_Chunk);
+                        this.setAllNeighboursOfChunks();
+                        //World.World.world.setAllNeighboursOfRegion((Region)_Chunk.Parent);
+                        if (GameLibrary.Configuration.Configuration.isHost)
+                        {
+                            //GameLibrary.Commands.Executer.Executer.executer.addCommand(new Commands.CommandTypes.UpdateChunkCommand(_Chunk));
+                            //this.saveChunk(_Chunk);
+                        }
+                        else
+                        {
 
-                    }
+                        }
 
-                    return true;
-                }
-                else
-                {
-                    Logger.Logger.LogErr("Region->setChunkAtPosition(...) : Platzierung nicht möglich: PosX " + _Position.X + " PosY " + _Position.Y);
-                    return false;
-                }
+                        return true;
+                /*    }
+                }*/
+                        Logger.Logger.LogErr("Region->setChunkAtPosition(...) : Platzierung nicht möglich: PosX " + _Position.X + " PosY " + _Position.Y);
+                return false;
             }
             else
             {
@@ -212,6 +211,7 @@ namespace GameLibrary.Map.Region
             if (this is DungeonGeneration.Dungeon)
             {
                 var_ChunkNeighbourRight = this.getChunkAtPosition(new Vector3(_Chunk.Position.X + Chunk.Chunk.chunkSizeX * Block.Block.BlockSize, _Chunk.Position.Y, 0));
+
             }
             else
             {
