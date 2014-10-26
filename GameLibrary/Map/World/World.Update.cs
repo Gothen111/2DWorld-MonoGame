@@ -202,8 +202,8 @@ namespace GameLibrary.Map.World
                             {
                                 int var_ArrayPos = x + y * var_DrawSizeX;
                                 this.blocksToDraw[var_ArrayPos] = var_Block;
-                                //var_Block.LightLevel = 1.0f;
-                                this.lightInit(var_Block);
+                                var_Block.LightLevel = 1.0f;
+                                //this.lightInit(var_Block);
                             }
                             else
                             {
@@ -252,7 +252,7 @@ namespace GameLibrary.Map.World
                     }
             }
 
-            this.light();
+            //this.light();
 
             for (int i = 0; i < this.blocksToDraw.Length; i++)
             {
@@ -316,7 +316,6 @@ namespace GameLibrary.Map.World
                     {
                         _Block.LightAbsorb = 0.0f;
                     }
-                    _Block.LightShadow = 0.0f;
                 }
             }
             else
@@ -405,27 +404,17 @@ namespace GameLibrary.Map.World
                 {
                     List<Utility.Object.Light> var_Lights = new List<Utility.Object.Light>();
 
-                    float var_TimeDiff = this.worldTime - this.worldTimeMax / 2;
-                    float var_AmbientLight = Math.Abs(var_TimeDiff) / (this.worldTimeMax / 2);
+                    float var_AmbientLight = Math.Abs(this.worldTime - this.worldTimeMax / 2) / (this.worldTimeMax / 2);
                     Color var_AmbientColor = Color.White;
 
-                    if (var_TimeDiff <= 0 - this.worldTimeMax / 4)//var_TimeDiff <= -250 && var_TimeDiff>=-500)
+                    if (this.worldTime <= this.worldTimeMax / 3 && this.worldTime >= this.worldTimeMax / 4)
                     {
-                        var_AmbientColor = new Color(100, 50, 50);
+                        var_AmbientColor = Color.Red;
                     }
-                    else if (var_TimeDiff >= 0 + this.worldTimeMax / 4)//var_TimeDiff >= 250 && var_TimeDiff <= 500)
+                    else if (this.worldTime >= this.worldTimeMax * (2 / 3) && this.worldTime <= this.worldTimeMax * (3 / 4))
                     {
-                        var_AmbientColor = new Color(50, 50, 100);
+                        var_AmbientColor = Color.Red;
                     }
-
-                    if (true) //DUNGEON!
-                    {
-                        var_AmbientLight = 0.0f;
-                        var_AmbientColor = Color.LightPink;
-                    }
-
-
-                    //var_Lights.Add(new Utility.Object.Light(new Vector3(0,0,0), Color.Blue, 200));
 
                     for (int i = 0; i < this.blocksToDraw.Length; i++)
                     {
@@ -436,26 +425,16 @@ namespace GameLibrary.Map.World
                             for (int z = 0; z < this.blocksToDraw[i].Objects.Count; z++)
                             {
                                 this.blocksToDraw[i].Objects[z].LightLevel = this.blocksToDraw[i].LightLevel;
-                                this.blocksToDraw[i].Objects[z].LightColor = this.blocksToDraw[i].LightColor;
-
-                                if (this.blocksToDraw[i].Objects[z] is LivingObject)
-                                {
-                                    this.blocksToDraw[i].LightShadow = 0.2f;
-                                }
-
                                 if (this.blocksToDraw[i].Objects[z] is CreatureObject)
                                 {
                                     if (this.blocksToDraw[i].Objects[z] is PlayerObject)
                                     {
-                                        var_Lights.Add(new Utility.Object.Light(this.blocksToDraw[i].Objects[z].Position, Color.Orange, 260));
-                                        this.blocksToDraw[i].LightShadow = 0.0f;
+                                        var_Lights.Add(new Utility.Object.Light(this.blocksToDraw[i].Objects[z].Position, Color.White, 200));
                                     }
                                     else
                                     {
-                                        //var_Lights.Add(new Utility.Object.Light(this.blocksToDraw[i].Objects[z].Position, Color.White, 200));
+                                        var_Lights.Add(new Utility.Object.Light(this.blocksToDraw[i].Objects[z].Position, Color.White, 200));
                                     }
-
-                                    //this.blocksToDraw[i].LightAbsorb = 0.0f;
                                 }
                             }
 
@@ -466,12 +445,11 @@ namespace GameLibrary.Map.World
                         }
                     }
 
-                    
-                    for (int i = 0; i < this.blocksToDraw.Length; i++)
+                    for (int v = 0; v < var_Lights.Count; v++)
                     {
-                        if (this.blocksToDraw[i] != null)
+                        for (int i = 0; i < this.blocksToDraw.Length; i++)
                         {
-                            for (int v = 0; v < var_Lights.Count; v++)
+                            if (this.blocksToDraw[i] != null)
                             {
                                 float var_Distance = Vector3.Distance(var_Lights[v].Position, this.blocksToDraw[i].Position);
                                 float var_MaxDistance = var_Lights[v].LightRange;
@@ -483,20 +461,9 @@ namespace GameLibrary.Map.World
                                     float var_NextLight = Math.Max(0, (1 - (var_Distance / var_MaxDistance)) - this.countAbsorb(var_Lights[v].Position, this.blocksToDraw[i].Position, i % Setting.Setting.blockDrawRange, i / Setting.Setting.blockDrawRange, Setting.Setting.blockDrawRange));
                                     float var_CurrentLight = this.blocksToDraw[i].LightLevel;
                                     this.blocksToDraw[i].NextLightLevel = Math.Min(1, this.blocksToDraw[i].NextLightLevel + var_NextLight);
-
-                                    int var_R = Math.Min(255, (int)(var_Lights[v].LightColor.R * var_NextLight + this.blocksToDraw[i].LightColor.R * var_CurrentLight));
-                                    int var_G = Math.Min(255, (int)(var_Lights[v].LightColor.G * var_NextLight + this.blocksToDraw[i].LightColor.G * var_CurrentLight));
-                                    int var_B = Math.Min(255, (int)(var_Lights[v].LightColor.B * var_NextLight + this.blocksToDraw[i].LightColor.B * var_CurrentLight));
-
-                                    this.blocksToDraw[i].LightColor = new Color(var_R, var_G, var_B);
+                                    this.blocksToDraw[i].LightColor = Color.Lerp(var_AmbientColor, Color.Yellow, Math.Max(0.1f, 1 - var_AmbientLight));// Color.Lerp(this.blocksToDraw[i].LightColor * var_CurrentLight, var_Lights[v].LightColor * var_NextLight, 0.5f);
                                 }
                             }
-
-                            int var_AmbientR = Math.Min(255, (int)(var_AmbientColor.R * (0.1f + var_AmbientLight) + this.blocksToDraw[i].LightColor.R * this.blocksToDraw[i].LightLevel));
-                            int var_AmbientG = Math.Min(255, (int)(var_AmbientColor.G * (0.1f + var_AmbientLight) + this.blocksToDraw[i].LightColor.G * this.blocksToDraw[i].LightLevel));
-                            int var_AmbientB = Math.Min(255, (int)(var_AmbientColor.B * (0.1f + var_AmbientLight) + this.blocksToDraw[i].LightColor.B * this.blocksToDraw[i].LightLevel));
-
-                            this.blocksToDraw[i].LightColor = new Color(var_AmbientR, var_AmbientG, var_AmbientB);//Color.Lerp(var_AmbientColor, Color.Yellow, Math.Max(0.1f, 1 - var_AmbientLight));// Color.Lerp(this.blocksToDraw[i].LightColor * var_CurrentLight, var_Lights[v].LightColor * var_NextLight, 0.5f);
                         }
                     }
                 }
@@ -516,31 +483,40 @@ namespace GameLibrary.Map.World
                 {
                     _BlockPosition.X += 1;
                     _X += 1;
+                    int i = (_X) + (_Y)*_Size;
+                    if (i >= 0 && i < _Size*_Size && this.blocksToDraw[i] != null)
+                    {
+                        var_Result += this.blocksToDraw[i].LightAbsorb;
+                    }
                 }
                 if (_BlockPosition.X > _LightPosition.X)
                 {
                     _BlockPosition.X -= 1;
                     _X -= 1;
+                    int i = (_X) + (_Y) * _Size;
+                    if (i >= 0 && i < _Size * _Size && this.blocksToDraw[i] != null)
+                    {
+                        var_Result += this.blocksToDraw[i].LightAbsorb;
+                    }
                 }
                 if (_BlockPosition.Y < _LightPosition.Y)
                 {
                     _BlockPosition.Y += 1;
                     _Y += 1;
+                    int i = (_X) + (_Y) * _Size;
+                    if (i >= 0 && i < _Size * _Size && this.blocksToDraw[i] != null)
+                    {
+                        var_Result += this.blocksToDraw[i].LightAbsorb;
+                    }
                 }
                 if (_BlockPosition.Y > _LightPosition.Y)
                 {
                     _BlockPosition.Y -= 1;
                     _Y -= 1;
-                }
-                int i = (_X) + (_Y) * _Size;
-                if (i >= 0 && i < _Size * _Size && this.blocksToDraw[i] != null)
-                {
-                    if (_LightPosition.X == _BlockPosition.X && _LightPosition.Y == _BlockPosition.Y)
+                    int i = (_X) + (_Y) * _Size;
+                    if (i >= 0 && i < _Size * _Size && this.blocksToDraw[i] != null)
                     {
-                    }
-                    else
-                    {
-                        var_Result += this.blocksToDraw[i].LightAbsorb + this.blocksToDraw[i].LightShadow;
+                        var_Result += this.blocksToDraw[i].LightAbsorb;
                     }
                 }
             }

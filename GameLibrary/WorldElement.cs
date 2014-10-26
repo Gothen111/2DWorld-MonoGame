@@ -68,27 +68,9 @@ namespace GameLibrary
             set { lightLevel = value; }
         }
 
-        private Color drawColor;
-
-        public Color DrawColor
-        {
-            get { return drawColor; }
-            set { drawColor = value; }
-        }
-
-        private Color lightColor;
-
-        public Color LightColor
-        {
-            get { return lightColor; }
-            set { lightColor = value; }
-        }
-
         public WorldElement()
         {
-            this.lightLevel = 0.0f;
-            this.drawColor = Color.White;
-            this.lightColor = Color.White;
+            this.lightLevel = 1.0f;
         }
 
         public WorldElement(SerializationInfo info, StreamingContext ctxt)

@@ -63,6 +63,14 @@ namespace GameLibrary.Map.Block
             set { height = value; }
         }
 
+        private Color drawColor;
+
+        public Color DrawColor
+        {
+            get { return drawColor; }
+            set { drawColor = value; }
+        }
+
         private float nextLightLevel;
 
         public float NextLightLevel
@@ -79,7 +87,7 @@ namespace GameLibrary.Map.Block
             set { lightAdmit = value; }
         }
 
-        private float lightAbsorb;
+        private float lightAbsorb = 0.2f;
 
         public float LightAbsorb
         {
@@ -87,14 +95,13 @@ namespace GameLibrary.Map.Block
             set { lightAbsorb = value; }
         }
 
-        private float lightShadow;
+        private Color lightColor;
 
-        public float LightShadow
+        public Color LightColor
         {
-            get { return lightShadow; }
-            set { lightShadow = value; }
+            get { return lightColor; }
+            set { lightColor = value; }
         }
-
 
         public Block(int _PosX, int _PosY, BlockEnum _BlockEnum, Chunk.Chunk _ParentChunk)
             :base()
@@ -110,6 +117,9 @@ namespace GameLibrary.Map.Block
             this.isWalkAble = true;
             this.height = 0;
             this.Size = new Vector3(Block.BlockSize, Block.BlockSize, 0);
+
+            this.drawColor = Color.White;
+            this.lightColor = Color.White;
         }
 
         public Block(SerializationInfo info, StreamingContext ctxt) 
@@ -171,7 +181,6 @@ namespace GameLibrary.Map.Block
         public void removeObject(Object.Object _Object)
         {
             this.objects.Remove(_Object);
-            //_Object.CurrentBlock = null;
         }
 
         public void addPreEnvironmentObject(Object.Object _Object)
@@ -186,7 +195,6 @@ namespace GameLibrary.Map.Block
         public void removePreEnvironmentObject(Object.Object _Object)
         {
             this.objectsPreEnviorment.Remove(_Object);
-            //_Object.CurrentBlock = null;
         }
 
         public override void update(GameTime _GameTime)
@@ -207,7 +215,7 @@ namespace GameLibrary.Map.Block
             //this.LightLevel = this.nextLightLevel;
             if (Setting.Setting.lightTwo)
             {
-                float var_SmoothFactor = 30; // 100 ist Fackel
+                float var_SmoothFactor = 40; // 100 ist Fackel
 
                 if (Math.Abs(this.LightLevel - this.nextLightLevel) <= 1 / var_SmoothFactor)
                 {
@@ -309,19 +317,19 @@ namespace GameLibrary.Map.Block
 
             Color var_Color = Color.White;
 
-            Color var_Lerp = Color.Lerp(this.DrawColor, this.LightColor, 0.8f);
+            Color var_Lerp = this.lightColor;//Color.Lerp(this.drawColor, this.lightColor, 0.7f);
 
             if (Setting.Setting.debugMode)
             {
-                /*if (this.objects.Count > 0)
+                if (this.objects.Count > 0)
                 {
                     var_Color = Color.Green;
                 }
                 else
-                {*/
-                    var_Color = this.DrawColor;
-                    //if (var_Color == Color.White)
-                    //{
+                {
+                    var_Color = this.drawColor;
+                    if (var_Color == Color.White)
+                    {
                         /*if (this.lightLevel <= 0.1f)
                         {
                             this.lightLevel = 0.0f;
@@ -344,14 +352,14 @@ namespace GameLibrary.Map.Block
                     //int var_AmountGreen = (int)(var_Lerp.G * this.LightLevel);
                     //int var_AmountBlue = (int)(var_Lerp.B * this.LightLevel);
 
-                        float correctionFactor = 0.1f;
+                        float correctionFactor = 0.3f;
                         int var_AmountRed = (int)(((255 - var_Lerp.R) * correctionFactor + var_Lerp.R) * this.LightLevel);
                         int var_AmountGreen = (int)(((255 - var_Lerp.G) * correctionFactor + var_Lerp.G) * this.LightLevel);
                         int var_AmountBlue = (int)(((255 - var_Lerp.B) * correctionFactor + var_Lerp.B) * this.LightLevel);
 
                         var_Color = new Color(var_AmountRed, var_AmountGreen, var_AmountBlue);
-                    //}
-                //}
+                    }
+                }
             }
 
             String var_RegionType = ((Region.Region)this.Parent.Parent).RegionEnum.ToString();
@@ -362,7 +370,7 @@ namespace GameLibrary.Map.Block
             {
                 _SpriteBatch.Draw(Ressourcen.RessourcenManager.ressourcenManager.Texture["Region/" + var_RegionType + "/Block/" + "Wall"], var_DrawPosition - new Vector2(0, BlockSize * i), var_Color);
             }*/
-
+            
             BlockLayerEnum var_Layer = BlockLayerEnum.Layer1;
             while ((int)var_Layer < this.layer.Length)
             {

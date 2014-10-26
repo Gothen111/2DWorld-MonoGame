@@ -156,16 +156,16 @@ namespace GameLibrary.Object
         {
             //TODO: An das Attribut Scale anpassen
             Vector2 var_PositionShadow = new Vector2(this.Bounds.X + _DrawPositionExtra.X, this.Bounds.Y + _DrawPositionExtra.Y);
-            _SpriteBatch.Draw(Ressourcen.RessourcenManager.ressourcenManager.Texture["Character/Shadow"], var_PositionShadow, Color.White * this.LightLevel);
+             _SpriteBatch.Draw(Ressourcen.RessourcenManager.ressourcenManager.Texture["Character/Shadow"], var_PositionShadow, Color.White);
 
              Vector2 var_PositionState = new Vector2(this.Position.X, this.Position.Y) + new Vector2(-13, -7);
              if (this is PlayerObject)
              {
-                 _SpriteBatch.Draw(Ressourcen.RessourcenManager.ressourcenManager.Texture["Character/CreatureState"], var_PositionState, Color.BlueViolet * this.LightLevel);//Color.DarkOrange);
+                 _SpriteBatch.Draw(Ressourcen.RessourcenManager.ressourcenManager.Texture["Character/CreatureState"], var_PositionState, Color.BlueViolet);//Color.DarkOrange);
              }
              else
              {
-                 _SpriteBatch.Draw(Ressourcen.RessourcenManager.ressourcenManager.Texture["Character/CreatureState"], var_PositionState, Color.Red * this.LightLevel);
+                 _SpriteBatch.Draw(Ressourcen.RessourcenManager.ressourcenManager.Texture["Character/CreatureState"], var_PositionState, Color.Red);
              }
             base.draw(_GraphicsDevice, _SpriteBatch, _DrawPositionExtra, _Color);
         }
