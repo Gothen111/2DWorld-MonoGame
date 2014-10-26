@@ -187,9 +187,9 @@ namespace GameLibrary.Map.World
                             
                             if(_PlayerObject.IsInDungeon)
                             {
-                                if (this.getRegionObjectIsIn(_PlayerObject) != null)
+                                if (_PlayerObject.getRegionIsIn() != null)
                                 {
-                                    var_Block = this.getRegionObjectIsIn(_PlayerObject).getBlockAtCoordinate(var_Position);
+                                    var_Block = _PlayerObject.getRegionIsIn().getBlockAtCoordinate(var_Position);
                                 }
                             }
                             else
@@ -202,13 +202,57 @@ namespace GameLibrary.Map.World
                             {
                                 int var_ArrayPos = x + y * var_DrawSizeX;
                                 this.blocksToDraw[var_ArrayPos] = var_Block;
-                                var_Block.LightLevel = 1.0f;
-                                //this.lightInit(var_Block);
+                                var_Block.LightColor = Color.White;
+                                if (Setting.Setting.light)
+                                {
+                                    if (Setting.Setting.lightOne)
+                                    {
+                                        if (var_Block.Position == Block.Block.parsePosition(_PlayerObject.Position))
+                                        {
+                                            var_Block.LightLevel = 1.1f;
+                                            var_Block.LightColor = Color.Red;
+                                        }
+                                        else if (var_Block.Position == Block.Block.parsePosition(new Vector3(0, 0, 0)))
+                                        {
+                                            var_Block.LightLevel = 1.1f;
+                                            var_Block.LightColor = Color.Orange;
+                                        }
+                                        else
+                                        {
+                                            var_Block.LightAdmit = 0.01f;
+                                            var_Block.LightLevel = var_Block.LightAdmit;
+                                            if (var_Block.Layer[0] == Enums.BlockEnum.Ground2)
+                                            {
+                                                var_Block.LightAbsorb = 0.2f;
+                                            }
+                                            else
+                                            {
+                                                var_Block.LightAbsorb = 0.0f;
+                                            }
+                                        }
+                                    }
+                                    if (Setting.Setting.lightTwo)
+                                    {
+                                        if (var_Block.Layer[0] == Enums.BlockEnum.Ground2)
+                                        {
+                                            var_Block.LightAbsorb = 0.2f;
+                                        }
+                                        else
+                                        {
+                                            var_Block.LightAbsorb = 0.0f;
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    var_Block.LightLevel = 1.0f;
+                                }
+                                //var_Block.update(_GameTime);
                             }
                             else
                             {
-                                //if (_NewUpdateObjectsList)
-                                //{
+                                if (_NewUpdateObjectsList)
+                                {
                                     Region.Region var_Region = null;
                                     var_Region = this.getRegionAtPosition(var_Position);
 
@@ -216,24 +260,23 @@ namespace GameLibrary.Map.World
                                     {
                                         //if (var_Region != null)
                                         //{
-                                        var_Region = this.getRegionObjectIsIn(_PlayerObject);
+                                        var_Region = _PlayerObject.getRegionIsIn();//var_Region.Dungeons[_PlayerObject.DungeonId];
                                         //}
                                     }
 
                                     if (var_Region == null)
                                     {
-                                        /*if (!_PlayerObject.IsInDungeon)
+                                        if (!_PlayerObject.IsInDungeon)
                                         {
                                             var_Region = this.createRegionAt(var_Position);
                                         }
-                                        else if (_PlayerObject.IsInDungeon && this.getRegionObjectIsIn(_PlayerObject) == null)
+                                        else if (_PlayerObject.IsInDungeon && _PlayerObject.getRegionIsIn() == null)
                                         {
                                             if (Region.Region.parsePosition(var_Position).Equals(Region.Region.parsePosition(_PlayerObject.Position)))
                                             {
                                                 var_Region = this.createRegionAt(var_Position);
                                             }
-                                        }*/
-                                        var_Region = this.createRegionAt(var_Position);
+                                        }
                                     }
                                     else
                                     {
@@ -246,21 +289,12 @@ namespace GameLibrary.Map.World
                                             }
                                         }
                                     }
-                                //}
+                                }
                             }
                         }
                     }
             }
 
-            //this.light();
-
-            for (int i = 0; i < this.blocksToDraw.Length; i++)
-            {
-                if (this.blocksToDraw[i] != null)
-                {
-                    this.blocksToDraw[i].update(_GameTime);
-                }
-            }
             
             if (_NewUpdateObjectsList)
             {
@@ -273,59 +307,7 @@ namespace GameLibrary.Map.World
                     }
                 }
             }
-        }
 
-        private void lightInit(Block.Block _Block)
-        {
-            _Block.LightColor = Color.White;
-            if (Setting.Setting.light)
-            {
-                if (Setting.Setting.lightOne)
-                {
-                    /*if (_Block.Position == Block.Block.parsePosition(_PlayerObject.Position))
-                    {
-                        _Block.LightLevel = 1.1f;
-                        _Block.LightColor = Color.Red;
-                    }
-                    else if (_Block.Position == Block.Block.parsePosition(new Vector3(0, 0, 0)))
-                    {
-                        _Block.LightLevel = 1.1f;
-                        _Block.LightColor = Color.Orange;
-                    }
-                    else
-                    {
-                        _Block.LightAdmit = 0.01f;
-                        _Block.LightLevel = _Block.LightAdmit;
-                        if (_Block.Layer[0] == Enums.BlockEnum.Ground2)
-                        {
-                            _Block.LightAbsorb = 0.2f;
-                        }
-                        else
-                        {
-                            _Block.LightAbsorb = 0.0f;
-                        }
-                    }*/
-                }
-                if (Setting.Setting.lightTwo)
-                {
-                    if (_Block.Layer[0] == Enums.BlockEnum.Ground2)
-                    {
-                        _Block.LightAbsorb = 0.2f;
-                    }
-                    else
-                    {
-                        _Block.LightAbsorb = 0.0f;
-                    }
-                }
-            }
-            else
-            {
-                _Block.LightLevel = 1.0f;
-            }
-        }
-
-        private void light()
-        {
             if (Setting.Setting.light)
             {
                 if (Setting.Setting.lightOne)
@@ -398,6 +380,19 @@ namespace GameLibrary.Map.World
                                 this.blocksToDraw[i].calculateLightLevelBottom();
                             }
                         }
+
+
+
+                        /*for (int i = 0; i < this.blocksToDraw.Length; i++)
+                        {
+                            if (this.blocksToDraw[i] != null)
+                            {
+                                if (this.blocksToDraw[i].LightLevel >= 0.1f)
+                                {
+                                    this.blocksToDraw[i].LightLevel = Math.Min(1, this.blocksToDraw[i].LightLevel * 2);
+                                }
+                            }
+                        }*/
                     }
                 }
                 if (Setting.Setting.lightTwo)
@@ -407,22 +402,26 @@ namespace GameLibrary.Map.World
                     float var_AmbientLight = Math.Abs(this.worldTime - this.worldTimeMax / 2) / (this.worldTimeMax / 2);
                     Color var_AmbientColor = Color.White;
 
-                    if (this.worldTime <= this.worldTimeMax / 3 && this.worldTime >= this.worldTimeMax / 4)
+                    if (this.worldTime <= this.worldTimeMax / 3 && this.worldTime >= this.worldTimeMax / 4 )
                     {
                         var_AmbientColor = Color.Red;
                     }
-                    else if (this.worldTime >= this.worldTimeMax * (2 / 3) && this.worldTime <= this.worldTimeMax * (3 / 4))
+                    else if(this.worldTime >= this.worldTimeMax * (2 / 3) && this.worldTime <= this.worldTimeMax * (3 / 4))
                     {
                         var_AmbientColor = Color.Red;
                     }
+
+                    //Console.WriteLine(varAmbientLight);
+                    //var_Lights.Add(new Utility.Object.Light(_PlayerObject.Position, Color.Red, 320));
+                    //var_Lights.Add(new Utility.Object.Light(new Vector3(0,0,0), Color.Blue, 320));
 
                     for (int i = 0; i < this.blocksToDraw.Length; i++)
                     {
                         if (this.blocksToDraw[i] != null)
                         {
-                            this.blocksToDraw[i].NextLightLevel = var_AmbientLight;
+                            this.blocksToDraw[i].NextLightLevel = var_AmbientLight;//0.0f;
                             this.blocksToDraw[i].LightColor = var_AmbientColor;
-                            for (int z = 0; z < this.blocksToDraw[i].Objects.Count; z++)
+                            for(int z = 0; z < this.blocksToDraw[i].Objects.Count; z++)
                             {
                                 this.blocksToDraw[i].Objects[z].LightLevel = this.blocksToDraw[i].LightLevel;
                                 if (this.blocksToDraw[i].Objects[z] is CreatureObject)
@@ -458,12 +457,24 @@ namespace GameLibrary.Map.World
                                 }
                                 else
                                 {
+                                    //this.blocksToDraw[i].LightLevel = (1 - (var_Distance / var_MaxDistance));
+                                    //this.blocksToDraw[i].NextLightLevel = (1 - (var_Distance / var_MaxDistance));
+                                    //Console.WriteLine(this.countAbsorb(var_LightPosition, this.blocksToDraw[i].Position, i % Setting.Setting.blockDrawRange, i/Setting.Setting.blockDrawRange, Setting.Setting.blockDrawRange));
+                                    
                                     float var_NextLight = Math.Max(0, (1 - (var_Distance / var_MaxDistance)) - this.countAbsorb(var_Lights[v].Position, this.blocksToDraw[i].Position, i % Setting.Setting.blockDrawRange, i / Setting.Setting.blockDrawRange, Setting.Setting.blockDrawRange));
                                     float var_CurrentLight = this.blocksToDraw[i].LightLevel;
                                     this.blocksToDraw[i].NextLightLevel = Math.Min(1, this.blocksToDraw[i].NextLightLevel + var_NextLight);
                                     this.blocksToDraw[i].LightColor = Color.Lerp(var_AmbientColor, Color.Yellow, Math.Max(0.1f, 1 - var_AmbientLight));// Color.Lerp(this.blocksToDraw[i].LightColor * var_CurrentLight, var_Lights[v].LightColor * var_NextLight, 0.5f);
                                 }
                             }
+                        }
+                    }
+
+                    for (int i = 0; i < this.blocksToDraw.Length; i++)
+                    {
+                        if (this.blocksToDraw[i] != null)
+                        {
+                            this.blocksToDraw[i].update(_GameTime);
                         }
                     }
                 }

@@ -42,6 +42,27 @@ namespace GameLibrary.Map.World
             return null;
         }
 
+        public Region.Region getRegionObjectIsIn(GameLibrary.Object.Object _Object)
+        {
+            foreach (Region.Region var_Region in this.regions)
+            {
+                if (_Object.Position.X >= var_Region.Position.X)
+                {
+                    if (_Object.Position.X <= var_Region.Position.X + var_Region.Bounds.Width)
+                    {
+                        if (_Object.Position.Y >= var_Region.Position.Y)
+                        {
+                            if (_Object.Position.Y <= var_Region.Position.Y + var_Region.Bounds.Height)
+                            {
+                                return var_Region;
+                            }
+                        }
+                    }
+                }
+            }
+            return null;
+        }
+
         public Object.Object addObject(Object.Object _Object)
         {
             return addObject(_Object, true);
@@ -57,14 +78,7 @@ namespace GameLibrary.Map.World
         {
             if (insertInQuadTree)
             {
-                if (_Region is DungeonGeneration.Dungeon)
-                {
-                    ((DungeonGeneration.Dungeon)_Region).QuadTreeObject.Insert(_Object);
-                }
-                else
-                {
-                    this.quadTreeObject.Insert(_Object);
-                }
+                this.quadTreeObject.Insert(_Object);
             }
             if (_Region != null)
             {
@@ -98,15 +112,7 @@ namespace GameLibrary.Map.World
 
         public void removeObjectFromWorld(Object.Object _Object)
         {
-            Region.Region var_Region = this.getRegionObjectIsIn(_Object);
-            if (var_Region != null)
-            {
-                if (var_Region is DungeonGeneration.Dungeon)
-                {
-                    ((DungeonGeneration.Dungeon)var_Region).QuadTreeObject.Remove(_Object);
-                }
-            }
-
+            //TODO: Gucke ob element auch vorhanden ;)
             this.quadTreeObject.Remove(_Object);
             if (_Object.CurrentBlock != null)
             {
@@ -249,28 +255,6 @@ namespace GameLibrary.Map.World
                 Logger.Logger.LogErr(e.ToString());
             }
         }
-        #endregion
-
-        #region Other
-
-        public Region.Region getRegionObjectIsIn(Object.Object _Object)
-        {
-            Region.Region var_Region = this.getRegionAtPosition(_Object.Position);
-
-            if (var_Region != null)
-            {
-                if (_Object.IsInDungeon)
-                {
-                    if (var_Region.Dungeons.Count > _Object.DungeonId)
-                    {
-                        return var_Region.Dungeons[_Object.DungeonId];
-                    }
-                }
-            }
-
-            return var_Region;
-        }
-
         #endregion
     }
 }

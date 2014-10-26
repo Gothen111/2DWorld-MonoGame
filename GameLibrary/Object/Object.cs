@@ -134,7 +134,7 @@ namespace GameLibrary.Object
         {
             //TODO: Das geht alles noch globale :) gib den dungeons die welt als parent und dungeson in dungeson den dungeon als parten...
             // Dann machen einfach abfrage ;) ob wolrd oder dungeon und füge hinzu / entferne ... natürlich auch, muss regionen telepot gehen :) von egion 1 nach egio n2
-            /*if (this.isInDungeon)
+            if (this.isInDungeon)
             {
                 ((Dungeon)this.getRegionIsIn()).QuadTreeObject.Remove(this);
             }
@@ -150,14 +150,10 @@ namespace GameLibrary.Object
             else
             {
                 World.world.QuadTreeObject.Insert(this);
-            }*/
-
-            World.world.removeObjectFromWorld(this);
+            }
 
             this.isInDungeon = _ToDungeon;
             this.dungeonId = _DungeonId;
-
-            World.world.addObject(this);
 
             //TODO: Hat noch Bugs, wenn map noch nicht da ist :/ also block gleich null.... da muss man sich was überlegen :)
             /*GameLibrary.Map.Block.Block var_Block = GameLibrary.Map.World.World.world.getBlockAtCoordinate(_Position);
@@ -208,7 +204,7 @@ namespace GameLibrary.Object
             }
             return World.world.QuadTreeObject;
         }
-        /*
+
         public Region getRegionIsIn()
         {
             if (this.currentBlock != null)
@@ -222,6 +218,6 @@ namespace GameLibrary.Object
                 }
             }
             return null;
-        }*/
+        }
     }
 }

@@ -46,9 +46,9 @@ namespace GameLibrary.Map.World
 
                                 if (_Target.IsInDungeon)
                                 {
-                                    if (this.getRegionObjectIsIn(_Target) != null)
+                                    if (_Target.getRegionIsIn() != null)
                                     {
-                                        var_Block = this.getRegionObjectIsIn(_Target).getBlockAtCoordinate(var_Position);
+                                        var_Block = _Target.getRegionIsIn().getBlockAtCoordinate(var_Position);
                                     }
                                 }
                                 else
