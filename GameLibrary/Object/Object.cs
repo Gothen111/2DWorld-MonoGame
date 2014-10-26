@@ -11,7 +11,7 @@ using System.Runtime.Serialization;
 using Utility.Corpus;
 using GameLibrary.Map.World;
 using GameLibrary.Collison;
-using GameLibrary.Map.Dungeon;
+using GameLibrary.Map.DungeonGeneration;
 using GameLibrary.Map.Region;
 using GameLibrary.Map.Block;
 #endregion

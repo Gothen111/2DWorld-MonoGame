@@ -15,8 +15,6 @@ using Utility.Corpus;
 using GameLibrary.Connection.Message;
 using GameLibrary.Connection;
 using GameLibrary.Enums;
-using GameLibrary.Factory;
-using GameLibrary.Map.Chunk.Decorator;
 #endregion
 
 namespace GameLibrary.Map.Region
@@ -24,11 +22,13 @@ namespace GameLibrary.Map.Region
     [Serializable()]
     public class Region : Box
     {
-        private static int regionId = 0;
+        public static int _id = 0;
+        private int id = _id++;
 
-        private static int getRegionId()
+        public int Id
         {
-            return regionId++;
+            get { return id; }
+            set { id = value; }
         }
 
         public static int regionSizeX = 10;
@@ -50,23 +50,16 @@ namespace GameLibrary.Map.Region
             set { regionEnum = value; }
         }
 
-        private List<Dungeon.Dungeon> dungeons;
+        private List<DungeonGeneration.Dungeon> dungeons;
 
-        public List<Dungeon.Dungeon> Dungeons
+        public List<DungeonGeneration.Dungeon> Dungeons
         {
             get { return dungeons; }
             set { dungeons = value; }
         }
 
-        protected override void Init()
-        {
-            base.Init();
-            this.dungeons = new List<Dungeon.Dungeon>();
-        }
-
         public Region(String _Name, int _PosX, int _PosY, Vector3 _Size, RegionEnum _RegionEnum, World.World _ParentWorld)
         {
-            this.Id = getRegionId();
             this.Name = _Name;
             this.Position = new Vector3(_PosX, _PosY, 0);
             this.Size = new Vector3(_Size.X, _Size.Y, _Size.Z);
@@ -77,6 +70,8 @@ namespace GameLibrary.Map.Region
             this.regionEnum = _RegionEnum;
 
             this.Parent = _ParentWorld;
+
+            this.dungeons = new List<DungeonGeneration.Dungeon>();
 
             if (Configuration.Configuration.isHost || Configuration.Configuration.isSinglePlayer)
             {
@@ -90,7 +85,7 @@ namespace GameLibrary.Map.Region
         public Region(SerializationInfo info, StreamingContext ctxt) 
             : base(info, ctxt)
         {
-            this.Id = (int)info.GetValue("Id", typeof(int));
+            this.id = (int)info.GetValue("id", typeof(int));
             this.regionEnum = (RegionEnum)info.GetValue("regionEnum", typeof(int));
 
             this.chunks = new Chunk.Chunk[regionSizeX * regionSizeY];
@@ -99,7 +94,7 @@ namespace GameLibrary.Map.Region
         public override void GetObjectData(SerializationInfo info, StreamingContext ctxt)
         {
             base.GetObjectData(info, ctxt);
-            info.AddValue("Id", this.Id, typeof(int));
+            info.AddValue("id", this.id, typeof(int));
             info.AddValue("regionEnum", this.regionEnum, typeof(int));
         }
 
@@ -118,6 +113,17 @@ namespace GameLibrary.Map.Region
 
                     this.chunks[var_Position] = _Chunk;
                     this.setAllNeighboursOfChunks();
+                    //World.World.world.setAllNeighboursOfRegion((Region)_Chunk.Parent);
+                    if (GameLibrary.Configuration.Configuration.isHost)
+                    {
+                        //GameLibrary.Commands.Executer.Executer.executer.addCommand(new Commands.CommandTypes.UpdateChunkCommand(_Chunk));
+                        //this.saveChunk(_Chunk);
+                    }
+                    else
+                    {
+
+                    }
+
                     return true;
                 }
                 else
@@ -175,7 +181,7 @@ namespace GameLibrary.Map.Region
         public void setAllNeighboursOfChunk(Chunk.Chunk _Chunk)
         {
             Chunk.Chunk var_ChunkNeighbourLeft = null;
-            if(this is Dungeon.Dungeon)
+            if(this is DungeonGeneration.Dungeon)
             {
                 var_ChunkNeighbourLeft = this.getChunkAtPosition(new Vector3(_Chunk.Position.X - Chunk.Chunk.chunkSizeX * Block.Block.BlockSize, _Chunk.Position.Y, 0));
             
@@ -203,7 +209,7 @@ namespace GameLibrary.Map.Region
             }
 
             Chunk.Chunk var_ChunkNeighbourRight = null;
-            if (this is Dungeon.Dungeon)
+            if (this is DungeonGeneration.Dungeon)
             {
                 var_ChunkNeighbourRight = this.getChunkAtPosition(new Vector3(_Chunk.Position.X + Chunk.Chunk.chunkSizeX * Block.Block.BlockSize, _Chunk.Position.Y, 0));
             }
@@ -229,7 +235,7 @@ namespace GameLibrary.Map.Region
             }
 
             Chunk.Chunk var_ChunkNeighbourTop = null;
-            if(this is Dungeon.Dungeon)
+            if(this is DungeonGeneration.Dungeon)
             {
                 var_ChunkNeighbourTop = this.getChunkAtPosition(new Vector3(_Chunk.Position.X, _Chunk.Position.Y - Chunk.Chunk.chunkSizeX * Block.Block.BlockSize, 0));
             
@@ -257,7 +263,7 @@ namespace GameLibrary.Map.Region
             }
 
             Chunk.Chunk var_ChunkNeighbourBottom = null;
-            if(this is Dungeon.Dungeon)
+            if(this is DungeonGeneration.Dungeon)
             {
                 var_ChunkNeighbourBottom = this.getChunkAtPosition(new Vector3(_Chunk.Position.X, _Chunk.Position.Y + Chunk.Chunk.chunkSizeX * Block.Block.BlockSize, 0));
             }
@@ -301,30 +307,13 @@ namespace GameLibrary.Map.Region
         {
             _Position = Chunk.Chunk.parsePosition(_Position);
             Chunk.Chunk var_Chunk = this.loadChunk(_Position.X, _Position.Y);
-            if (var_Chunk == null)
+            if(var_Chunk == null)
             {
                 var_Chunk = GameLibrary.Factory.RegionFactory.regionFactory.createChunkInRegion(this, (int)_Position.X, (int)_Position.Y);
-                if (var_Chunk != null)
-                {
-                    this.setChunkAtPosition(_Position, var_Chunk);
-                    ChunkFactory.chunkFactory.generateChunk(var_Chunk);
-                    Decorator.decorator.decorateChunk(var_Chunk);
-                }
             }
             else
             {
                 this.setChunkAtPosition(_Position, var_Chunk);
-            }
-            if (var_Chunk != null)
-            {
-                if (GameLibrary.Configuration.Configuration.isHost || GameLibrary.Configuration.Configuration.isSinglePlayer)
-                {
-                    this.saveChunk(var_Chunk);
-                }
-                else
-                {
-
-                }
             }
             return var_Chunk;
         }
@@ -337,7 +326,7 @@ namespace GameLibrary.Map.Region
                 Chunk.Chunk var_Chunk = (Chunk.Chunk)Utility.IO.IOManager.LoadISerializeAbleObjectFromFile(var_Path);//Utility.Serializer.DeSerializeObject(var_Path);
                 if (var_Chunk != null)
                 {
-                    var_Chunk.Parent = this;
+                    var_Chunk.Parent = GameLibrary.Map.World.World.world.getRegion(this.id);
                     var_Chunk.setAllNeighboursOfBlocks();
                     return var_Chunk;
                 }

@@ -12,11 +12,9 @@ using System.Runtime.Serialization;
 
 #region Using Statements Class Specific
 using GameLibrary.Map.Region;
-using GameLibrary.Map.Dungeon;
+using GameLibrary.Map.DungeonGeneration;
 using GameLibrary.Map.World;
 using GameLibrary.Enums;
-using GameLibrary.Map.Dungeon;
-using GameLibrary.Map.Dungeon.Dungeons;
 #endregion
 
 namespace GameLibrary.Factory

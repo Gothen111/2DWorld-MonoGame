@@ -18,14 +18,6 @@ namespace GameLibrary.Map
     [Serializable()]
     public class Box : WorldElement
     {
-        private int id;
-
-        public int Id
-        {
-            get { return id; }
-            set { id = value; }
-        }
-
         private Box parent;
 
         public Box Parent
@@ -85,19 +77,14 @@ namespace GameLibrary.Map
 
         #endregion
 
-        protected override void Init()
+        public Box()
+            :base()
         {
-            base.Init();
             this.isRequested = false;
             this.hasReceived = false;
 
             this.requestedTimerMax = 10;
             this.requestedTimer = this.requestedTimerMax;
-        }
-
-        public Box()
-            :base()
-        {
         }
 
         public Box(SerializationInfo info, StreamingContext ctxt)

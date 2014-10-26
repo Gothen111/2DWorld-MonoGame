@@ -21,7 +21,6 @@ namespace GameLibrary.Object
     {
         public PlayerObject() :base()
         {
-            this.MovementSpeed = 20.0f;
         }
 
         public PlayerObject(SerializationInfo info, StreamingContext ctxt)

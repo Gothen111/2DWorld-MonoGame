@@ -19,7 +19,7 @@ using GameLibrary.Map.Region;
 using GameLibrary.Map.Chunk;
 using GameLibrary.Map.Block;
 using GameLibrary.Enums;
-using GameLibrary.Map.Dungeon;
+using GameLibrary.Map.DungeonGeneration;
 using GameLibrary.Map.Chunk.Road;
 #endregion
 
@@ -447,7 +447,14 @@ namespace GameLibrary.Factory
                             RoadPair var_NewRoadPair = new RoadPair();
                             var_NewRoadPair.Position = var_RoadPairEntry.Position + new Vector3(Block.BlockSize, 0, 0);
                             var_NewRoadPair.Destination = var_RoadPairEntry.Destination;
-
+                            if (var_NewRoadPair.Position == var_NewRoadPair.Destination)
+                            {
+                                var_NewRoadPair.RoadEnd = true;
+                            }
+                            else
+                            {
+                                var_NewRoadPair.RoadEnd = false;
+                            }
                             var_PossibleRoadPairs.Add(var_NewRoadPair);
                         }
                     }
@@ -464,7 +471,14 @@ namespace GameLibrary.Factory
                             RoadPair var_NewRoadPair = new RoadPair();
                             var_NewRoadPair.Position = var_RoadPairEntry.Position + new Vector3(-Block.BlockSize, 0, 0);
                             var_NewRoadPair.Destination = var_RoadPairEntry.Destination;
-
+                            if (var_NewRoadPair.Position == var_NewRoadPair.Destination)
+                            {
+                                var_NewRoadPair.RoadEnd = true;
+                            }
+                            else
+                            {
+                                var_NewRoadPair.RoadEnd = false;
+                            }
                             var_PossibleRoadPairs.Add(var_NewRoadPair);
                         }
                     }
@@ -481,7 +495,14 @@ namespace GameLibrary.Factory
                             RoadPair var_NewRoadPair = new RoadPair();
                             var_NewRoadPair.Position = var_RoadPairEntry.Position + new Vector3(0, Block.BlockSize, 0);
                             var_NewRoadPair.Destination = var_RoadPairEntry.Destination;
-
+                            if (var_NewRoadPair.Position == var_NewRoadPair.Destination)
+                            {
+                                var_NewRoadPair.RoadEnd = true;
+                            }
+                            else
+                            {
+                                var_NewRoadPair.RoadEnd = false;
+                            }
                             var_PossibleRoadPairs.Add(var_NewRoadPair);
                         }
                     }
@@ -553,7 +574,6 @@ namespace GameLibrary.Factory
                         {
                             var_NewRoadPair.RoadEnd = true;
                             var_NewRoadPair.Position = var_NewRoadPair.Destination;
-                            _Chunk.getBlockAtCoordinate(var_NewRoadPair.Destination).setLayerAt(BlockEnum.Ground1, BlockLayerEnum.Layer2);
                         }
                         else
                         {

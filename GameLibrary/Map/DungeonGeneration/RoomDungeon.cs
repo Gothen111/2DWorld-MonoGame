@@ -15,7 +15,7 @@ using GameLibrary.Map.Region;
 using GameLibrary.Enums;
 #endregion
 
-namespace GameLibrary.Map.Dungeon.Dungeons
+namespace GameLibrary.Map.DungeonGeneration
 {
     [Serializable()]
     public class RoomDungeon : Dungeon
@@ -50,7 +50,7 @@ namespace GameLibrary.Map.Dungeon.Dungeons
             {
                 for (int y = 0; y < var_Heigth; y++)
                 {
-                    this.createChunkAt(new Vector3(var_Position.X + var_SizeX * x, (int)var_Position.Y + var_SizeY * y, 0));
+                    GameLibrary.Factory.RegionFactory.regionFactory.createChunkInRegion(this, (int)var_Position.X + var_SizeX * x, (int)var_Position.Y + var_SizeY * y);
                 }
             }
 

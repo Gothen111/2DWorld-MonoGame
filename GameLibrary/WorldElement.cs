@@ -84,16 +84,11 @@ namespace GameLibrary
             set { lightColor = value; }
         }
 
-        protected virtual void Init()
+        public WorldElement()
         {
             this.lightLevel = 1.0f;
             this.drawColor = Color.White;
             this.lightColor = Color.White;
-        }
-
-        public WorldElement()
-        {
-            this.Init();
         }
 
         public WorldElement(SerializationInfo info, StreamingContext ctxt)
