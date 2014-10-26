@@ -144,5 +144,11 @@ namespace Client
 
             base.Draw(gameTime);
         }
+
+        protected override void OnExiting(Object sender, EventArgs args)
+        {
+            base.OnExiting(sender, args);
+            Environment.Exit(Environment.ExitCode);
+        }
     }
 }
