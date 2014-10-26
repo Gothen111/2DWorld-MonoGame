@@ -40,8 +40,6 @@ namespace GameLibrary.Map.World
 
         private List<Chunk.Chunk> chunksOutOfRange;
 
-        private Block.Block[] blocksToDraw;
-
         #endregion
 
         #region Constructors
@@ -59,8 +57,6 @@ namespace GameLibrary.Map.World
             this.objectsToUpdate = new List<Object.Object>();
 
             this.objectsToUpdateCounter = 0;
-
-            this.blocksToDraw = new Block.Block[Setting.Setting.blockDrawRange * Setting.Setting.blockDrawRange];
 
             Logger.Logger.LogInfo("Welt " + _Name + " wurde erstellt!");
         }

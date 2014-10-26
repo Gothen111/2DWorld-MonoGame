@@ -19,22 +19,23 @@ using GameLibrary.Enums;
 
 namespace GameLibrary.Factory
 {
+    public enum DungeonType
+    {
+        Cave
+    }
+
     public class DungeonFactory
     {
-        public static Dungeon createDungeon(Vector3 _Position, Vector3 _Size, DungeonEnum _DungeonEnum, World _ParentWorld, int _DungeonId)
+        public static Dungeon createDungeon(Vector3 _Position, Vector3 _Size, DungeonType _DungeonType, World _ParentWorld, int _DungeonId)
         {
             Dungeon var_Dungeon = null;
 
-            switch (_DungeonEnum)
+            switch (_DungeonType)
             {
-                case DungeonEnum.Cave:
+                case DungeonType.Cave:
                     var_Dungeon = new CaveDungeon("", _Position, _Size, RegionEnum.Dungeon, _ParentWorld, _DungeonId);
                     break;
-                case DungeonEnum.Room:
-                    var_Dungeon = new RoomDungeon("", _Position, _Size, RegionEnum.Dungeon, _ParentWorld, _DungeonId);
-                    break;
             }
-
             if (var_Dungeon != null)
             {
                 var_Dungeon.createDungeon();

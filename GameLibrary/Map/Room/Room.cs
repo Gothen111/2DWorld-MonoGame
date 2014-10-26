@@ -11,7 +11,6 @@ using System.Runtime.Serialization;
 #endregion
 
 #region Using Statements Class Specific
-using Utility.Corpus;
 #endregion
 
 namespace GameLibrary.Map.Room
@@ -27,12 +26,10 @@ namespace GameLibrary.Map.Room
             this.Position = _Position;
             this.Size = _Size;
 
-            this.Bounds = new Cube(this.Position, this.Size);
-
             int var_Length = (int)(_Size.X * _Size.Y);
             this.blocks = new Block.Block[var_Length];
 
-            /*Vector3 var_Pos = new Vector3((int)(this.Position.X / Block.Block.BlockSize), (int)(this.Position.Y / Block.Block.BlockSize), (int)(this.Position.Z / Block.Block.BlockSize));
+            Vector3 var_Pos = new Vector3((int)(this.Position.X / Block.Block.BlockSize), (int)(this.Position.Y / Block.Block.BlockSize), (int)(this.Position.Z / Block.Block.BlockSize));
             Vector3 var_Size = this.Size;//new Vector3((int)(this.Size.X / Block.Block.BlockSize), (int)(this.Size.Y / Block.Block.BlockSize), (int)(this.Size.Z / Block.Block.BlockSize));
 
             int r = Utility.Random.Random.GenerateGoodRandomNumber(0, 255);
@@ -49,7 +46,7 @@ namespace GameLibrary.Map.Room
                     var_Block.drawColor = var_RoomColor;
                     this.setBlockAtPosition(new Vector3(x, y, 0), var_Block);
                 }
-            }*/
+            }
         }
 
         public Room(SerializationInfo info, StreamingContext ctxt) 
@@ -72,11 +69,6 @@ namespace GameLibrary.Map.Room
         {
             int var_Position = (int)(_Position.X + _Position.Y * this.Size.X);
             return this.blocks[var_Position];
-        }
-
-        public bool intersects(Room _Room)
-        {
-            return this.Bounds.intersects(_Room.Bounds);
         }
     }
 }

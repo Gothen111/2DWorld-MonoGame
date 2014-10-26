@@ -41,12 +41,6 @@ namespace GameLibrary.Map.DungeonGeneration
 
         private List<Room.Room> rooms;
 
-        public List<Room.Room> Rooms
-        {
-            get { return rooms; }
-            set { rooms = value; }
-        }
-
         private List<Block.Block> exits;
 
         public List<Block.Block> Exits

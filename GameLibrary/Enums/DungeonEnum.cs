@@ -19,7 +19,5 @@ namespace GameLibrary.Enums
 {
     public enum DungeonEnum
     {
-        Cave,
-        Room
     }
 }

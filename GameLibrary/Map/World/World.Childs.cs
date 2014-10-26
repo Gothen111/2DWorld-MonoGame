@@ -129,7 +129,7 @@ namespace GameLibrary.Map.World
 
                 
                 //this.setBlockAtCoordinate(_Position + new Vector3(32, 32, 0), new GameLibrary.Map.Block.Blocks.TeleportBlock(_Position + new Vector3(32, 32, 0), Block.BlockEnum.Ground2, var_Chunk, Vector3.Zero, true));
-                //var_Region = new DungeonGeneration.RoomDungeon("", _Position, new Vector3(Region.Region.regionSizeX, Region.Region.regionSizeY, 0), RegionEnum.Dungeon, this, 0);
+                //var_Region = new DungeonGeneration.CaveDungeon("", _Position, new Vector3(Region.Region.regionSizeX, Region.Region.regionSizeY, 0), RegionEnum.Dungeon, this);
             }
             this.addRegion(var_Region);
 

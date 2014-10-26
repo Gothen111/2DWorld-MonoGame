@@ -154,7 +154,7 @@ namespace GameLibrary.Map.World
                 this.chunksOutOfRange.Remove(var_Chunk);
             }
 
-            if (_PlayerObject != null)// && _NewUpdateObjectsList)
+            if (_PlayerObject != null && _NewUpdateObjectsList)
             {
                 Vector3 var_PlayerPos = _PlayerObject.Position;
 
@@ -164,8 +164,6 @@ namespace GameLibrary.Map.World
                 }
                     int var_DrawSizeX = Setting.Setting.blockDrawRange;
                     int var_DrawSizeY = Setting.Setting.blockDrawRange;
-
-                    //this.blocksToDraw = new Block.Block[var_DrawSizeX * var_DrawSizeY];
 
                     for (int x = 0; x < var_DrawSizeX; x++)
                     {
@@ -186,110 +184,48 @@ namespace GameLibrary.Map.World
                                 var_Block = this.getBlockAtCoordinate(var_Position);
                             }
 
-
+                            
                             if (var_Block != null)
                             {
-                                /*int var_ArrayPos = x + y * var_DrawSizeX;
-                                this.blocksToDraw[var_ArrayPos] = var_Block;
-                                if (var_Block.Position == Block.Block.parsePosition(_PlayerObject.Position))
-                                {
-                                    var_Block.LightLevel = 1.0f;
-                                }
-                                else
-                                {
-                                    var_Block.LightLevel = 0.0f;
-                                }*/
-                                var_Block.LightLevel = 1.0f;
                                 var_Block.update(_GameTime);
                             }
                             else
                             {
-                                if (_NewUpdateObjectsList)
+                                Region.Region var_Region = null;
+                                var_Region = this.getRegionAtPosition(var_Position);
+                                
+                                if(_PlayerObject.IsInDungeon)
                                 {
-                                    Region.Region var_Region = null;
-                                    var_Region = this.getRegionAtPosition(var_Position);
-
-                                    if (_PlayerObject.IsInDungeon)
-                                    {
-                                        //if (var_Region != null)
-                                        //{
+                                    //if (var_Region != null)
+                                    //{
                                         var_Region = _PlayerObject.getRegionIsIn();//var_Region.Dungeons[_PlayerObject.DungeonId];
-                                        //}
-                                    }
-
-                                    if (var_Region == null)
+                                    //}
+                                }
+                                
+                                if (var_Region == null)
+                                {
+                                    //if (!_PlayerObject.IsInDungeon || (_PlayerObject.IsInDungeon && _PlayerObject.getRegionIsIn() == null))
+                                    //{
+                                        var_Region = this.createRegionAt(var_Position);
+                                        /*if (_PlayerObject.IsInDungeon)
+                                        {
+                                            // Create Dungeon
+                                        }*/ // das stimmt nicht ;) wird ja mit region zusammen estellt
+                                    //}
+                                }
+                                else
+                                {
+                                    Chunk.Chunk var_Chunk = this.getChunkAtPosition(var_Position);
+                                    if (var_Chunk == null)
                                     {
-                                        if (!_PlayerObject.IsInDungeon)
-                                        {
-                                            var_Region = this.createRegionAt(var_Position);
-                                            /*if (_PlayerObject.IsInDungeon)
-                                            {
-                                                // Create Dungeon
-                                            }*/
-                                            // das stimmt nicht ;) wird ja mit region zusammen estellt
-                                        }
-                                        else if (_PlayerObject.IsInDungeon && _PlayerObject.getRegionIsIn() == null)
-                                        {
-                                            if (Region.Region.parsePosition(var_Position).Equals(Region.Region.parsePosition(_PlayerObject.Position)))
-                                            {
-                                                var_Region = this.createRegionAt(var_Position);
-                                            }
-                                        }
-                                    }
-                                    else
-                                    {
-                                        if (!_PlayerObject.IsInDungeon)
-                                        {
-                                            Chunk.Chunk var_Chunk = this.getChunkAtPosition(var_Position);
-                                            if (var_Chunk == null)
-                                            {
-                                                var_Chunk = this.createChunkAt(var_Position);
-                                            }
-                                        }
+                                        var_Chunk = this.createChunkAt(var_Position);
                                     }
                                 }
                             }
                         }
                     }
-
-                    /*int var_LightSize = 5;
-                    for (int x = 0; x < var_LightSize; x++)
-                    {
-                        for (int y = 0; y < var_LightSize; y++)
-                        {
-                            Vector3 var_Position = new Vector3(var_PlayerPos.X + (-var_LightSize / 2 + x) * Block.Block.BlockSize, var_PlayerPos.Y + (-var_LightSize / 2 + y) * Block.Block.BlockSize, 0);
-                            Block.Block var_Block = null;
-
-                            if (_PlayerObject.IsInDungeon)
-                            {
-                                if (_PlayerObject.getRegionIsIn() != null)
-                                {
-                                    var_Block = _PlayerObject.getRegionIsIn().getBlockAtCoordinate(var_Position);
-                                }
-                            }
-                            else
-                            {
-                                var_Block = this.getBlockAtCoordinate(var_Position);
-                            }
-
-
-                            if (var_Block != null)
-                            {
-                                var_Block.LightLevel = (float)1 / (((x+1) * (y+1)) + 1);
-                            }
-                        }
-                    }*/
-
                 //}
             }
-
-            /*for (int i = 0; i < this.blocksToDraw.Length; i++)
-            {
-                if(this.blocksToDraw[i]!=null)
-                {
-                    this.blocksToDraw[i].update(_GameTime);
-                }
-            }*/
 
             if (_NewUpdateObjectsList)
             {
