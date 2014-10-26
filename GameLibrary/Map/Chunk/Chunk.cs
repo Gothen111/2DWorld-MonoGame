@@ -182,18 +182,11 @@ namespace GameLibrary.Map.Chunk
             }
         }
 
-        public Vector3 getBlockPositionFromCoordinate(Vector3 _Position)
-        {
-            int var_X = (int)Math.Abs(_Position.X - this.Position.X) / Block.Block.BlockSize;
-            int var_Y = (int)Math.Abs(_Position.Y - this.Position.Y) / Block.Block.BlockSize;
-
-            return new Vector3(var_X, var_Y, 0);
-        }
-
         public Block.Block getBlockAtCoordinate(Vector3 _Position)
         {
-            Vector3 var_Position = this.getBlockPositionFromCoordinate(_Position);
-            return this.getBlockAtPosition(var_Position.X, var_Position.Y);
+            int var_X = (int)Math.Abs(_Position.X - this.Position.X) / Block.Block.BlockSize;//(int)((_PosX % (Region.Region.regionSizeX * Chunk.chunkSizeX * Block.Block.BlockSize)) % (Chunk.chunkSizeX * Block.Block.BlockSize) / Block.Block.BlockSize);
+            int var_Y = (int)Math.Abs(_Position.Y - this.Position.Y) / Block.Block.BlockSize;//(int)((_PosY % (Region.Region.regionSizeY * Chunk.chunkSizeY * Block.Block.BlockSize)) % (Chunk.chunkSizeY * Block.Block.BlockSize) / Block.Block.BlockSize);
+            return this.getBlockAtPosition(var_X, var_Y);
         }
 
         public Block.Block getBlockAtPosition(float _PosX, float _PosY)
@@ -204,7 +197,7 @@ namespace GameLibrary.Map.Chunk
                 return blocks[var_Position];//blocks[(int)(_PosX), ((int)_PosY)];
             }
             return null;
-        }     
+        }
 
         public override void update(GameTime _GameTime)
         {

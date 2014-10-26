@@ -488,51 +488,30 @@ namespace GameLibrary.Factory
                 {
                     var_BlockEntry.setLayerAt(BlockEnum.Ground1, BlockLayerEnum.Layer2);
                     _Chunk.PathEntries.Add(var_Entry);
-
-                    Block var_BlockExit = _Chunk.getBlockAtCoordinate(var_Entry + new Vector3(0, (Chunk.chunkSizeY - 1) * Block.BlockSize, 0));
-                    if (var_BlockExit != null)
-                    {
-                        var_BlockExit.setLayerAt(BlockEnum.Ground1, BlockLayerEnum.Layer2);
-                        _Chunk.PathEntries.Add(var_BlockExit.Position);
-                        this.generatePathFromTwoPoints(_Chunk, var_BlockEntry, var_BlockExit);
-                    }
                 }
+
+                Block var_BlockExit = _Chunk.getBlockAtCoordinate(var_Entry + new Vector3(0, (Chunk.chunkSizeY - 1) * Block.BlockSize, 0));
+                if (var_BlockExit != null)
+                {
+                    var_BlockExit.setLayerAt(BlockEnum.Ground1, BlockLayerEnum.Layer2);
+                    _Chunk.PathEntries.Add(var_BlockExit.Position);
+                }
+                this.generatePathFromTwoPoints(_Chunk, var_BlockEntry, var_BlockExit);
             }
         }
 
         private void generatePathFromTwoPoints(Chunk _Chunk, Block _Entry, Block _Exit)
         {
-            Vector3 var_Entry = _Chunk.getBlockPositionFromCoordinate(_Entry.Position);
-            Vector3 var_Exit = _Chunk.getBlockPositionFromCoordinate(_Exit.Position);
+            /*Vector3 var_Entry = _Entry.Position;
+            Vector3 var_Exit = _Exit.Position;
 
-            Vector3 var_Pos = var_Entry;
-
-            while (var_Pos != var_Exit)
+            while (var_Entry != var_Exit)
             {
-                if (var_Pos.X < var_Exit.X)
+                if (var_Entry.X > var_Exit.X)
                 {
-                    var_Pos.X += 1;
+                    var_Entry.X 
                 }
-                else if (var_Pos.X > var_Exit.X)
-                {
-                    var_Pos.X -= 1;
-                }
-                else if (var_Pos.Y < var_Exit.Y)
-                {
-                    var_Pos.Y += 1;
-                }
-                else if (var_Pos.Y > var_Exit.Y)
-                {
-                    var_Pos.Y -= 1;
-                }
-                if (var_Pos.X == var_Exit.X && var_Pos.Y == var_Exit.Y)
-                {
-                }
-                else
-                {
-                    _Chunk.getBlockAtPosition(var_Pos.X, var_Pos.Y).setLayerAt(BlockEnum.Ground1, BlockLayerEnum.Layer2);
-                }
-            }
+            }*/
         }
 
         private void generateExits(Chunk _Chunk)
