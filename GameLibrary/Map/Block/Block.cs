@@ -51,7 +51,7 @@ namespace GameLibrary.Map.Block
 
         public bool IsWalkAble
         {
-            get { return this.layer[0] == BlockEnum.Ground2 ? false : true; }
+            get { return isWalkAble; }
             set { isWalkAble = value; }
         }
 

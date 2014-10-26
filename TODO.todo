@@ -2,6 +2,3 @@
 - Regionen bekommen Liste von Dungeons
 - Bei update usw. gucke ob Player in Dungeon oder World
 - Items die aufgenommen werden, in Inveanta.cs werden nur aus wolrd quadtee gelöscht und nicht dungeon
-- Dungeons : Obejct Teleport :Das geht alles noch globale :) gib den dungeons die welt als parent und dungeson in dungeson den dungeon als parten...
-   -> Dann machen einfach abfrage ;) ob wolrd oder dungeon und füge hinzu / entferne ... natürlich auch, muss regionen telepot gehen :) von egion 1 nach egio n2
-- WEnn Object stirbt und gelöscht wird. vergelibt es auf dem block :(

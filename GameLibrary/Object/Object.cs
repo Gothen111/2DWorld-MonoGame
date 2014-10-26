@@ -132,29 +132,8 @@ namespace GameLibrary.Object
 
         public virtual bool teleportTo(Vector3 _Position, bool _ToDungeon, int _DungeonId)
         {
-            //TODO: Das geht alles noch globale :) gib den dungeons die welt als parent und dungeson in dungeson den dungeon als parten...
-            // Dann machen einfach abfrage ;) ob wolrd oder dungeon und füge hinzu / entferne ... natürlich auch, muss regionen telepot gehen :) von egion 1 nach egio n2
-            if (this.isInDungeon)
-            {
-                ((Dungeon)this.getRegionIsIn()).QuadTreeObject.Remove(this);
-            }
-            else
-            {
-                World.world.QuadTreeObject.Remove(this);
-            }
-
-            if (_ToDungeon)
-            {
-                this.getRegionIsIn().Dungeons[_DungeonId].QuadTreeObject.Insert(this);
-            }
-            else
-            {
-                World.world.QuadTreeObject.Insert(this);
-            }
-
             this.isInDungeon = _ToDungeon;
             this.dungeonId = _DungeonId;
-
             //TODO: Hat noch Bugs, wenn map noch nicht da ist :/ also block gleich null.... da muss man sich was überlegen :)
             /*GameLibrary.Map.Block.Block var_Block = GameLibrary.Map.World.World.world.getBlockAtCoordinate(_Position);
             if (var_Block != null)
