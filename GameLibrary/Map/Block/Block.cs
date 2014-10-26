@@ -79,38 +79,6 @@ namespace GameLibrary.Map.Block
             set { lightLevel = value; }
         }
 
-        private float nextLightLevel;
-
-        public float NextLightLevel
-        {
-            get { return nextLightLevel; }
-            set { nextLightLevel = value; }
-        }
-
-        private float lightAdmit = 0;
-
-        public float LightAdmit
-        {
-            get { return lightAdmit; }
-            set { lightAdmit = value; }
-        }
-
-        private float lightAbsorb = 0.2f;
-
-        public float LightAbsorb
-        {
-            get { return lightAbsorb; }
-            set { lightAbsorb = value; }
-        }
-
-        private Color lightColor;
-
-        public Color LightColor
-        {
-            get { return lightColor; }
-            set { lightColor = value; }
-        }
-
         public Block(int _PosX, int _PosY, BlockEnum _BlockEnum, Chunk.Chunk _ParentChunk)
             :base()
         {
@@ -127,8 +95,6 @@ namespace GameLibrary.Map.Block
             this.Size = new Vector3(Block.BlockSize, Block.BlockSize, 0);
 
             this.drawColor = Color.White;
-            this.lightLevel = 0.0f;
-            this.lightColor = Color.White;
         }
 
         public Block(SerializationInfo info, StreamingContext ctxt) 
@@ -221,91 +187,30 @@ namespace GameLibrary.Map.Block
                 }
             }*/
             //this.calculateLightLevel();
-
-            if (Setting.Setting.lightTwo)
-            {
-                float var_SmoothFactor = 50; // 100 ist Fackel
-
-                if (Math.Abs(this.lightLevel - this.nextLightLevel) <= 1 / var_SmoothFactor)
-                {
-                    this.lightLevel = this.nextLightLevel;
-                }
-
-                if (this.lightLevel == this.nextLightLevel)
-                {
-                }
-                else
-                {
-                    float var_Diff = this.lightLevel - this.nextLightLevel;
-                    this.lightLevel -= var_Diff / (var_SmoothFactor * 2);
-                }
-            }
         }
 
-        public void calculateLightLevelLeft()
-        {
-            if (this.LeftNeighbour != null)
-            {
-                this.lightLevel = Math.Max(this.lightLevel, ((Block)this.LeftNeighbour).lightLevel - this.lightAbsorb);
-                //this.lightColor = Color.Lerp(((Block)this.LeftNeighbour).lightColor * ((Block)this.LeftNeighbour).lightLevel, this.lightColor * this.lightLevel, 0.5f);
-            }
-        }
-
-        public void calculateLightLevelRight()
-        {
-            if (this.RightNeighbour != null)
-            {
-                this.lightLevel = Math.Max(this.lightLevel, ((Block)this.RightNeighbour).lightLevel - this.lightAbsorb);
-                //this.lightColor = Color.Lerp(((Block)this.RightNeighbour).lightColor * ((Block)this.RightNeighbour).lightLevel, this.lightColor * this.lightLevel, 0.5f);
-            }
-        }
-
-        public void calculateLightLevelTop()
-        {
-            if (this.TopNeighbour != null)
-            {
-                this.lightLevel = Math.Max(this.lightLevel, ((Block)this.TopNeighbour).lightLevel - this.lightAbsorb);
-                //this.lightColor = Color.Lerp(((Block)this.TopNeighbour).lightColor * ((Block)this.TopNeighbour).lightLevel, this.lightColor * this.lightLevel, 0.5f);
-            }
-        }
-
-        public void calculateLightLevelBottom()
-        {
-            if (this.BottomNeighbour != null)
-            {
-                this.lightLevel = Math.Max(this.lightLevel, ((Block)this.BottomNeighbour).lightLevel - this.lightAbsorb);
-                //this.lightColor = Color.Lerp(((Block)this.BottomNeighbour).lightColor * ((Block)this.BottomNeighbour).lightLevel, this.lightColor * this.lightLevel, 0.5f);
-            }
-        }
-
-        public void calculateLightLevel()
+        private void calculateLightLevel()
         {
             float var_LightLevelNeighbours = 0;
-            //Color var_Color = this.lightColor;
 
             if (this.LeftNeighbour != null)
             {
-                this.lightLevel = (this.lightLevel + ((Block)this.LeftNeighbour).lightLevel) / 2;
-                //var_Color = Color.Lerp(var_Color, ((Block)this.LeftNeighbour).lightColor, 0.9f);
+                var_LightLevelNeighbours += ((Block)this.LeftNeighbour).lightLevel;
             }
             if (this.RightNeighbour != null)
             {
-                this.lightLevel = (this.lightLevel + ((Block)this.RightNeighbour).lightLevel) / 2;
-                //var_Color = Color.Lerp(var_Color, ((Block)this.RightNeighbour).lightColor, 0.9f);
+                var_LightLevelNeighbours += ((Block)this.RightNeighbour).lightLevel;
             }
             if (this.TopNeighbour != null)
             {
-                this.lightLevel = (this.lightLevel + ((Block)this.TopNeighbour).lightLevel) / 2;
-                //var_Color = Color.Lerp(var_Color, ((Block)this.TopNeighbour).lightColor, 0.9f);
+                var_LightLevelNeighbours += ((Block)this.TopNeighbour).lightLevel;
             }
             if (this.BottomNeighbour != null)
             {
-                this.lightLevel = (this.lightLevel + ((Block)this.BottomNeighbour).lightLevel) / 2;
-                //var_Color = Color.Lerp(var_Color, ((Block)this.BottomNeighbour).lightColor, 0.9f);
+                var_LightLevelNeighbours += ((Block)this.BottomNeighbour).lightLevel;
             }
 
-            //this.lightColor = var_Color;
-            //this.lightLevel = Math.Min(1,Math.Max(this.lightLevel, var_LightLevelNeighbours / 4));
+            this.lightLevel = var_LightLevelNeighbours / 2;
         }
 
         public virtual void onObjectEntersBlock(Object.Object var_Object)
@@ -326,32 +231,12 @@ namespace GameLibrary.Map.Block
                 }
                 else
                 {
-                    //var_Color = this.drawColor;
-                    //if (var_Color == Color.White)
-                    //{
-                        /*if (this.lightLevel <= 0.1f)
-                        {
-                            this.lightLevel = 0.0f;
-                        }
-                        else if (this.lightLevel <= 0.4f)
-                        {
-                            this.lightLevel = 0.4f;
-                        }
-                        else if (this.lightLevel <= 0.6f)
-                        {
-                            this.lightLevel = 0.6f;
-                        }
-                        else if (this.lightLevel <= 1.0f)
-                        {
-                            this.lightLevel = 1.0f;
-                        }*/
+                    var_Color = this.drawColor;
+                    if (var_Color == Color.White)
+                    {
                         int var_AmountGrey = (int)(255 * this.lightLevel);
-                        Color var_Lerp = Color.Lerp(this.drawColor, Color.Yellow, 0.5f); // this.lightColor
-                        int var_AmountRed = (int)(var_Lerp.R * this.lightLevel);
-                        int var_AmountGreen = (int)(var_Lerp.G * this.lightLevel);
-                        int var_AmountBlue = (int)(var_Lerp.B * this.lightLevel);
-                        var_Color = new Color(var_AmountRed, var_AmountGreen, var_AmountBlue);
-                    //}
+                        var_Color = new Color(var_AmountGrey, var_AmountGrey, var_AmountGrey);
+                    }
                 }
             }
 
@@ -371,7 +256,6 @@ namespace GameLibrary.Map.Block
                 if (var_Enum != BlockEnum.Nothing)
                 {
                     _SpriteBatch.Draw(Ressourcen.RessourcenManager.ressourcenManager.Texture[var_TexturePath], var_DrawPosition, new Rectangle((int)(var_Enum - 1) * BlockSize, (int)(var_Layer) * BlockSize, BlockSize, BlockSize), var_Color);
-                    //_SpriteBatch.DrawString(GameLibrary.Ressourcen.RessourcenManager.ressourcenManager.Fonts["Arial"], ((int)(this.lightLevel*10)).ToString(), new Vector2(this.Position.X, this.Position.Y), Color.White,0,Vector2.Zero,0.5f,SpriteEffects.None,0.0f);
                 }
                 var_Layer += 1;
             }
