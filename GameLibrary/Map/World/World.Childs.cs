@@ -124,7 +124,7 @@ namespace GameLibrary.Map.World
             Region.Region var_Region = this.loadRegion(_Position);
             if (var_Region == null)
             {
-                int var_RegionType = 0;//Utility.Random.Random.GenerateGoodRandomNumber(0, Enum.GetValues(typeof(RegionEnum)).Length - 1);
+                int var_RegionType = Utility.Random.Random.GenerateGoodRandomNumber(0, Enum.GetValues(typeof(RegionEnum)).Length - 1);
                 var_Region = GameLibrary.Factory.RegionFactory.regionFactory.createRegion("Region" + Region.Region._id, (int)_Position.X, (int)_Position.Y, (RegionEnum)var_RegionType, this);
 
                 
