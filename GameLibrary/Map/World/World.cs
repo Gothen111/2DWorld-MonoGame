@@ -22,23 +22,9 @@ namespace GameLibrary.Map.World
         #region Attribute
         public static World world;
 
-        private List<Region.Region> regions;
-
-        private QuadTree<Object.Object> quadTreeObject;
-
-        public QuadTree<Object.Object> QuadTreeObject
-        {
-            get { return quadTreeObject; }
-            set { quadTreeObject = value; }
-        }
+        private List<Dimension.Dimension> dimensions;
 
         private List<PlayerObject> playerObjects;
-
-        private List<Object.Object> objectsToUpdate;
-
-        private int objectsToUpdateCounter;
-
-        private List<Chunk.Chunk> chunksOutOfRange;
 
         #endregion
 
@@ -48,15 +34,9 @@ namespace GameLibrary.Map.World
         {
             this.Name = _Name;
 
-            regions = new List<Region.Region>();
+            dimensions = new List<Dimension.Dimension>();
 
             this.playerObjects = new List<PlayerObject>();
-
-            this.quadTreeObject = new QuadTree<Object.Object>(new Vector3(32, 32, 0), 20);
-
-            this.objectsToUpdate = new List<Object.Object>();
-
-            this.objectsToUpdateCounter = 0;
 
             Logger.Logger.LogInfo("Welt " + _Name + " wurde erstellt!");
         }
@@ -65,11 +45,7 @@ namespace GameLibrary.Map.World
             : base(info, ctxt)
         {
             this.playerObjects = new List<PlayerObject>();
-            this.regions = new List<Region.Region>();
-            this.quadTreeObject = new QuadTree<Object.Object>(new Vector3(32, 32, 0), 20);
-            this.objectsToUpdate = new List<Object.Object>();
-
-            this.objectsToUpdateCounter = 0;
+            this.dimensions = new List<Dimension.Dimension>();
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext ctxt)

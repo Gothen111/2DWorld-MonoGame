@@ -20,6 +20,14 @@ namespace GameLibrary
     [Serializable()]
     public class WorldElement : ISerializable
     {
+        private int id;
+
+        public int Id
+        {
+            get { return id; }
+            set { id = value; }
+        }
+
         private Vector3 size;
 
         public Vector3 Size
@@ -67,6 +75,7 @@ namespace GameLibrary
         public WorldElement(SerializationInfo info, StreamingContext ctxt)
             : this()
         {
+            this.id = (int)info.GetValue("id", typeof(int));
             this.size = (Vector3)info.GetValue("size", typeof(Vector3));
             this.position = (Vector3)info.GetValue("position", typeof(Vector3));
             this.name = (String)info.GetValue("name", typeof(String));
@@ -75,6 +84,7 @@ namespace GameLibrary
 
         public virtual void GetObjectData(SerializationInfo info, StreamingContext ctxt)
         {
+            info.AddValue("id", this.id);
             info.AddValue("size", this.size, typeof(Vector3));
             info.AddValue("position", this.position, typeof(Vector3));
             info.AddValue("name", this.name);

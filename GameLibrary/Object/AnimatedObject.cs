@@ -146,7 +146,7 @@ namespace GameLibrary.Object
 
             if (this.CurrentBlock == null)
             {
-                this.CurrentBlock = Map.World.World.world.getBlockAtCoordinate(this.Position);
+                this.CurrentBlock = this.getDimensionIsIn().getBlockAtCoordinate(this.Position);
                 this.CurrentBlock.addObject(this);
             }
             Map.Block.Block var_Block = this.CurrentBlock;
@@ -193,7 +193,7 @@ namespace GameLibrary.Object
             if (var_X != 0 || var_Y != 0)
             {
                 Rectangle nextBounds = new Rectangle((int)(this.Bounds.Left + this.Velocity.X), (int)(this.Bounds.Top + this.Velocity.Y), (int)this.Bounds.Width, (int)this.Bounds.Height);
-                List<Object> objectsColliding = World.world.getObjectsColliding(nextBounds); // World.getObjectsColliding(nextBounds);
+                List<Object> objectsColliding = this.getDimensionIsIn().getObjectsColliding(nextBounds); // World.getObjectsColliding(nextBounds);
                 objectsColliding.Remove(this as LivingObject);
                 if (objectsColliding.Count < 1)
                 {

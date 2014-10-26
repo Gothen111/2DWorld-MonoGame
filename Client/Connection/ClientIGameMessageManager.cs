@@ -116,7 +116,7 @@ namespace Client.Connection
             {
                 if (true)
                 {
-                    GameLibrary.Map.Region.Region var_Region = GameLibrary.Map.World.World.world.getRegionAtPosition(message.Position);
+                    GameLibrary.Map.Region.Region var_Region = GameLibrary.Map.World.World.world.getDimensionById(message.DimensionId).getRegionAtPosition(message.Position);
                     if (var_Region != null)
                     {
                         if (var_Region.IsRequested)
@@ -138,7 +138,6 @@ namespace Client.Connection
             var message = new UpdateChunkMessage(_Im);
 
             var timeDelay = (float)(NetTime.Now - _Im.SenderConnection.GetLocalTime(message.MessageTime));
-            GameLibrary.Map.Region.Region var_Region = GameLibrary.Map.World.World.world.getRegion(message.RegionId);
         }
 
         private static void handleUpdateBlockMessage(NetIncomingMessage _Im)

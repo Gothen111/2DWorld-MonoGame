@@ -14,6 +14,7 @@ using System.Runtime.Serialization;
 
 #region Using Statements Class Specific
 using Lidgren.Network;
+using GameLibrary.Map.Region;
 #endregion
 
 namespace GameLibrary.Connection.Message
@@ -27,15 +28,18 @@ namespace GameLibrary.Connection.Message
             this.Decode(im);
         }
 
-        public RequestRegionMessage(Vector3 _Position)
+        public RequestRegionMessage(Region _Region)
         {
+            this.DimensionId = _Region.getParent().Id;
             this.MessageTime = NetTime.Now;
-            this.Position = _Position;
+            this.Position = _Region.Position;
         }
 
         #endregion
 
         #region Properties
+
+        public int DimensionId { get; set; }
 
         public double MessageTime { get; set; }
 
@@ -52,12 +56,14 @@ namespace GameLibrary.Connection.Message
 
         public void Decode(NetIncomingMessage im)
         {
+            this.DimensionId = im.ReadInt32();
             this.MessageTime = im.ReadDouble();
             this.Position = Lidgren.MonoGame.ReadVector3(im);
         }
 
         public void Encode(NetOutgoingMessage om)
         {
+            om.Write(this.DimensionId);
             om.Write(this.MessageTime);
             Lidgren.MonoGame.WriteVector3(this.Position, om);
         }

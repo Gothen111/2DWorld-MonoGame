@@ -19,6 +19,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lidgren", "Lidgren\Lidgren.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EA148583-7AC0-40DC-925E-311F43D563B0}"
 	ProjectSection(SolutionItems) = preProject
+		BUGS.TODO = BUGS.TODO
 		TODO.todo = TODO.todo
 	EndProjectSection
 EndProject

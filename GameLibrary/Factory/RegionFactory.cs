@@ -14,9 +14,10 @@ using System.Runtime.Serialization;
 
 #region Using Statements Class Specific
 using GameLibrary.Object;
-using GameLibrary.Map.World;
+using GameLibrary.Map.Dimension;
 using GameLibrary.Map.Region;
 using GameLibrary.Map.Chunk;
+using GameLibrary.Enums;
 #endregion
 
 namespace GameLibrary.Factory
@@ -25,31 +26,31 @@ namespace GameLibrary.Factory
     {
         public static RegionFactory regionFactory = new RegionFactory();
 
-        public Region generateRegion(String _Name, int _PosX, int _PosY, RegionEnum _RegionEnum, World _ParentWorld)
+        public Region generateRegion(String _Name, int _PosX, int _PosY, RegionEnum _RegionEnum, Dimension _ParentDimension)
         {
             switch (_RegionEnum)
             {
                 case RegionEnum.Grassland:
                     {
-                        return generateRegionGrassland(_Name, _PosX, _PosY, _ParentWorld);
+                        return generateRegionGrassland(_Name, _PosX, _PosY, _ParentDimension);
                     }
                 case RegionEnum.Snowland:
                     {
-                        return generateRegionSnowland(_Name, _PosX, _PosY, _ParentWorld);
+                        return generateRegionSnowland(_Name, _PosX, _PosY, _ParentDimension);
                     }
                 case RegionEnum.Lavaland:
                     {
-                        return generateRegionLavaland(_Name, _PosX, _PosY, _ParentWorld);
+                        return generateRegionLavaland(_Name, _PosX, _PosY, _ParentDimension);
                     }
             }
             return null;
         }
 
-        private Region generateRegionGrassland(String _Name, int _PosX, int _PosY, World _ParentWorld)
+        private Region generateRegionGrassland(String _Name, int _PosX, int _PosY, Dimension _ParentDimension)
         {
             Region var_Result;
 
-            var_Result = new Region(_Name, _PosX, _PosY, new Vector3(Region.regionSizeX, Region.regionSizeY, 0),  RegionEnum.Grassland, _ParentWorld);
+            var_Result = new Region(_Name, _PosX, _PosY, new Vector3(Region.regionSizeX, Region.regionSizeY, 0), RegionEnum.Grassland, _ParentDimension);
 
             //FarmFactory.farmFactory.generateFarms(var_Result, 1, 0);
 
@@ -58,22 +59,22 @@ namespace GameLibrary.Factory
             return var_Result;
         }
 
-        private Region generateRegionSnowland(String _Name, int _PosX, int _PosY, World _ParentWorld)
+        private Region generateRegionSnowland(String _Name, int _PosX, int _PosY, Dimension _ParentDimension)
         {
             Region var_Result;
 
-            var_Result = new Region(_Name, _PosX, _PosY, new Vector3(Region.regionSizeX, Region.regionSizeY, 0), RegionEnum.Snowland, _ParentWorld);
+            var_Result = new Region(_Name, _PosX, _PosY, new Vector3(Region.regionSizeX, Region.regionSizeY, 0), RegionEnum.Snowland, _ParentDimension);
 
             Logger.Logger.LogInfo("Region " + var_Result.Name + " wurde erstellt!");
 
             return var_Result;
         }
 
-        private Region generateRegionLavaland(String _Name, int _PosX, int _PosY, World _ParentWorld)
+        private Region generateRegionLavaland(String _Name, int _PosX, int _PosY, Dimension _ParentDimension)
         {
             Region var_Result;
 
-            var_Result = new Region(_Name, _PosX, _PosY, new Vector3(Region.regionSizeX, Region.regionSizeY, 0), RegionEnum.Lavaland, _ParentWorld);
+            var_Result = new Region(_Name, _PosX, _PosY, new Vector3(Region.regionSizeX, Region.regionSizeY, 0), RegionEnum.Lavaland, _ParentDimension);
 
             Logger.Logger.LogInfo("Region " + var_Result.Name + " wurde erstellt!");
 

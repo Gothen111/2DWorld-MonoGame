@@ -75,7 +75,7 @@ namespace GameLibrary.Object.Task.Tasks
             if (this.finishedWalking)
             {
                 targetPosition = new Vector2(Utility.Random.Random.GenerateGoodRandomNumber((int)(this.TaskOwner.Position.X - Chunk.chunkSizeX * Block.BlockSize / 2), (int)(this.TaskOwner.Position.X + Chunk.chunkSizeX * Block.BlockSize / 2)), Utility.Random.Random.GenerateGoodRandomNumber((int)(this.TaskOwner.Position.X - Chunk.chunkSizeX * Block.BlockSize / 2), (int)(this.TaskOwner.Position.X + Chunk.chunkSizeX * Block.BlockSize / 2)));
-                this.TaskOwner.Path = GameLibrary.Path.PathFinderAStar.generatePath(new Vector2(this.TaskOwner.Position.X, this.TaskOwner.Position.Y), new Vector2(this.targetPosition.X, this.targetPosition.Y));
+                this.TaskOwner.Path = GameLibrary.Path.PathFinderAStar.generatePath(this.TaskOwner.getDimensionIsIn(), new Vector2(this.TaskOwner.Position.X, this.TaskOwner.Position.Y), new Vector2(this.targetPosition.X, this.targetPosition.Y));
             }
             else
             {
@@ -104,7 +104,7 @@ namespace GameLibrary.Object.Task.Tasks
 
         private Path.Path createPath(Vector2 currentPosition, Vector2 targetPosition)
         {
-            return GameLibrary.Path.PathFinderAStar.generatePath(currentPosition, targetPosition);
+            return GameLibrary.Path.PathFinderAStar.generatePath(this.TaskOwner.getDimensionIsIn(), currentPosition, targetPosition);
         }
     }
 }

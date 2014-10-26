@@ -27,6 +27,8 @@ namespace GameLibrary.Map.World
                 {
                     if (_Target.CurrentBlock != null)
                     {
+                        Dimension.Dimension var_Dimension = this.getDimensionById(_Target.DimensionId);
+
                         int var_DrawSizeX = Setting.Setting.blockDrawRange;
                         int var_DrawSizeY = Setting.Setting.blockDrawRange;
 
@@ -42,7 +44,7 @@ namespace GameLibrary.Map.World
                                 {
 
                                 }
-                                Block.Block var_Block = this.getBlockAtCoordinate(var_Position);
+                                Block.Block var_Block = var_Dimension.getBlockAtCoordinate(var_Position);
                                 if (var_Block != null)
                                 {
                                     if (var_Block.IsRequested)

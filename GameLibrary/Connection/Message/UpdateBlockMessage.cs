@@ -17,6 +17,8 @@ using Lidgren.Network;
 using GameLibrary.Map.Block;
 using GameLibrary.Map.Chunk;
 using GameLibrary.Map.World;
+using GameLibrary.Map.Region;
+using GameLibrary.Enums;
 #endregion
 
 namespace GameLibrary.Connection.Message
@@ -32,9 +34,8 @@ namespace GameLibrary.Connection.Message
 
         public UpdateBlockMessage(Block _Block)
         {
-            //this.Id = _Block.Id;
+            this.DimensionId = ((Region)_Block.Parent.Parent).getParent().Id;
             this.MessageTime = NetTime.Now;
-            this.ChunkId = ((Chunk)_Block.Parent).Id;
             this.Block = _Block;
         }
 
@@ -42,14 +43,11 @@ namespace GameLibrary.Connection.Message
 
         #region Properties
 
-        //public int Id { get; set; }
+        public int DimensionId { get; set; }
 
         public double MessageTime { get; set; }
 
-        public int ChunkId { get; set; }
-
         public Block Block { get; set; }
-
 
         #endregion
 
@@ -62,14 +60,14 @@ namespace GameLibrary.Connection.Message
 
         public void Decode(NetIncomingMessage im)
         {
+            this.DimensionId = im.ReadInt32();
             this.MessageTime = im.ReadDouble();
-            this.ChunkId = im.ReadInt32();
 
             Microsoft.Xna.Framework.Vector3 var_Position = Lidgren.MonoGame.ReadVector3(im);
 
-            this.Block = World.world.getBlockAtCoordinate(var_Position);
+            this.Block = Map.World.World.world.getDimensionById(this.DimensionId).getBlockAtCoordinate(var_Position);
 
-            int var_Size = Enum.GetValues(typeof(Map.Block.BlockLayerEnum)).Length;
+            int var_Size = Enum.GetValues(typeof(BlockLayerEnum)).Length;
 
             if (this.Block != null)
             {
@@ -77,7 +75,7 @@ namespace GameLibrary.Connection.Message
                 {
                     for (int i = 0; i < var_Size; i++)
                     {
-                        this.Block.Layer[i] = (Map.Block.BlockEnum)im.ReadInt32();
+                        this.Block.Layer[i] = (BlockEnum)im.ReadInt32();
                     }
                 }
                 this.Block.IsRequested = false;
@@ -86,12 +84,12 @@ namespace GameLibrary.Connection.Message
 
         public void Encode(NetOutgoingMessage om)
         {
-            om.Write(this.MessageTime);
-            om.Write(this.ChunkId);
+            om.Write(this.DimensionId);
+            om.Write(this.MessageTime);    
 
             Lidgren.MonoGame.WriteVector3(this.Block.Position, om);
 
-            int var_Size = Enum.GetValues(typeof(Map.Block.BlockLayerEnum)).Length;
+            int var_Size = Enum.GetValues(typeof(BlockLayerEnum)).Length;
 
             if (this.Block != null)
             {

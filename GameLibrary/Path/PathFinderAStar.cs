@@ -16,6 +16,7 @@ using GameLibrary.Map.Region;
 using GameLibrary.Map.Chunk;
 using GameLibrary.Map.Block;
 using GameLibrary.Path.AStar;
+using GameLibrary.Map.Dimension;
 #endregion
 
 namespace GameLibrary.Path
@@ -40,7 +41,7 @@ namespace GameLibrary.Path
 
     public class PathFinderAStar
     {
-        public static Path generatePath(Vector2 _StartPosition, Vector2 _EndPosition)
+        public static Path generatePath(Dimension _Dimension, Vector2 _StartPosition, Vector2 _EndPosition)
         {
             try
             {
@@ -65,7 +66,7 @@ namespace GameLibrary.Path
                         int var_X = (int)_StartPosition.X + (-var_SizeX / 2 + x) * Block.BlockSize;
                         int var_Y = (int)_StartPosition.Y + (-var_SizeX / 2 + y) * Block.BlockSize;
 
-                        Block var_Block = World.world.getBlockAtCoordinate(new Vector3(var_X, var_Y, 0));
+                        Block var_Block = _Dimension.getBlockAtCoordinate(new Vector3(var_X, var_Y, 0));
                         if (var_Block != null)
                         {
                             // TODO: Das Problem noch fixxen, falls object in/auf mauer/Wall! WEil dann ommt n komischer pfad ;)

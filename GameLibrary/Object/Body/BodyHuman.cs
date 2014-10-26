@@ -55,7 +55,7 @@ namespace GameLibrary.Object.Body
         {
             this.hair = new BodyPart(2, new Vector3(0, 0, 0), this.BodyColor, "");  
             this.armLeft = new BodyPart(1, new Vector3(0, 0, 0), this.BodyColor, "");
-            this.armLeft.AcceptedItemTypes.Add(Factory.FactoryEnums.ItemEnum.Weapon);
+            this.armLeft.AcceptedItemTypes.Add(Enums.ItemEnum.Weapon);
 
             this.BodyParts.Add(this.hair);
             this.BodyParts.Add(this.armLeft);

@@ -13,7 +13,7 @@ using System.Runtime.Serialization;
 #region Using Statements Class Specific
 #endregion
 
-namespace GameLibrary.Map.Block
+namespace GameLibrary.Enums
 {
     public enum BlockEnum
     {

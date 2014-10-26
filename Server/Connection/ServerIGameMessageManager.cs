@@ -104,7 +104,7 @@ namespace Server.Connection
 
             Client var_Client = Configuration.networkManager.getClient(_Im.SenderEndPoint);
 
-            GameLibrary.Map.Region.Region var_Region = GameLibrary.Map.World.World.world.getRegionAtPosition(message.Position);
+            GameLibrary.Map.Region.Region var_Region = GameLibrary.Map.World.World.world.getDimensionById(message.DimensionId).getRegionAtPosition(message.Position);
 
             if (var_Region != null)
             {
@@ -124,7 +124,7 @@ namespace Server.Connection
 
             Client var_Client = Configuration.networkManager.getClient(_Im.SenderEndPoint);
 
-            GameLibrary.Map.Chunk.Chunk var_Chunk = GameLibrary.Map.World.World.world.getChunkAtPosition(message.Position);
+            GameLibrary.Map.Chunk.Chunk var_Chunk = GameLibrary.Map.World.World.world.getDimensionById(message.DimensionId).getChunkAtPosition(message.Position);
 
             //GameLibrary.Logger.Logger.LogDeb("Client Requested Chunk at X: " + message.Position.X + " Y: " + message.Position.Y);
 
@@ -153,7 +153,7 @@ namespace Server.Connection
             Client var_Client = Configuration.networkManager.getClient(_Im.SenderEndPoint);
 
             //GameLibrary.Model.Map.Chunk.Chunk var_Chunk = GameLibrary.Model.Map.World.World.world.getChunkAtPosition(message.Position.X, message.Position.Y);
-            GameLibrary.Map.Block.Block var_Block = GameLibrary.Map.World.World.world.getBlockAtCoordinate(message.Position);
+            GameLibrary.Map.Block.Block var_Block = GameLibrary.Map.World.World.world.getDimensionById(message.DimensionId).getBlockAtCoordinate(message.Position);
 
             //GameLibrary.Logger.Logger.LogDeb("Client Requested Block at X: " + message.Position.X + " Y: " + message.Position.Y);
 

@@ -64,7 +64,7 @@ namespace GameLibrary.Object
             GameLibrary.Object.Equipment.EquipmentWeapon var_EquipmentWeaponForAttack = this.Body.attack();
             if (var_EquipmentWeaponForAttack != null && var_EquipmentWeaponForAttack.isAttackReady(_AttackType))
 	        {
-                List<Object> var_Objects = World.world.getObjectsInRange(this.Position, var_EquipmentWeaponForAttack.getAttack(_AttackType).Range, var_EquipmentWeaponForAttack.SearchFlags);
+                List<Object> var_Objects = this.getDimensionIsIn().getObjectsInRange(this.Position, var_EquipmentWeaponForAttack.getAttack(_AttackType).Range, var_EquipmentWeaponForAttack.SearchFlags);
                 var_Objects.Remove(this);
                 foreach (Object var_Object in var_Objects)
                 {

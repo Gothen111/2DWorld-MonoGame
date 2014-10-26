@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using System.Runtime.Serialization;
 using GameLibrary.Connection.Message;
 using GameLibrary.Connection;
+using GameLibrary.Enums;
 #endregion
 
 #region Using Statements Class Specific

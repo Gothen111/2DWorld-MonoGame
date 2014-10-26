@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using GameLibrary.Factory.FactoryEnums;
+using GameLibrary.Enums;
 
 namespace GameLibrary.Factory
 {

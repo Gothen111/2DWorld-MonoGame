@@ -9,6 +9,8 @@ using Microsoft.Xna.Framework.Storage;
 using Microsoft.Xna.Framework.GamerServices;
 using System.Runtime.Serialization;
 using Utility.Corpus;
+using GameLibrary.Map.Dimension;
+using GameLibrary.Map.World;
 #endregion
 
 #region Using Statements Class Specific
@@ -19,13 +21,10 @@ namespace GameLibrary.Object
     [Serializable()]
     public class Object : WorldElement
     {
-        public static int _id = 0;
-        private int id = _id++;
-
-        public int Id
+        private static int lastId = 0;
+        private int getId()
         {
-            get { return id; }
-            set { id = value; }
+            return lastId++;
         }
 
         private List<Rectangle> collisionBounds;
@@ -58,8 +57,17 @@ namespace GameLibrary.Object
             set { velocity = value; }
         }
 
+        private int dimensionId;
+
+        public int DimensionId
+        {
+            get { return dimensionId; }
+            set { dimensionId = value; }
+        }
+
         public Object()
         {
+            this.Id = this.getId();
             this.collisionBounds = new List<Rectangle>();
             this.objects = new List<Object>();
         }
@@ -67,8 +75,6 @@ namespace GameLibrary.Object
         public Object(SerializationInfo info, StreamingContext ctxt)
             : base(info, ctxt)
         {
-            this.Id = (int)info.GetValue("Id", typeof(int));
-
             this.velocity = (Vector3)info.GetValue("velocity", typeof(Vector3));
 
             this.boundsChanged();
@@ -87,8 +93,6 @@ namespace GameLibrary.Object
         public override void GetObjectData(SerializationInfo info, StreamingContext ctxt)
         {
             base.GetObjectData(info, ctxt);
-            info.AddValue("Id", this.Id, typeof(int));
-
             info.AddValue("velocity", this.velocity, typeof(Vector3));
 
             info.AddValue("objects", this.objects, typeof(List<Object>));
@@ -115,7 +119,7 @@ namespace GameLibrary.Object
         public virtual bool teleportTo(Vector3 _Position)
         {
             //TODO: Hat noch Bugs, wenn map noch nicht da ist :/ also block gleich null.... da muss man sich was überlegen :)
-            GameLibrary.Map.Block.Block var_Block = GameLibrary.Map.World.World.world.getBlockAtCoordinate(_Position);
+            GameLibrary.Map.Block.Block var_Block = this.getDimensionIsIn().getBlockAtCoordinate(_Position);
             if(var_Block!=null)
             {
                 this.currentBlock.removeObject(this);  
@@ -132,6 +136,11 @@ namespace GameLibrary.Object
             }
 
             return false;
+        }
+
+        public Dimension getDimensionIsIn()
+        {
+            return World.world.getDimensionById(this.dimensionId);
         }
     }
 }

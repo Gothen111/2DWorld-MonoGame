@@ -13,13 +13,13 @@ using System.Runtime.Serialization;
 #region Using Statements Class Specific
 #endregion
 
-namespace GameLibrary.Map.Region
+namespace GameLibrary.Enums
 {
-    public enum RegionEnum
+    public enum BlockLayerEnum
     {
-        Grassland,
-        Snowland,
-        Lavaland,
-        Dungeon
+        Layer1,
+        Layer2,
+        Layer3,
+        Layer4
     }
 }

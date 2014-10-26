@@ -11,6 +11,7 @@ using System.Runtime.Serialization;
 using Utility.Corpus;
 using GameLibrary.Connection.Message;
 using GameLibrary.Connection;
+using GameLibrary.Enums;
 #endregion
 
 #region Using Statements Class Specific
@@ -21,15 +22,6 @@ namespace GameLibrary.Map.Region
     [Serializable()]
     public class Region : Box
     {
-        public static int _id = 0;
-        private int id = _id++;
-
-        public int Id
-        {
-            get { return id; }
-            set { id = value; }
-        }
-
         public static int regionSizeX = 10;
         public static int regionSizeY = 10;
 
@@ -49,7 +41,7 @@ namespace GameLibrary.Map.Region
             set { regionEnum = value; }
         }
 
-        public Region(String _Name, int _PosX, int _PosY, Vector3 _Size, RegionEnum _RegionEnum, World.World _ParentWorld)
+        public Region(String _Name, int _PosX, int _PosY, Vector3 _Size, RegionEnum _RegionEnum, Dimension.Dimension _ParentDimension)
         {
             this.Name = _Name;
             this.Position = new Vector3(_PosX, _PosY, 0);
@@ -60,7 +52,7 @@ namespace GameLibrary.Map.Region
 
             this.regionEnum = _RegionEnum;
 
-            this.Parent = _ParentWorld;
+            this.Parent = _ParentDimension;
 
             if (Configuration.Configuration.isHost || Configuration.Configuration.isSinglePlayer)
             {
@@ -74,7 +66,6 @@ namespace GameLibrary.Map.Region
         public Region(SerializationInfo info, StreamingContext ctxt) 
             : base(info, ctxt)
         {
-            this.id = (int)info.GetValue("id", typeof(int));
             this.regionEnum = (RegionEnum)info.GetValue("regionEnum", typeof(int));
 
             this.chunks = new Chunk.Chunk[regionSizeX * regionSizeY];
@@ -83,8 +74,12 @@ namespace GameLibrary.Map.Region
         public override void GetObjectData(SerializationInfo info, StreamingContext ctxt)
         {
             base.GetObjectData(info, ctxt);
-            info.AddValue("id", this.id, typeof(int));
             info.AddValue("regionEnum", this.regionEnum, typeof(int));
+        }
+
+        public Dimension.Dimension getParent()
+        {
+            return (Dimension.Dimension)this.Parent;
         }
 
         public bool setChunkAtPosition(Vector3 _Position, Chunk.Chunk _Chunk)
@@ -168,7 +163,7 @@ namespace GameLibrary.Map.Region
 
         public void setAllNeighboursOfChunk(Chunk.Chunk _Chunk)
         {
-            Chunk.Chunk var_ChunkNeighbourLeft = World.World.world.getChunkAtPosition(new Vector3(_Chunk.Position.X - Chunk.Chunk.chunkSizeX*Block.Block.BlockSize, _Chunk.Position.Y, 0));
+            Chunk.Chunk var_ChunkNeighbourLeft = this.getParent().getChunkAtPosition(new Vector3(_Chunk.Position.X - Chunk.Chunk.chunkSizeX*Block.Block.BlockSize, _Chunk.Position.Y, 0));
 
             if (var_ChunkNeighbourLeft != null)
             {
@@ -187,7 +182,7 @@ namespace GameLibrary.Map.Region
                 }
             }
 
-            Chunk.Chunk var_ChunkNeighbourRight = World.World.world.getChunkAtPosition(new Vector3(_Chunk.Position.X + Chunk.Chunk.chunkSizeX * Block.Block.BlockSize, _Chunk.Position.Y, 0));
+            Chunk.Chunk var_ChunkNeighbourRight = this.getParent().getChunkAtPosition(new Vector3(_Chunk.Position.X + Chunk.Chunk.chunkSizeX * Block.Block.BlockSize, _Chunk.Position.Y, 0));
 
             if (var_ChunkNeighbourRight != null)
             {
@@ -206,7 +201,7 @@ namespace GameLibrary.Map.Region
                 }
             }
 
-            Chunk.Chunk var_ChunkNeighbourTop = World.World.world.getChunkAtPosition(new Vector3(_Chunk.Position.X, _Chunk.Position.Y - Chunk.Chunk.chunkSizeX * Block.Block.BlockSize, 0));
+            Chunk.Chunk var_ChunkNeighbourTop = this.getParent().getChunkAtPosition(new Vector3(_Chunk.Position.X, _Chunk.Position.Y - Chunk.Chunk.chunkSizeX * Block.Block.BlockSize, 0));
 
             if (var_ChunkNeighbourTop != null)
             {
@@ -225,7 +220,7 @@ namespace GameLibrary.Map.Region
                 }
             }
 
-            Chunk.Chunk var_ChunkNeighbourBottom = World.World.world.getChunkAtPosition(new Vector3(_Chunk.Position.X, _Chunk.Position.Y + Chunk.Chunk.chunkSizeX * Block.Block.BlockSize, 0));
+            Chunk.Chunk var_ChunkNeighbourBottom = this.getParent().getChunkAtPosition(new Vector3(_Chunk.Position.X, _Chunk.Position.Y + Chunk.Chunk.chunkSizeX * Block.Block.BlockSize, 0));
 
             if (var_ChunkNeighbourBottom != null)
             {
@@ -281,7 +276,7 @@ namespace GameLibrary.Map.Region
                 Chunk.Chunk var_Chunk = (Chunk.Chunk)Utility.IO.IOManager.LoadISerializeAbleObjectFromFile(var_Path);//Utility.Serializer.DeSerializeObject(var_Path);
                 if (var_Chunk != null)
                 {
-                    var_Chunk.Parent = GameLibrary.Map.World.World.world.getRegion(this.id);
+                    var_Chunk.Parent = this;
                     var_Chunk.setAllNeighboursOfBlocks();
                     return var_Chunk;
                 }
@@ -382,8 +377,28 @@ namespace GameLibrary.Map.Region
             }
             else
             {
-                Configuration.Configuration.networkManager.addEvent(new RequestRegionMessage(this.Position), GameMessageImportance.VeryImportant);
+                Configuration.Configuration.networkManager.addEvent(new RequestRegionMessage(this), GameMessageImportance.VeryImportant);
             }
+        }
+
+        public bool setBlockAtCoordinate(Vector3 _Position, Block.Block _Block)
+        {
+            Chunk.Chunk var_Chunk = this.getChunkAtPosition(_Position);
+            if (var_Chunk != null)
+            {
+                return var_Chunk.setBlockAtCoordinate(_Position, _Block);
+            }
+            return false;
+        }
+
+        public Block.Block getBlockAtCoordinate(Vector3 _Position)
+        {
+            Chunk.Chunk var_Chunk = this.getChunkAtPosition(_Position);
+            if (var_Chunk != null)
+            {
+                return var_Chunk.getBlockAtCoordinate(_Position);
+            }
+            return null;
         }
     }
 }

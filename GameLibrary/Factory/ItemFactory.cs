@@ -17,7 +17,7 @@ using GameLibrary.Object;
 using GameLibrary.Map.World;
 using GameLibrary.Map.Region;
 using GameLibrary.Map.Chunk;
-using GameLibrary.Factory.FactoryEnums;
+using GameLibrary.Enums;
 #endregion
 
 namespace GameLibrary.Factory

@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using System.Runtime.Serialization;
 using GameLibrary.Connection.Message;
 using GameLibrary.Connection;
+using GameLibrary.Enums;
 #endregion
 
 #region Using Statements Class Specific
@@ -72,7 +73,7 @@ namespace GameLibrary.Map.Block
             this.Position = new Vector3(_PosX, _PosY, 0);
             this.Parent = _ParentChunk;
 
-            objectsPreEnviorment = new List<Object.Object>();
+            this.objectsPreEnviorment = new List<Object.Object>();
 
             this.isWalkAble = true;
             this.height = 0;
@@ -83,7 +84,7 @@ namespace GameLibrary.Map.Block
             :base(info, ctxt)
         {
             this.layer = (BlockEnum[])info.GetValue("layer", typeof(BlockEnum[]));
-            this.objects = (List<Object.Object>)info.GetValue("objects", typeof(List<Object.Object>));
+            /*this.objects = (List<Object.Object>)info.GetValue("objects", typeof(List<Object.Object>));
             foreach (Object.Object var_Object in this.objects)
             {
                 GameLibrary.Map.World.World.world.QuadTreeObject.Insert(var_Object);
@@ -93,7 +94,11 @@ namespace GameLibrary.Map.Block
             foreach (Object.Object var_Object in this.objectsPreEnviorment)
             {
                 var_Object.CurrentBlock = this;
-            }
+            }*/
+
+            this.objects = new List<Object.Object>();
+            this.objectsPreEnviorment = new List<Object.Object>();
+
             this.height = (int)info.GetValue("height", typeof(int));
             this.isWalkAble = (bool)info.GetValue("isWalkAble", typeof(bool));
         }
@@ -182,6 +187,8 @@ namespace GameLibrary.Map.Block
 
             String var_RegionType = ((Region.Region)this.Parent.Parent).RegionEnum.ToString();
 
+            String var_TexturePath = "Region/" + var_RegionType + "/" + var_RegionType;
+
             /*for(int i = 0; i < this.height; i++)
             {
                 _SpriteBatch.Draw(Ressourcen.RessourcenManager.ressourcenManager.Texture["Region/" + var_RegionType + "/Block/" + "Wall"], var_DrawPosition - new Vector2(0, BlockSize * i), var_Color);
@@ -193,7 +200,7 @@ namespace GameLibrary.Map.Block
                 BlockEnum var_Enum = this.layer[(int)var_Layer];
                 if (var_Enum != BlockEnum.Nothing)
                 {
-                    _SpriteBatch.Draw(Ressourcen.RessourcenManager.ressourcenManager.Texture["Region/" + var_RegionType + "/" + var_RegionType], var_DrawPosition, new Rectangle((int)(var_Enum-1) * BlockSize, (int)(var_Layer) * BlockSize, BlockSize, BlockSize), var_Color);
+                    _SpriteBatch.Draw(Ressourcen.RessourcenManager.ressourcenManager.Texture[var_TexturePath], var_DrawPosition, new Rectangle((int)(var_Enum - 1) * BlockSize, (int)(var_Layer) * BlockSize, BlockSize, BlockSize), var_Color);
                 }
                 var_Layer += 1;
             }
@@ -244,7 +251,7 @@ namespace GameLibrary.Map.Block
             }
             else
             {
-                Configuration.Configuration.networkManager.addEvent(new RequestBlockMessage(this.Position), GameMessageImportance.VeryImportant);                   
+                Configuration.Configuration.networkManager.addEvent(new RequestBlockMessage(this), GameMessageImportance.VeryImportant);                   
             }
         }
     }

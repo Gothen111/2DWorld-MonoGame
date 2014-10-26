@@ -11,7 +11,7 @@ using System.Runtime.Serialization;
 #endregion
 
 #region Using Statements Class Specific
-using GameLibrary.Factory.FactoryEnums;
+using GameLibrary.Enums;
 using GameLibrary.Object.ObjectEnums;
 using GameLibrary.Object.Animation.Animations;
 #endregion

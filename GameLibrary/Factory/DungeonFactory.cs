@@ -12,7 +12,7 @@ using System.Runtime.Serialization;
 
 #region Using Statements Class Specific
 using GameLibrary.Map.Region;
-using GameLibrary.Map.DungeonGeneration;
+//using GameLibrary.Map.DungeonGeneration;
 using GameLibrary.Map.World;
 #endregion
 
@@ -27,7 +27,7 @@ namespace GameLibrary.Factory
     {
         public static Region createDungeon(Vector3 _Position, Vector3 _Size, DungeonType _DungeonType, World _ParentWorld)
         {
-            Dungeon var_Dungeon = null;
+            /*Dungeon var_Dungeon = null;
 
             switch (_DungeonType)
             {
@@ -39,7 +39,7 @@ namespace GameLibrary.Factory
             {
                 var_Dungeon.createDungeon();
                 return var_Dungeon;
-            }
+            }*/
             return null;
         }
     }

@@ -15,6 +15,7 @@ using System.Runtime.Serialization;
 #region Using Statements Class Specific
 using Lidgren.Network;
 using GameLibrary.Map.Region;
+using GameLibrary.Enums;
 #endregion
 
 namespace GameLibrary.Connection.Message
@@ -30,9 +31,8 @@ namespace GameLibrary.Connection.Message
 
         public UpdateRegionMessage(Region _Region)
         {
-            this.Id = _Region.Id;
+            this.DimensionId = _Region.getParent().Id;
             this.MessageTime = NetTime.Now;
-            //this.Region = _Region;
             this.Position = _Region.Position;
             this.RegionEnum = _Region.RegionEnum;
         }
@@ -41,11 +41,9 @@ namespace GameLibrary.Connection.Message
 
         #region Properties
 
-        public int Id { get; set; }
+        public int DimensionId { get; set; }
 
         public double MessageTime { get; set; }
-
-        //public Model.Map.Region.Region Region { get; set; }
 
         public RegionEnum RegionEnum { get; set; }
 
@@ -62,11 +60,8 @@ namespace GameLibrary.Connection.Message
 
         public void Decode(NetIncomingMessage im)
         {
-            this.Id = im.ReadInt32();
+            this.DimensionId = im.ReadInt32();
             this.MessageTime = im.ReadDouble();
-
-            //this.Region = Utility.Serializer.DeserializeObjectFromString<Model.Map.Region.Region>(im.ReadString());
-            //this.Region.Parent = Model.Map.World.World.world;
 
             this.Position = Lidgren.MonoGame.ReadVector3(im);
 
@@ -75,7 +70,7 @@ namespace GameLibrary.Connection.Message
 
         public void Encode(NetOutgoingMessage om)
         {
-            om.Write(this.Id);
+            om.Write(this.DimensionId);
             om.Write(this.MessageTime);
 
             //om.Write(Utility.Serializer.SerializeObjectToString(this.Region));

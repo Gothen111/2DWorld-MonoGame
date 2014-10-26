@@ -18,7 +18,7 @@ using GameLibrary.Map.World;
 using GameLibrary.Map.Region;
 using GameLibrary.Map.Chunk;
 using GameLibrary.Map.Block;
-using GameLibrary.Factory.FactoryEnums;
+using GameLibrary.Enums;
 using GameLibrary.Object.Equipment;
 using GameLibrary.Object.Equipment.Attack;
 #endregion

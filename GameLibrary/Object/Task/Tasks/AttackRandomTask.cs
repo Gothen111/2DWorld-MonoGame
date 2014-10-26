@@ -75,7 +75,7 @@ namespace GameLibrary.Object.Task.Tasks
             if (updateWantToDo <= 0)
             {
                 wantToDoTaskCheck = true;
-                List<Object> var_Objects = GameLibrary.Map.World.World.world.getObjectsInRange(this.TaskOwner.Position, this.TaskOwner.AggroRange);
+                List<Object> var_Objects = this.TaskOwner.getDimensionIsIn().getObjectsInRange(this.TaskOwner.Position, this.TaskOwner.AggroRange);
                 if (var_Objects.Count <= 1)
                     wantToDoTaskCheck = false;
                 updateWantToDo = 20;
@@ -102,7 +102,7 @@ namespace GameLibrary.Object.Task.Tasks
                 }
                 else
                 {
-                    List<Object> var_Objects = GameLibrary.Map.World.World.world.getObjectsInRange(this.TaskOwner.Position, this.TaskOwner.AggroRange);
+                    List<Object> var_Objects = this.TaskOwner.getDimensionIsIn().getObjectsInRange(this.TaskOwner.Position, this.TaskOwner.AggroRange);
                     var_Objects.Remove(this.TaskOwner);
                     if (var_Objects.Count > 0)
                     {
@@ -129,7 +129,7 @@ namespace GameLibrary.Object.Task.Tasks
             {
                 if (target.IsDead)
                 {
-                    List<Object> var_Objects = GameLibrary.Map.World.World.world.getObjectsInRange(this.TaskOwner.Position, this.TaskOwner.AggroRange);
+                    List<Object> var_Objects = this.TaskOwner.getDimensionIsIn().getObjectsInRange(this.TaskOwner.Position, this.TaskOwner.AggroRange);
                     var_Objects.Remove(this.TaskOwner);
                     if (var_Objects.Count > 0)
                     {
@@ -201,7 +201,7 @@ namespace GameLibrary.Object.Task.Tasks
                     //Bzw JPS noch optmieren :/
                      */
 
-                    this.TaskOwner.Path = GameLibrary.Path.PathFinderAStar.generatePath(new Vector2(this.TaskOwner.Position.X, this.TaskOwner.Position.Y), new Vector2(this.target.Position.X, this.target.Position.Y));
+                    this.TaskOwner.Path = GameLibrary.Path.PathFinderAStar.generatePath(this.TaskOwner.getDimensionIsIn(), new Vector2(this.TaskOwner.Position.X, this.TaskOwner.Position.Y), new Vector2(this.target.Position.X, this.target.Position.Y));
                         
                     
                     if (this.TaskOwner.Path != null)

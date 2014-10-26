@@ -41,13 +41,13 @@ namespace GameLibrary.Object
         public override void onChangedChunk()
         {
             base.onChangedChunk();
-            if (Configuration.Configuration.isHost)
+            /*if (Configuration.Configuration.isHost)
             {
                 World.world.checkPlayerObjectNeighbourChunks(this);
             }
             else
             {   
-            }   
+            }*/   
         }
     }
 }

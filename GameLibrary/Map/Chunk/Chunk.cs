@@ -8,12 +8,12 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
 using Microsoft.Xna.Framework.GamerServices;
 using System.Runtime.Serialization;
-using Utility.Corpus;
-using GameLibrary.Connection.Message;
-using GameLibrary.Connection;
 #endregion
 
 #region Using Statements Class Specific
+using Utility.Corpus;
+using GameLibrary.Connection.Message;
+using GameLibrary.Connection;
 #endregion
 
 namespace GameLibrary.Map.Chunk
@@ -21,15 +21,6 @@ namespace GameLibrary.Map.Chunk
     [Serializable()]
     public class Chunk : Box
     {
-        public static int _id = 0;
-        private int id = _id++;
-
-        public int Id
-        {
-            get { return id; }
-            set { id = value; }
-        }
-
         public static int chunkSizeX = 10;
         public static int chunkSizeY = 10;
 
@@ -82,8 +73,7 @@ namespace GameLibrary.Map.Chunk
 
         public Chunk(SerializationInfo info, StreamingContext ctxt) 
             :base(info, ctxt)
-        {
-            this.id = (int)info.GetValue("id", typeof(int));
+        {         
             //this.blocks = (Block.Block[,])info.GetValue("blocks", typeof(Block.Block[,]));
             this.blocks = new Block.Block[(int)this.Size.X * (int)this.Size.Y];
             //setAllNeighboursOfBlocks();
@@ -92,7 +82,6 @@ namespace GameLibrary.Map.Chunk
         public override void GetObjectData(SerializationInfo info, StreamingContext ctxt)
         {
             base.GetObjectData(info, ctxt);
-            info.AddValue("id", this.id);
             //info.AddValue("blocks", this.blocks, typeof(Block.Block[,]));
         }
 
@@ -283,7 +272,7 @@ namespace GameLibrary.Map.Chunk
             }
             else
             {
-                Configuration.Configuration.networkManager.addEvent(new RequestChunkMessage(this.Position), GameMessageImportance.VeryImportant);
+                Configuration.Configuration.networkManager.addEvent(new RequestChunkMessage(this), GameMessageImportance.VeryImportant);
             }
         }
     }

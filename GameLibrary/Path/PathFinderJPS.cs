@@ -17,13 +17,14 @@ using GameLibrary.Map.Chunk;
 using GameLibrary.Map.Block;
 using GameLibrary.Path.JPS.EpPathFinding;
 using GameLibrary.Path.JPS.General;
+using GameLibrary.Map.Dimension;
 #endregion
 
 namespace GameLibrary.Path
 {
     public class PathFinderJPS
     {
-        public static Path generatePath(Vector2 _StartPosition, Vector2 _EndPosition)
+        public static Path generatePath(Dimension _Dimension, Vector2 _StartPosition, Vector2 _EndPosition)
         {
             try
             {
@@ -51,7 +52,7 @@ namespace GameLibrary.Path
                         int var_X = (int)_StartPosition.X + (-var_SizeX / 2 + x) * Block.BlockSize;
                         int var_Y = (int)_StartPosition.Y + (-var_SizeX / 2 + y) * Block.BlockSize;
 
-                        Block var_Block = World.world.getBlockAtCoordinate(new Vector3(var_X, var_Y, 0));
+                        Block var_Block = _Dimension.getBlockAtCoordinate(new Vector3(var_X, var_Y, 0));
                         bool var_IsWalkAble = false;
                         if (var_Block != null)
                         {
@@ -93,7 +94,7 @@ namespace GameLibrary.Path
                     int var_X = (int)_StartPosition.X + (-var_SizeX / 2 + var_PathNode.X) * Block.BlockSize;
                     int var_Y = (int)_StartPosition.Y + (-var_SizeX / 2 + var_PathNode.Y) * Block.BlockSize;
 
-                    Block var_Block = World.world.getBlockAtCoordinate(new Vector3(var_X, var_Y, 0));
+                    Block var_Block = _Dimension.getBlockAtCoordinate(new Vector3(var_X, var_Y, 0));
 
                     var_PathNode.block = var_Block;
 

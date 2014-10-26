@@ -66,7 +66,7 @@ namespace GameLibrary.Map.World
             }
         }
 
-        public void checkPlayerObjectNeighbourChunks(Object.PlayerObject _PlayerObject)
+        /*public void checkPlayerObjectNeighbourChunks(Object.PlayerObject _PlayerObject)
         {
             World var_World = GameLibrary.Map.World.World.world;
             if (_PlayerObject != null && _PlayerObject.CurrentBlock != null)
@@ -104,7 +104,7 @@ namespace GameLibrary.Map.World
             {
                 Logger.Logger.LogErr("World.Player.checkPlayerObjectNeighbourChunks -> PlayerObject ist null");
             }
-        }
+        }*/
 
         #endregion
     }

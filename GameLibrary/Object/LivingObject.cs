@@ -15,7 +15,7 @@ using System.Runtime.Serialization;
 #region Using Statements Class Specific
 using GameLibrary.Object.Task;
 using GameLibrary.Object.Interaction;
-using GameLibrary.Factory.FactoryEnums;
+using GameLibrary.Enums;
 using GameLibrary.Connection;
 #endregion
 
@@ -273,7 +273,7 @@ namespace GameLibrary.Object
 
         public void interact()
         {
-            List<Object> var_Objects = GameLibrary.Map.World.World.world.getObjectsInRange(this.Position, this.Size.X + 5);
+            List<Object> var_Objects = this.getDimensionIsIn().getObjectsInRange(this.Position, this.Size.X + 5);
             var_Objects.Remove(this);
             foreach (Object var_Object in var_Objects)
             {
