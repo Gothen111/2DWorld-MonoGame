@@ -87,6 +87,11 @@ namespace GameLibrary.Path
                     PathNode var_NextNode = this.getNextNode();
                     if (var_NextNode != null)
                     {
+                        if (_LivingObject == null || var_NextNode == null || var_NextNode.block == null)
+                        {
+                            return;
+                        }
+
                         if (this.isInRange(new Vector2(_LivingObject.Position.X, _LivingObject.Position.Y), new Vector2(var_NextNode.block.Position.X + 16, var_NextNode.block.Position.Y + 16), (int)_LivingObject.MovementSpeed*15))
                         {
                             var_NextNode = this.extractFirst();

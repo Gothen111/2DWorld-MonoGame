@@ -57,7 +57,7 @@ namespace GameLibrary.Map.Dimension
 
         public Dimension(World.World _ParentWorld)
         {
-            this.Id = getId();
+            this.Id = this.getId();
 
             this.Parent = _ParentWorld;
 
@@ -535,20 +535,38 @@ namespace GameLibrary.Map.Dimension
                 Chunk.Chunk chunk = _Region.getChunkObjectIsIn(_Object);
                 if (chunk != null)
                 {
-                    if (this.getObject(_Object.Id) == null)
+                    Block.Block var_Block = chunk.getBlockAtCoordinate(_Object.Position);
+                    if (var_Block != null)
                     {
-                        Block.Block var_Block = chunk.getBlockAtCoordinate(_Object.Position);
-                        if (var_Block != null)
+                        var_Block.addObject(_Object);
+                        if (Configuration.Configuration.isHost)
                         {
-                            var_Block.addObject(_Object);
-                            /*if (insertInQuadTree)
-                            {
-                                this.quadTreeObject.Insert(_Object);
-                            }*/
-                            if (Configuration.Configuration.isHost)
-                            {
-                                Configuration.Configuration.networkManager.addEvent(new GameLibrary.Connection.Message.UpdateObjectMessage(_Object), GameMessageImportance.VeryImportant);
-                            }
+                            Configuration.Configuration.networkManager.addEvent(new GameLibrary.Connection.Message.UpdateObjectMessage(_Object), GameMessageImportance.VeryImportant);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                Logger.Logger.LogInfo("World.addObject: Object konnte der Region nicht hinzugefügt werden, da diese null war");
+            }
+            return _Object;
+        }
+
+        public Object.Object addPreEnvironmentObject(Object.Object _Object, Region.Region _Region)
+        {
+            if (_Region != null)
+            {
+                Chunk.Chunk chunk = _Region.getChunkObjectIsIn(_Object);
+                if (chunk != null)
+                {
+                    Block.Block var_Block = chunk.getBlockAtCoordinate(_Object.Position);
+                    if (var_Block != null)
+                    {
+                        var_Block.addPreEnvironmentObject(_Object);
+                        if (Configuration.Configuration.isHost)
+                        {
+                            Configuration.Configuration.networkManager.addEvent(new GameLibrary.Connection.Message.UpdatePreEnvironmentObjectMessage(_Object), GameMessageImportance.VeryImportant);
                         }
                     }
                 }

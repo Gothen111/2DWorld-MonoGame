@@ -167,6 +167,14 @@ namespace GameLibrary.Map.Chunk
         {
             int var_X = (int)Math.Abs(_Position.X - this.Position.X) / Block.Block.BlockSize;//(int)((_PosX % (Region.Region.regionSizeX * Chunk.chunkSizeX * Block.Block.BlockSize)) % (Chunk.chunkSizeX * Block.Block.BlockSize) / Block.Block.BlockSize);
             int var_Y = (int)Math.Abs(_Position.Y - this.Position.Y) / Block.Block.BlockSize;//(int)((_PosY % (Region.Region.regionSizeY * Chunk.chunkSizeY * Block.Block.BlockSize)) % (Chunk.chunkSizeY * Block.Block.BlockSize) / Block.Block.BlockSize);
+
+            if (var_X >= 10 || var_X < 0)
+            {
+            }
+            if (var_Y >= 10 || var_Y < 0)
+            {
+            }
+            
             return this.getBlockAtPosition(var_X, var_Y);
         }
 

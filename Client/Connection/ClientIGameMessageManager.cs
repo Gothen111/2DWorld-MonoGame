@@ -44,6 +44,9 @@ namespace Client.Connection
                 case EIGameMessageType.UpdateObjectMessage:
                     handleUpdateObjectMessage(_NetIncomingMessage);
                     break;
+                case EIGameMessageType.UpdatePreEnvironmentObjectMessage:
+                    handleUpdatePreEnvironmentObjectMessage(_NetIncomingMessage);
+                    break;            
                 case EIGameMessageType.UpdateObjectPositionMessage:
                     handleUpdateObjectPositionMessage(_NetIncomingMessage);
                     break;
@@ -155,6 +158,18 @@ namespace Client.Connection
             if (GameLibrary.Map.World.World.world != null)
             {
                 GameLibrary.Object.Object var_Object = (GameLibrary.Object.Object)(GameLibrary.Map.World.World.world.getObject(message.Id) ?? GameLibrary.Map.World.World.world.addObject(message.Object));//CreatureFactory.creatureFactory.createNpcObject(message.Id, RaceEnum.Human, FactionEnum.Castle_Test, CreatureEnum.Chieftain, GenderEnum.Male));
+                var_Object.Position = message.Position;
+            }
+        }
+
+        private static void handleUpdatePreEnvironmentObjectMessage(NetIncomingMessage _Im)
+        {
+            var message = new UpdatePreEnvironmentObjectMessage(_Im);
+
+            var timeDelay = (float)(NetTime.Now - _Im.SenderConnection.GetLocalTime(message.MessageTime));
+            if (GameLibrary.Map.World.World.world != null)
+            {
+                GameLibrary.Object.Object var_Object = GameLibrary.Map.World.World.world.addPreEnvironmentObject(message.Object);//(GameLibrary.Object.Object)(GameLibrary.Map.World.World.world.getObject(message.Id) ?? GameLibrary.Map.World.World.world.addObject(message.Object));//CreatureFactory.creatureFactory.createNpcObject(message.Id, RaceEnum.Human, FactionEnum.Castle_Test, CreatureEnum.Chieftain, GenderEnum.Male));
                 var_Object.Position = message.Position;
             }
         }
@@ -280,7 +295,7 @@ namespace Client.Connection
             }
             else
             {
-                GameLibrary.Logger.Logger.LogErr("Object mit Id: " + message.Id + " konnte nicht im Quadtree gefunden werden -> Inventar nicht geupdatet");
+                //GameLibrary.Logger.Logger.LogErr("Object mit Id: " + message.Id + " konnte nicht im Quadtree gefunden werden -> Inventar nicht geupdatet");
                 Configuration.networkManager.addEvent(new GameLibrary.Connection.Message.RequestLivingObjectMessage(message.Id), GameLibrary.Connection.GameMessageImportance.UnImportant);
             }
         }
@@ -301,7 +316,7 @@ namespace Client.Connection
             }
             else
             {
-                GameLibrary.Logger.Logger.LogErr("Object mit Id: " + message.Id + " konnte nicht im Quadtree gefunden werden -> Equipment nicht geupdatet");
+                //GameLibrary.Logger.Logger.LogErr("Object mit Id: " + message.Id + " konnte nicht im Quadtree gefunden werden -> Equipment nicht geupdatet");
                 Configuration.networkManager.addEvent(new GameLibrary.Connection.Message.RequestLivingObjectMessage(message.Id), GameLibrary.Connection.GameMessageImportance.UnImportant);
             }
         }

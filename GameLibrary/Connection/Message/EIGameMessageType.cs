@@ -40,6 +40,7 @@ namespace GameLibrary.Connection.Message
         UpdateObjectHealthMessage,
         UpdateObjectPositionMessage,
         UpdatePlayerMessage,
+        UpdatePreEnvironmentObjectMessage,
         UpdateRacesMessage,
         UpdateRegionMessage,
         UpdateWorldMessage,

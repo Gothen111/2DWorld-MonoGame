@@ -63,8 +63,8 @@ namespace GameLibrary.Map.World
         public Object.Object addObject(Object.Object _Object, Boolean insertInQuadTree)
         {
             Dimension.Dimension var_Dimension = this.getDimensionById(_Object.DimensionId);
-            Region.Region region = var_Dimension.getRegionObjectIsIn(_Object);
-            return addObject(_Object, insertInQuadTree, region);
+            Region.Region var_Region = var_Dimension.getRegionObjectIsIn(_Object);
+            return addObject(_Object, insertInQuadTree, var_Region);
         }
 
         public Object.Object addObject(Object.Object _Object, Boolean _InsertInQuadTree, Region.Region _Region)
@@ -73,6 +73,17 @@ namespace GameLibrary.Map.World
             if (var_Dimension != null)
             {
                 return var_Dimension.addObject(_Object, _InsertInQuadTree, _Region);
+            }
+            return null;
+        }
+
+        public Object.Object addPreEnvironmentObject(Object.Object _Object)
+        {
+            Dimension.Dimension var_Dimension = this.getDimensionById(_Object.DimensionId);
+            Region.Region var_Region = var_Dimension.getRegionObjectIsIn(_Object);
+            if (var_Dimension != null)
+            {
+                return var_Dimension.addPreEnvironmentObject(_Object, var_Region);
             }
             return null;
         }

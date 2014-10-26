@@ -73,6 +73,7 @@
     <Compile Include="Connection\Message\CreatureInventoryToEquipmentMessage.cs" />
     <Compile Include="Connection\Message\EIGameMessageType.cs" />
     <Compile Include="Connection\Message\IGameMessage.cs" />
+    <Compile Include="Connection\Message\UpdatePreEnvironmentObjectMessage.cs" />
     <Compile Include="Connection\Message\PlayerCommandMessage.cs" />
     <Compile Include="Connection\Message\RemoveObjectMessage.cs" />
     <Compile Include="Connection\Message\RequestBlockMessage.cs" />
@@ -144,6 +145,12 @@
     <Compile Include="Map\Box.cs" />
     <Compile Include="Map\Chunk\Chunk.cs" />
     <Compile Include="Map\Chunk\ChunkEnum.cs" />
+    <Compile Include="Map\Chunk\Decorator\Decorator.cs" />
+    <Compile Include="Map\Chunk\Decorator\DecoratorItem.cs" />
+    <Compile Include="Map\Chunk\Decorator\EnvironmentDecoratorItem.cs" />
+    <Compile Include="Map\Chunk\Decorator\EquipmentDecoratorItem.cs" />
+    <Compile Include="Map\Chunk\Decorator\ItemDecoratorItem.cs" />
+    <Compile Include="Map\Chunk\Decorator\NpcDecoratorItem.cs" />
     <Compile Include="Map\Dimension\Dimension.cs" />
     <Compile Include="Map\Region\Region.cs" />
     <Compile Include="Map\Region\RegionDependency.cs" />

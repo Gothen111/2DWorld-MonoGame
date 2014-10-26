@@ -145,6 +145,20 @@ namespace GameLibrary.Map.Block
             this.objects.Remove(_Object);
         }
 
+        public void addPreEnvironmentObject(Object.Object _Object)
+        {
+            if (!this.objectsPreEnviorment.Contains(_Object))
+            {
+                this.objectsPreEnviorment.Add(_Object);
+            }
+            _Object.CurrentBlock = this;
+        }
+
+        public void removePreEnvironmentObject(Object.Object _Object)
+        {
+            this.objectsPreEnviorment.Remove(_Object);
+        }
+
         public override void update(GameTime _GameTime)
         {
             base.update(_GameTime);

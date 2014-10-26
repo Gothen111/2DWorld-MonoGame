@@ -12,6 +12,7 @@ using Utility.Corpus;
 using GameLibrary.Connection.Message;
 using GameLibrary.Connection;
 using GameLibrary.Enums;
+using GameLibrary.Map.Chunk.Decorator;
 #endregion
 
 #region Using Statements Class Specific
@@ -22,6 +23,13 @@ namespace GameLibrary.Map.Region
     [Serializable()]
     public class Region : Box
     {
+        private static int lastId = 0;
+
+        private int getId()
+        {
+            return lastId++;
+        }
+
         public static int regionSizeX = 10;
         public static int regionSizeY = 10;
 
@@ -43,6 +51,7 @@ namespace GameLibrary.Map.Region
 
         public Region(String _Name, int _PosX, int _PosY, Vector3 _Size, RegionEnum _RegionEnum, Dimension.Dimension _ParentDimension)
         {
+            this.Id = this.getId();
             this.Name = _Name;
             this.Position = new Vector3(_PosX, _PosY, 0);
             this.Size = new Vector3(_Size.X, _Size.Y, _Size.Z);

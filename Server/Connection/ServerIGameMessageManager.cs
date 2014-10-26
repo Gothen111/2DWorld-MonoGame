@@ -166,6 +166,12 @@ namespace Server.Connection
                 {
                     Configuration.networkManager.SendMessageToClient(new UpdateObjectMessage(var_AnimatedObject), var_Client);
                 }
+
+                var_Copy = new List<GameLibrary.Object.Object>(var_Block.ObjectsPreEnviorment);
+                foreach (AnimatedObject var_AnimatedObject in var_Copy)
+                {
+                    Configuration.networkManager.SendMessageToClient(new UpdatePreEnvironmentObjectMessage(var_AnimatedObject), var_Client);
+                }
             }
             else
             {
