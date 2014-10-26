@@ -9,11 +9,6 @@ using Microsoft.Xna.Framework.Storage;
 using Microsoft.Xna.Framework.GamerServices;
 using System.Runtime.Serialization;
 using Utility.Corpus;
-using GameLibrary.Map.World;
-using GameLibrary.Collison;
-using GameLibrary.Map.DungeonGeneration;
-using GameLibrary.Map.Region;
-using GameLibrary.Map.Block;
 #endregion
 
 #region Using Statements Class Specific
@@ -48,7 +43,13 @@ namespace GameLibrary.Object
             get { return currentBlock; }
             set { currentBlock = value; }
         }
+        private List<Object> objects;
 
+        public List<Object> Objects
+        {
+            get { return objects; }
+            set { objects = value; }
+        }
         private Vector3 velocity;
 
         public Vector3 Velocity
@@ -57,26 +58,10 @@ namespace GameLibrary.Object
             set { velocity = value; }
         }
 
-        private bool isInDungeon;
-
-        public bool IsInDungeon
-        {
-            get { return isInDungeon; }
-            set { isInDungeon = value; }
-        }
-
-        private int dungeonId;
-
-        public int DungeonId
-        {
-            get { return dungeonId; }
-            set { dungeonId = value; }
-        }
-
         public Object()
         {
             this.collisionBounds = new List<Rectangle>();
-            this.isInDungeon = false;
+            this.objects = new List<Object>();
         }
 
         public Object(SerializationInfo info, StreamingContext ctxt)
@@ -88,6 +73,8 @@ namespace GameLibrary.Object
 
             this.boundsChanged();
 
+            this.objects = (List<Object>)info.GetValue("objects", typeof(List<Object>));
+
             List<Utility.Corpus.Square> var_List = (List<Utility.Corpus.Square>)info.GetValue("collisionBounds", typeof(List<Utility.Corpus.Square>));
             this.collisionBounds = new List<Rectangle>();
 
@@ -95,10 +82,6 @@ namespace GameLibrary.Object
             {
                 this.collisionBounds.Add(var_Square.Rectangle);
             }
-
-            this.isInDungeon = (bool)info.GetValue("isInDungeon", typeof(bool));
-            this.dungeonId = (int)info.GetValue("dungeonId", typeof(int));
-
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext ctxt)
@@ -108,16 +91,15 @@ namespace GameLibrary.Object
 
             info.AddValue("velocity", this.velocity, typeof(Vector3));
 
+            info.AddValue("objects", this.objects, typeof(List<Object>));
+
             List<Utility.Corpus.Square> var_List = new List<Utility.Corpus.Square>();
             foreach (Rectangle var_Rectangle in this.collisionBounds)
             {
                 var_List.Add(new Utility.Corpus.Square(var_Rectangle));
             }
 
-            info.AddValue("collisionBounds", var_List, typeof(List<Utility.Corpus.Square>));
-
-            info.AddValue("isInDungeon", this.isInDungeon, typeof(bool));
-            info.AddValue("dungeonId", this.dungeonId, typeof(int));
+            info.AddValue("collisionBounds", var_List, typeof(List<Utility.Corpus.Square>)); //???
         }
 
         public virtual void update(GameTime _GameTime)
@@ -130,97 +112,26 @@ namespace GameLibrary.Object
             this.Bounds = new Cube(new Vector3(this.Position.X - this.Size.X / 2, this.Position.Y - this.Size.Y, 0), this.Size);
         }
 
-        public virtual bool teleportTo(Vector3 _Position, bool _ToDungeon)
+        public virtual bool teleportTo(Vector3 _Position)
         {
-            this.isInDungeon = _ToDungeon;
             //TODO: Hat noch Bugs, wenn map noch nicht da ist :/ also block gleich null.... da muss man sich was überlegen :)
-            /*GameLibrary.Map.Block.Block var_Block = GameLibrary.Map.World.World.world.getBlockAtCoordinate(_Position);
-            if (var_Block != null)
+            GameLibrary.Map.Block.Block var_Block = GameLibrary.Map.World.World.world.getBlockAtCoordinate(_Position);
+            if(var_Block!=null)
             {
-                this.currentBlock.removeObject(this);
+                this.currentBlock.removeObject(this);  
                 this.currentBlock = var_Block;
-                this.currentBlock.addObject(this);
+                this.currentBlock.addObject(this);  
                 this.Position = _Position;
 
                 if (Configuration.Configuration.isHost)
                 {
-                    Configuration.Configuration.networkManager.addEvent(new GameLibrary.Connection.Message.UpdateObjectPositionMessage(this), GameLibrary.Connection.GameMessageImportance.VeryImportant);
+                    Configuration.Configuration.networkManager.addEvent(new GameLibrary.Connection.Message.UpdateObjectPositionMessage(this), GameLibrary.Connection.GameMessageImportance.VeryImportant);          
                 }
 
                 return true;
             }
-            else
-            {*/
-                this.currentBlock.removeObject(this);
-                this.currentBlock = null;
-                this.Position = _Position;
 
-                if (Configuration.Configuration.isHost)
-                {
-                    Configuration.Configuration.networkManager.addEvent(new GameLibrary.Connection.Message.UpdateObjectPositionMessage(this), GameLibrary.Connection.GameMessageImportance.VeryImportant);
-                }
-
-                return true;
-            //}
             return false;
-        }
-
-        public virtual bool teleportTo(Block _Block, bool _ToDungeon)
-        {
-            this.isInDungeon = _ToDungeon;
-            this.currentBlock.removeObject(this);
-            this.currentBlock = _Block;
-            this.currentBlock.addObject(this);
-            this.Position = _Block.Position;
-
-            Region var_Region = this.getRegionIsIn();
-            if(var_Region != null)
-            {
-                if (var_Region is Dungeon)
-                {
-                    ((Dungeon)var_Region).QuadTreeObject.Insert(this);
-                }
-            }
-
-            if (Configuration.Configuration.isHost)
-            {
-                Configuration.Configuration.networkManager.addEvent(new GameLibrary.Connection.Message.UpdateObjectPositionMessage(this), GameLibrary.Connection.GameMessageImportance.VeryImportant);
-            }
-
-            return true;
-        }
-
-        public QuadTree<Object> getQuadTreeIsIn()
-        {
-            if (this.currentBlock != null)
-            {
-                if (this.currentBlock.Parent != null)
-                {
-                    if (this.currentBlock.Parent.Parent != null)
-                    {
-                        if (this.currentBlock.Parent.Parent is Dungeon)
-                        {
-                            return ((Dungeon)this.currentBlock.Parent.Parent).QuadTreeObject;
-                        }
-                    }
-                }
-            }
-            return World.world.QuadTreeObject;
-        }
-
-        public Region getRegionIsIn()
-        {
-            if (this.currentBlock != null)
-            {
-                if (this.currentBlock.Parent != null)
-                {
-                    if (this.currentBlock.Parent.Parent != null)
-                    {
-                        return (Region)this.currentBlock.Parent.Parent;
-                    }
-                }
-            }
-            return null;
         }
     }
 }

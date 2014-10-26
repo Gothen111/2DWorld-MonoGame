@@ -27,32 +27,22 @@ namespace GameLibrary.Factory
 
         public Region generateRegion(String _Name, int _PosX, int _PosY, RegionEnum _RegionEnum, World _ParentWorld)
         {
-            Region var_Region = null;
             switch (_RegionEnum)
             {
                 case RegionEnum.Grassland:
                     {
-                        var_Region = generateRegionGrassland(_Name, _PosX, _PosY, _ParentWorld);
-                        break;
+                        return generateRegionGrassland(_Name, _PosX, _PosY, _ParentWorld);
                     }
                 case RegionEnum.Snowland:
                     {
-                        var_Region = generateRegionSnowland(_Name, _PosX, _PosY, _ParentWorld);
-                        break;
+                        return generateRegionSnowland(_Name, _PosX, _PosY, _ParentWorld);
                     }
                 case RegionEnum.Lavaland:
                     {
-                        var_Region = generateRegionLavaland(_Name, _PosX, _PosY, _ParentWorld);
-                        break;
+                        return generateRegionLavaland(_Name, _PosX, _PosY, _ParentWorld);
                     }
             }
-
-            if(var_Region!=null)
-            {
-                var_Region.Dungeons.Add(DungeonFactory.createDungeon(new Vector3(_PosX,_PosY,0), new Vector3(Region.regionSizeX, Region.regionSizeY, 0), DungeonType.Cave, _ParentWorld));
-            }
-
-            return var_Region;
+            return null;
         }
 
         private Region generateRegionGrassland(String _Name, int _PosX, int _PosY, World _ParentWorld)

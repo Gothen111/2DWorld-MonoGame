@@ -42,19 +42,7 @@ namespace GameLibrary.Map.World
                                 {
 
                                 }
-                                Block.Block var_Block = null;
-
-                                if (_Target.IsInDungeon)
-                                {
-                                    if (_Target.getRegionIsIn() != null)
-                                    {
-                                        var_Block = _Target.getRegionIsIn().getBlockAtCoordinate(var_Position);
-                                    }
-                                }
-                                else
-                                {
-                                    var_Block = this.getBlockAtCoordinate(var_Position);
-                                }
+                                Block.Block var_Block = this.getBlockAtCoordinate(var_Position);
                                 if (var_Block != null)
                                 {
                                     if (var_Block.IsRequested)

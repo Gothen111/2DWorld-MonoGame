@@ -170,45 +170,17 @@ namespace GameLibrary.Map.World
                         for (int y = 0; y < var_DrawSizeY; y++)
                         {
                             Vector3 var_Position = new Vector3(var_PlayerPos.X + (-var_DrawSizeX / 2 + x) * Block.Block.BlockSize, var_PlayerPos.Y + (-var_DrawSizeY / 2 + y) * Block.Block.BlockSize, 0);
-                            Block.Block var_Block = null;
-                            
-                            if(_PlayerObject.IsInDungeon)
-                            {
-                                if (_PlayerObject.getRegionIsIn() != null)
-                                {
-                                    var_Block = _PlayerObject.getRegionIsIn().getBlockAtCoordinate(var_Position);
-                                }
-                            }
-                            else
-                            {
-                                var_Block = this.getBlockAtCoordinate(var_Position);
-                            }
-
-                            
+                            Block.Block var_Block = this.getBlockAtCoordinate(var_Position);
                             if (var_Block != null)
                             {
                                 var_Block.update(_GameTime);
                             }
                             else
                             {
-                                Region.Region var_Region = null;
-                                var_Region = this.getRegionAtPosition(var_Position);
-                                
-                                if(_PlayerObject.IsInDungeon)
-                                {
-                                    var_Region = var_Region.Dungeons[0];
-                                }
-                                
+                                Region.Region var_Region = this.getRegionAtPosition(var_Position);
                                 if (var_Region == null)
                                 {
-                                    if (!_PlayerObject.IsInDungeon || (_PlayerObject.IsInDungeon && _PlayerObject.getRegionIsIn() == null))
-                                    {
-                                        var_Region = this.createRegionAt(var_Position);
-                                        /*if (_PlayerObject.IsInDungeon)
-                                        {
-                                            // Create Dungeon
-                                        }*/ // das stimmt nicht ;) wird ja mit region zusammen estellt
-                                    }
+                                    var_Region = this.createRegionAt(var_Position);
                                 }
                                 else
                                 {
@@ -226,7 +198,7 @@ namespace GameLibrary.Map.World
 
             if (_NewUpdateObjectsList)
             {
-                List<Object.Object> var_Objects = this.getObjectsInRange(_PlayerObject.Position, _PlayerObject.getQuadTreeIsIn().Root, 400);
+                List<Object.Object> var_Objects = this.getObjectsInRange(_PlayerObject.Position, 400);
                 foreach (Object.Object var_Object in var_Objects)
                 {
                     if (!this.objectsToUpdate.Contains(var_Object))

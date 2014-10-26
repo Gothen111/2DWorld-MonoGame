@@ -22,23 +22,13 @@ namespace GameLibrary.Map.World
 
         public List<Object.Object> getObjectsColliding(Rectangle bounds)
         {
-            return getObjectsColliding(bounds, this.quadTreeObject.Root, new List<SearchFlags.Searchflag>());
-        }
-
-        public List<Object.Object> getObjectsColliding(Rectangle bounds, QuadTree<Object.Object>.QuadNode _CurrentNode)
-        {
-            return getObjectsColliding(bounds, _CurrentNode, new List<SearchFlags.Searchflag>());
+            return getObjectsColliding(bounds, new List<SearchFlags.Searchflag>());
         }
 
         public List<Object.Object> getObjectsColliding(Rectangle bounds, List<SearchFlags.Searchflag> _SearchFlags)
         {
-            return this.getObjectsColliding(bounds, this.quadTreeObject.Root, _SearchFlags);
-        }
-
-        public List<Object.Object> getObjectsColliding(Rectangle bounds, QuadTree<Object.Object>.QuadNode _CurrentNode, List<SearchFlags.Searchflag> _SearchFlags)
-        {
             List<Object.Object> result = new List<Object.Object>();
-            getObjectsColliding(bounds, _CurrentNode, result, _SearchFlags);
+            getObjectsColliding(bounds, this.quadTreeObject.Root, result, _SearchFlags);
             return result;
         }
 

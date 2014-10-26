@@ -25,22 +25,18 @@ namespace GameLibrary.Map.Block.Blocks
 
         private bool teleportToBlock;
 
-        private bool toDungeon;
-
-        public TeleportBlock(Vector3 _Position, BlockEnum _BlockEnum, Chunk.Chunk _ParentChunk, Vector3 _Destination, bool _ToDungeon)
+        public TeleportBlock(Vector3 _Position, BlockEnum _BlockEnum, Chunk.Chunk _ParentChunk, Vector3 _Destination)
             : base((int)_Position.X, (int)_Position.Y, _BlockEnum, _ParentChunk)
         {
             this.destinationLocation = _Destination;
             this.teleportToBlock = false;
-            this.toDungeon = _ToDungeon;
         }
 
-        public TeleportBlock(Vector3 _Position, BlockEnum _BlockEnum, Chunk.Chunk _ParentChunk, Block _DestinationBlock, bool _ToDungeon)
+        public TeleportBlock(Vector3 _Position, BlockEnum _BlockEnum, Chunk.Chunk _ParentChunk, Block _DestinationBlock)
             : base((int)_Position.X, (int)_Position.Y, _BlockEnum, _ParentChunk)
         {
             this.destinationBlock = _DestinationBlock;
             this.teleportToBlock = true;
-            this.toDungeon = _ToDungeon;
         }
 
         public TeleportBlock(SerializationInfo info, StreamingContext ctxt) 
@@ -60,13 +56,12 @@ namespace GameLibrary.Map.Block.Blocks
             {
                 if (this.destinationBlock != null)
                 {
-                    //var_Object.teleportTo(this.destinationBlock.Position + new Vector3(Block.BlockSize / 2, Block.BlockSize / 2, 0), this.toDungeon);
-                    var_Object.teleportTo(this.destinationBlock, this.toDungeon);
+                    var_Object.teleportTo(this.destinationBlock.Position + new Vector3(Block.BlockSize / 2, Block.BlockSize / 2, 0));
                 }
             }
             else
             {
-                var_Object.teleportTo(this.destinationLocation, this.toDungeon);
+                var_Object.teleportTo(this.destinationLocation);
             }
         }
     }

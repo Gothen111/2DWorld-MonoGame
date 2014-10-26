@@ -91,9 +91,6 @@ namespace GameLibrary.Factory
                 //generateFlowers(var_Result);
             }
 
-            var_Result.setBlockAtCoordinate(new Vector3(_PosX + 32, _PosY + 32, 0), new GameLibrary.Map.Block.Blocks.TeleportBlock(new Vector3(_PosX + 32, _PosY + 32, 0), BlockEnum.Ground2, var_Result, _ParentRegion.Dungeons[0].getBlockAtCoordinate(Vector3.Zero), true));
-             
-
             return var_Result;
         }
 
