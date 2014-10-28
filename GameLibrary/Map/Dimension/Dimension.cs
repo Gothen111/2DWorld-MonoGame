@@ -155,7 +155,7 @@ namespace GameLibrary.Map.Dimension
                 }
             }
 
-            this.updatePlayerObjectsNeighborhood(_GameTime);
+            this.updatePlayerObjectsNeighbourhood(_GameTime);
 
             foreach (Region.Region var_Region in this.regions)
             {
@@ -184,7 +184,7 @@ namespace GameLibrary.Map.Dimension
             }
         }
 
-        private void updatePlayerObjectsNeighborhood(GameTime _GameTime)
+        private void updatePlayerObjectsNeighbourhood(GameTime _GameTime)
         {
             List<PlayerObject> var_Copy = new List<PlayerObject>(this.currentPlayerObjects);
             foreach (Object.PlayerObject var_PlayerObject in var_Copy)
@@ -518,15 +518,15 @@ namespace GameLibrary.Map.Dimension
             return addObject(_Object, true);
         }
 
-        public Object.Object addObject(Object.Object _Object, Boolean insertInQuadTree)
+        public Object.Object addObject(Object.Object _Object, Boolean _InsertInQuadTree)
         {
-            Region.Region region = this.getRegionObjectIsIn(_Object);
-            return addObject(_Object, insertInQuadTree, region);
+            Region.Region var_Region = this.getRegionObjectIsIn(_Object);
+            return addObject(_Object, _InsertInQuadTree, var_Region);
         }
 
-        public Object.Object addObject(Object.Object _Object, Boolean insertInQuadTree, Region.Region _Region)
+        public Object.Object addObject(Object.Object _Object, Boolean _InsertInQuadTree, Region.Region _Region)
         {
-            if (insertInQuadTree)
+            if (_InsertInQuadTree)
             {
                 this.quadTreeObject.Insert(_Object);
             }
@@ -581,6 +581,7 @@ namespace GameLibrary.Map.Dimension
         public void removeObjectFromWorld(Object.Object _Object)
         {
             //TODO: Gucke ob element auch vorhanden ;)
+            this.objectsToUpdate.Remove(_Object);
             this.quadTreeObject.Remove(_Object);
             if (_Object.CurrentBlock != null)
             {

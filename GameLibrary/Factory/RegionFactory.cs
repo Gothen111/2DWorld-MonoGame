@@ -100,9 +100,8 @@ namespace GameLibrary.Factory
 
             if (var_Chunk != null)
             {
-                Decorator.decorator.decorateChunk(var_Chunk);
                 this.addChunkToRegion(_Region, _PosX, _PosY, var_Chunk);
-
+                Decorator.decorator.decorateChunk(var_Chunk);
                 //ChunkFactory.chunkFactory.generateChunk(var_Chunk);
             }  
 

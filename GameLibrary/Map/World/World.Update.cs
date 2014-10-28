@@ -24,18 +24,32 @@ namespace GameLibrary.Map.World
         {
             base.update(_GameTime);
 
-            foreach (Dimension.Dimension var_Dimension in this.dimensions)
+            if (Configuration.Configuration.isHost)
             {
-                List<PlayerObject> var_PlayerObjects = new List<PlayerObject>();
-                foreach (PlayerObject var_PlayerObject in this.playerObjects)
+                foreach (Dimension.Dimension var_Dimension in this.dimensions)
                 {
-                    if (var_PlayerObject.DimensionId == var_Dimension.Id)
+                    List<PlayerObject> var_PlayerObjects = new List<PlayerObject>();
+                    foreach (PlayerObject var_PlayerObject in this.playerObjects)
                     {
-                        var_PlayerObjects.Add(var_PlayerObject);
+                        if (var_PlayerObject.DimensionId == var_Dimension.Id)
+                        {
+                            var_PlayerObjects.Add(var_PlayerObject);
+                        }
                     }
+                    var_Dimension.setCurrentPlayerObjects(var_PlayerObjects);
+                    var_Dimension.update(_GameTime);
                 }
-                var_Dimension.setCurrentPlayerObjects(var_PlayerObjects);
-                var_Dimension.update(_GameTime);
+            }
+            else
+            {
+                PlayerObject var_PlayerObject = Configuration.Configuration.networkManager.client.PlayerObject;
+                if (var_PlayerObject != null)
+                {
+                    int var_DimensionId = var_PlayerObject.DimensionId;
+                    Dimension.Dimension var_Dimension = this.getDimensionById(var_DimensionId);
+                    var_Dimension.setCurrentPlayerObjects(new List<PlayerObject>() { var_PlayerObject });
+                    var_Dimension.update(_GameTime);
+                }
             }
         }
 

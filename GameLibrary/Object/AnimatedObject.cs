@@ -133,26 +133,55 @@ namespace GameLibrary.Object
         {
             base.update(_GameTime);
             this.body.update(_GameTime);
-            this.move(_GameTime);          
+            this.smoothPosition();
+            this.move(_GameTime);
+        }
+
+        private void smoothPosition()
+        {
+            float var_DiffX = (this.NextPosition.X - this.Position.X);
+            float var_X;
+
+            float var_DiffY = (this.NextPosition.Y - this.Position.Y);
+            float var_Y;
+            if (Math.Abs(var_DiffX) <= this.movementSpeed)
+            {
+                var_X = this.NextPosition.X;
+            }
+            else
+            {
+                var_X = this.Position.X + var_DiffX / 2;
+            }
+
+            if (Math.Abs(var_DiffY) <= this.movementSpeed)
+            {
+                var_Y = this.NextPosition.Y;
+            }
+            else
+            {
+                var_Y = this.Position.Y + var_DiffY / 2;
+            }
+            this.Position = new Vector3(var_X, var_Y, this.Position.Z);
         }
 
         private void move(GameTime _GameTime)
         {
-            float var_X = (-Convert.ToInt32(this.moveLeft) + Convert.ToInt32(this.moveRight)) * this.movementSpeed;
-            float var_Y = (-Convert.ToInt32(this.moveUp) + Convert.ToInt32(this.moveDown)) * this.movementSpeed;
-
-            Vector2 var_PositionBlockSizeOld = new Vector2((this.Position.X) / Map.Block.Block.BlockSize, (this.Position.Y) / Map.Block.Block.BlockSize);
-            Vector2 var_PositionBlockSizeNew = new Vector2((this.Position.X + var_X) / Map.Block.Block.BlockSize, (this.Position.Y + var_Y) / Map.Block.Block.BlockSize);
-
             if (this.CurrentBlock == null)
             {
                 this.CurrentBlock = this.getDimensionIsIn().getBlockAtCoordinate(this.Position);
                 this.CurrentBlock.addObject(this);
             }
-            Map.Block.Block var_Block = this.CurrentBlock;
 
-            if (Configuration.Configuration.isHost || Configuration.Configuration.isSinglePlayer || (!Configuration.Configuration.isHost && this == Configuration.Configuration.networkManager.client.PlayerObject))
-            {
+            float var_X = (-Convert.ToInt32(this.moveLeft) + Convert.ToInt32(this.moveRight)) * this.movementSpeed;
+            float var_Y = (-Convert.ToInt32(this.moveUp) + Convert.ToInt32(this.moveDown)) * this.movementSpeed;
+
+            if ((Configuration.Configuration.isHost && !(this is PlayerObject)) || Configuration.Configuration.isSinglePlayer || this == Configuration.Configuration.networkManager.client.PlayerObject)
+            {              
+                Vector2 var_PositionBlockSizeOld = new Vector2((this.Position.X) / Map.Block.Block.BlockSize, (this.Position.Y) / Map.Block.Block.BlockSize);
+                Vector2 var_PositionBlockSizeNew = new Vector2((this.Position.X + var_X) / Map.Block.Block.BlockSize, (this.Position.Y + var_Y) / Map.Block.Block.BlockSize);
+
+                Map.Block.Block var_Block = this.CurrentBlock;
+
                 if ((int)var_PositionBlockSizeOld.X < (int)var_PositionBlockSizeNew.X)
                 {
                     var_Block = (Map.Block.Block)this.CurrentBlock.RightNeighbour;
@@ -187,58 +216,32 @@ namespace GameLibrary.Object
                 }
             }
 
-            Vector3 var_OldVelocity = this.Velocity;
+            this.Velocity = new Vector3(var_X, var_Y, 0) * (20 / _GameTime.ElapsedGameTime.Milliseconds);
 
-            this.Velocity = new Vector3(var_X, var_Y, 0);
-            if (var_X != 0 || var_Y != 0)
+            if ((Configuration.Configuration.isHost && !(this is PlayerObject)) || Configuration.Configuration.isSinglePlayer || this == Configuration.Configuration.networkManager.client.PlayerObject)
             {
-                Rectangle nextBounds = new Rectangle((int)(this.Bounds.Left + this.Velocity.X), (int)(this.Bounds.Top + this.Velocity.Y), (int)this.Bounds.Width, (int)this.Bounds.Height);
-                List<Object> objectsColliding = this.getDimensionIsIn().getObjectsColliding(nextBounds); // World.getObjectsColliding(nextBounds);
-                objectsColliding.Remove(this as LivingObject);
-                if (objectsColliding.Count < 1)
+                if (this.Velocity.X != 0 || this.Velocity.Y != 0)
                 {
-                    if ((Configuration.Configuration.isHost && !(this is PlayerObject)) || Configuration.Configuration.isSinglePlayer || (!Configuration.Configuration.isHost && this == Configuration.Configuration.networkManager.client.PlayerObject))
+                    Rectangle nextBounds = new Rectangle((int)(this.Bounds.Left + this.Velocity.X), (int)(this.Bounds.Top + this.Velocity.Y), (int)this.Bounds.Width, (int)this.Bounds.Height);
+                    List<Object> objectsColliding = this.getDimensionIsIn().getObjectsColliding(nextBounds);
+                    objectsColliding.Remove(this as LivingObject);
+                    if (objectsColliding.Count < 1)
                     {
-                        this.Position += this.Velocity * (20 / _GameTime.ElapsedGameTime.Milliseconds);
-                        checkChangedBlock();
-                    }
-                    if (Configuration.Configuration.isHost && !(this is PlayerObject))
-                    {
+                        this.NextPosition = this.Position + this.Velocity;
+                        this.Position = this.NextPosition;
                         Configuration.Configuration.networkManager.addEvent(new GameLibrary.Connection.Message.UpdateObjectPositionMessage((LivingObject)this), GameLibrary.Connection.GameMessageImportance.UnImportant);
                     }
-                    else
-                    {
-                        if (this == Configuration.Configuration.networkManager.client.PlayerObject)
-                        {
-                            if (!Configuration.Configuration.isSinglePlayer)
-                            {
-                                Configuration.Configuration.networkManager.addEvent(new GameLibrary.Connection.Message.UpdateObjectPositionMessage((LivingObject)this), GameLibrary.Connection.GameMessageImportance.VeryImportant);
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    if (Configuration.Configuration.isHost || Configuration.Configuration.isSinglePlayer)
-                    {
-                        foreach (AnimatedObject var_AnimatedObject in objectsColliding)
-                        {
-                            var_AnimatedObject.onCollide(this);
-                            this.onCollide(var_AnimatedObject);
-                        }
-                    }
-                }
-            }
-            else
-            {
-                if (Configuration.Configuration.isHost)
-                {
-                    Configuration.Configuration.networkManager.addEvent(new GameLibrary.Connection.Message.UpdateObjectMovementMessage((LivingObject)this), GameLibrary.Connection.GameMessageImportance.UnImportant);
                 }
             }
 
+            if (Configuration.Configuration.isHost && this is PlayerObject)
+            {
+                Configuration.Configuration.networkManager.addEvent(new GameLibrary.Connection.Message.UpdateObjectPositionMessage((LivingObject)this), GameLibrary.Connection.GameMessageImportance.UnImportant);
+            }
+            
             if (this.Velocity.X != 0 || this.Velocity.Y != 0)
             {
+                checkChangedBlock(); 
                 this.body.walk(this.Velocity);
                 this.updateMovementDirection();
             }
@@ -250,46 +253,46 @@ namespace GameLibrary.Object
 
         private void updateMovementDirection()
         {
-            if (this.Velocity.X == 0 && this.Velocity.Y == 0)
+            if (OldPosition == this.Position)
             {
 
             }
-            if (this.Velocity.X == 0)
+            else if (OldPosition.X == this.Position.X)
             {
-                if (this.Velocity.Y < 0)
+                if (OldPosition.Y > this.Position.Y)
                 {
                     this.DirectionEnum = ObjectEnums.DirectionEnum.Top;
                 }
-                else if (this.Velocity.Y > 0)
+                else if (OldPosition.Y < this.Position.Y)
                 {
                     this.DirectionEnum = ObjectEnums.DirectionEnum.Down;
                 }
             }
-            else if (this.Velocity.X < 0)
+            else if (OldPosition.X > this.Position.X)
             {
                 this.DirectionEnum = ObjectEnums.DirectionEnum.Left;
                 if (Math.Abs(this.Velocity.X) < Math.Abs(this.Velocity.Y))
                 {
-                    if (this.Velocity.Y < 0)
+                    if (OldPosition.Y > this.Position.Y)
                     {
                         this.DirectionEnum = ObjectEnums.DirectionEnum.Top;
                     }
-                    else if (this.Velocity.Y > 0)
+                    else if (OldPosition.Y < this.Position.Y)
                     {
                         this.DirectionEnum = ObjectEnums.DirectionEnum.Down;
                     }
                 }
             }
-            else if (this.Velocity.X > 0)
+            else if (OldPosition.X < this.Position.X)
             {
                 this.DirectionEnum = ObjectEnums.DirectionEnum.Right;
                 if (Math.Abs(this.Velocity.X) < Math.Abs(this.Velocity.Y))
                 {
-                    if (this.Velocity.Y < 0)
+                    if (OldPosition.Y > this.Position.Y)
                     {
                         this.DirectionEnum = ObjectEnums.DirectionEnum.Top;
                     }
-                    else if (this.Velocity.Y > 0)
+                    else if (OldPosition.Y < this.Position.Y)
                     {
                         this.DirectionEnum = ObjectEnums.DirectionEnum.Down;
                     }

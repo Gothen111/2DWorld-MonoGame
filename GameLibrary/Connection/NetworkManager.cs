@@ -36,7 +36,7 @@ namespace GameLibrary.Connection
         public NetworkManager()
         {
             this.LastIndex = 0;
-            this.LastIndexMax = 2000;
+            this.LastIndexMax = 100;
             this.EventList = new Event[this.LastIndexMax];
         }
 

@@ -43,6 +43,7 @@ namespace GameLibrary.Map.Chunk.Decorator
                 int var_Y = Utility.Random.Random.GenerateGoodRandomNumber(1, (int)_Chunk.Size.Y * (Block.Block.BlockSize) - 1);
 
                 var_EnvironmentObject.Position = new Vector3(var_X + _Chunk.Position.X, var_Y + _Chunk.Position.Y, 0);
+                var_EnvironmentObject.NextPosition = var_EnvironmentObject.Position;
 
                 Block.Block var_Block = _Chunk.getBlockAtCoordinate(var_EnvironmentObject.Position);
 
@@ -56,7 +57,6 @@ namespace GameLibrary.Map.Chunk.Decorator
                         }
                         else
                         {
-                            var_Block.addObject(var_EnvironmentObject);
                             if (_Chunk.Parent != null)
                             {
                                 ((Region.Region)_Chunk.Parent).getParent().addObject(var_EnvironmentObject);

@@ -227,8 +227,11 @@ namespace Server.Connection
             var timeDelay = (float)(NetTime.Now - _Im.SenderConnection.GetLocalTime(message.MessageTime));
 
             Client var_Client = Configuration.networkManager.getClient(_Im.SenderEndPoint);
-
+            if (message.Id >= 4000)
+            {
+            }
             GameLibrary.Object.LivingObject var_LivingObject = (GameLibrary.Object.LivingObject) GameLibrary.Map.World.World.world.getObject(message.Id);
+            
             if (var_LivingObject != null)
             {
                 Configuration.networkManager.SendMessageToClient(new UpdateObjectMessage(var_LivingObject), var_Client);
@@ -295,7 +298,6 @@ namespace Server.Connection
 
             GameLibrary.Object.LivingObject var_LivingObject = (GameLibrary.Object.LivingObject)GameLibrary.Map.World.World.world.getObject(message.Id);
                 
-
             Client var_Client = Configuration.networkManager.getClient(_Im.SenderEndPoint);
 
             if (var_Client.PlayerObject == var_LivingObject)
@@ -304,11 +306,12 @@ namespace Server.Connection
                 {
                     if (var_LivingObject.LastUpdateTime < message.MessageTime)
                     {
-                        var_LivingObject.Position = message.Position;
-                        //var_LivingObject.MoveUp = message.MoveUp;
-                        //var_LivingObject.MoveDown = message.MoveDown;
-                        //var_LivingObject.MoveLeft = message.MoveLeft;
-                        //var_LivingObject.MoveRight = message.MoveRight;
+                        //var_LivingObject.Position = message.Position;
+                        var_LivingObject.NextPosition = message.Position; // +(message.Velocity * timeDelay);
+                        var_LivingObject.MoveUp = message.MoveUp;
+                        var_LivingObject.MoveDown = message.MoveDown;
+                        var_LivingObject.MoveLeft = message.MoveLeft;
+                        var_LivingObject.MoveRight = message.MoveRight;
                         var_LivingObject.checkChangedBlock();
 
                         var_LivingObject.LastUpdateTime = message.MessageTime;

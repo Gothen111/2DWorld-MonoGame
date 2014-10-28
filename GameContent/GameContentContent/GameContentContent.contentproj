@@ -275,21 +275,6 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Region\Grassland\Block\Environment\Flower\Flower1.png">
-      <Name>Flower1</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Region\Grassland\Block\Environment\Tree\Tree1.png">
-      <Name>Tree1</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Region\Grassland\Block\Environment\Tree\Tree1_Dead.png">
-      <Name>Tree1_Dead</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
     <Compile Include="Region\Grassland\Block\Wall.png">
       <Name>Wall</Name>
       <Importer>TextureImporter</Importer>
@@ -329,6 +314,13 @@
   <ItemGroup>
     <Compile Include="Region\Dungeon\Dungeon.png">
       <Name>Dungeon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Region\Environment\Flower.png">
+      <Name>Flower</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

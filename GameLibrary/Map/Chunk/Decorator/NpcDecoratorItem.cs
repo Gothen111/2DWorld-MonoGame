@@ -43,6 +43,7 @@ namespace GameLibrary.Map.Chunk.Decorator
                 int var_Y = Utility.Random.Random.GenerateGoodRandomNumber(1, (int)_Chunk.Size.Y * (Block.Block.BlockSize) - 1);
 
                 var_NpcObject.Position = new Vector3(var_X + _Chunk.Position.X, var_Y + _Chunk.Position.Y, 0);
+                var_NpcObject.NextPosition = var_NpcObject.Position;
 
                 Block.Block var_Block = _Chunk.getBlockAtCoordinate(var_NpcObject.Position);
 

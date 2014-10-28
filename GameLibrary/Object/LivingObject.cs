@@ -339,7 +339,7 @@ namespace GameLibrary.Object
                     //TODO: PreEnviornment
                     if (this.CurrentBlock != null)
                     {
-                        this.CurrentBlock.ObjectsPreEnviorment.Add(this);
+                        //this.CurrentBlock.ObjectsPreEnviorment.Add(this);
                         this.CurrentBlock.removeObject(this);
                     }
                 }

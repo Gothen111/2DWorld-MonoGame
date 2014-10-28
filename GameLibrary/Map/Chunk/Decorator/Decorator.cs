@@ -35,6 +35,9 @@ namespace GameLibrary.Map.Chunk.Decorator
             this.decoratorItems.Add(RegionEnum.Grassland, var_DecoratorItems_Grassland);
 
             List<DecoratorItem> var_DecoratorItems_Snowland = new List<DecoratorItem>();
+            var_DecoratorItems_Snowland.Add(new EnvironmentDecoratorItem(EnvironmentEnum.Tree_Normal_1, false, 1, 5, 0, RegionEnum.Snowland, true));
+            var_DecoratorItems_Snowland.Add(new EnvironmentDecoratorItem(EnvironmentEnum.Flower_1, true, 10, 25, 0, RegionEnum.Snowland, true));
+            var_DecoratorItems_Snowland.Add(new NpcDecoratorItem(RaceEnum.Human, 1, 2, 0, RegionEnum.Snowland, true));
             this.decoratorItems.Add(RegionEnum.Snowland, var_DecoratorItems_Snowland);
 
             List<DecoratorItem> var_DecoratorItems_Lavaland = new List<DecoratorItem>();

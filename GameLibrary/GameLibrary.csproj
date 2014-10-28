@@ -229,7 +229,6 @@
     <Compile Include="Map\World\SearchFlags\RaceFlag.cs" />
     <Compile Include="Map\World\SearchFlags\Searchflag.cs" />
     <Compile Include="Map\World\World.Childs.cs" />
-    <Compile Include="Map\World\World.Collision.cs" />
     <Compile Include="Map\World\World.cs" />
     <Compile Include="Map\World\World.Draw.cs" />
     <Compile Include="Map\World\World.Objects.cs" />

@@ -84,7 +84,7 @@ namespace GameLibrary.Factory
             if (Configuration.Configuration.isHost || Configuration.Configuration.isSinglePlayer)
             {
                 //generateWall(var_Result, Utility.Random.Random.GenerateGoodRandomNumber(0, Chunk.chunkSizeX), Utility.Random.Random.GenerateGoodRandomNumber(0, Chunk.chunkSizeY));
-                //generateSecondLayer(var_Result, _Layer);
+                generateSecondLayer(var_Result, _Layer);
             }
             else
             {
@@ -106,7 +106,7 @@ namespace GameLibrary.Factory
             if (Configuration.Configuration.isHost || Configuration.Configuration.isSinglePlayer)
             {
                 //generateWall(var_Result, Utility.Random.Random.GenerateGoodRandomNumber(0, Chunk.chunkSizeX), Utility.Random.Random.GenerateGoodRandomNumber(0, Chunk.chunkSizeY));
-                //generateSecondLayer(var_Result, _Layer);
+                generateSecondLayer(var_Result, _Layer);
             }
             else
             {
@@ -127,7 +127,7 @@ namespace GameLibrary.Factory
             if (Configuration.Configuration.isHost || Configuration.Configuration.isSinglePlayer)
             {
                 //generateWall(var_Result, Utility.Random.Random.GenerateGoodRandomNumber(0, Chunk.chunkSizeX), Utility.Random.Random.GenerateGoodRandomNumber(0, Chunk.chunkSizeY));
-                //generateSecondLayer(var_Result, _Layer);
+                generateSecondLayer(var_Result, _Layer);
             }
             else 
             { 

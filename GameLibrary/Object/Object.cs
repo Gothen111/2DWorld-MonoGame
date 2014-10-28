@@ -42,13 +42,15 @@ namespace GameLibrary.Object
             get { return currentBlock; }
             set { currentBlock = value; }
         }
-        private List<Object> objects;
 
-        public List<Object> Objects
+        private Vector3 nextPosition;
+
+        public Vector3 NextPosition
         {
-            get { return objects; }
-            set { objects = value; }
+            get { return nextPosition; }
+            set { nextPosition = value; }
         }
+
         private Vector3 velocity;
 
         public Vector3 Velocity
@@ -69,7 +71,6 @@ namespace GameLibrary.Object
         {
             this.Id = this.getId();
             this.collisionBounds = new List<Rectangle>();
-            this.objects = new List<Object>();
         }
 
         public Object(SerializationInfo info, StreamingContext ctxt)
@@ -78,8 +79,6 @@ namespace GameLibrary.Object
             this.velocity = (Vector3)info.GetValue("velocity", typeof(Vector3));
 
             this.boundsChanged();
-
-            this.objects = (List<Object>)info.GetValue("objects", typeof(List<Object>));
 
             List<Utility.Corpus.Square> var_List = (List<Utility.Corpus.Square>)info.GetValue("collisionBounds", typeof(List<Utility.Corpus.Square>));
             this.collisionBounds = new List<Rectangle>();
@@ -94,8 +93,6 @@ namespace GameLibrary.Object
         {
             base.GetObjectData(info, ctxt);
             info.AddValue("velocity", this.velocity, typeof(Vector3));
-
-            info.AddValue("objects", this.objects, typeof(List<Object>));
 
             List<Utility.Corpus.Square> var_List = new List<Utility.Corpus.Square>();
             foreach (Rectangle var_Rectangle in this.collisionBounds)

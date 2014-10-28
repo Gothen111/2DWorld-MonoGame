@@ -41,7 +41,15 @@ namespace GameLibrary
         public Vector3 Position
         {
             get { return position; }
-            set { position = value; this.boundsChanged(); }
+            set { this.oldPosition = position; position = value; this.boundsChanged(); }
+        }
+
+        private Vector3 oldPosition;
+
+        public Vector3 OldPosition
+        {
+            get { return oldPosition; }
+            set { oldPosition = value; }
         }
 
         private Cube bounds;

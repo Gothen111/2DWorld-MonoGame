@@ -159,6 +159,7 @@ namespace Client.Connection
             {
                 GameLibrary.Object.Object var_Object = (GameLibrary.Object.Object)(GameLibrary.Map.World.World.world.getObject(message.Id) ?? GameLibrary.Map.World.World.world.addObject(message.Object));//CreatureFactory.creatureFactory.createNpcObject(message.Id, RaceEnum.Human, FactionEnum.Castle_Test, CreatureEnum.Chieftain, GenderEnum.Male));
                 var_Object.Position = message.Position;
+                var_Object.NextPosition = message.Position;
             }
         }
 
@@ -183,27 +184,31 @@ namespace Client.Connection
             if (GameLibrary.Map.World.World.world != null)
             {
                 GameLibrary.Object.LivingObject var_LivingObject = (GameLibrary.Object.LivingObject)GameLibrary.Map.World.World.world.getObject(message.Id);
-                if (var_LivingObject != null)
+                if (var_LivingObject != Configuration.networkManager.client.PlayerObject)
                 {
-                    if (var_LivingObject.LastUpdateTime < message.MessageTime)
+                    if (var_LivingObject != null)
                     {
-                        //if (Configuration.networkManager.client.PlayerObject != var_LivingObject)
-                        //{
-                            var_LivingObject.Position = message.Position += (message.Velocity * timeDelay);
+                        if (var_LivingObject.LastUpdateTime < message.MessageTime)
+                        {
+                            //if (Configuration.networkManager.client.PlayerObject != var_LivingObject)
+                            //{
+                            //var_LivingObject.Position += (message.Velocity * timeDelay);
+                            var_LivingObject.NextPosition = message.Position;
                             var_LivingObject.MoveUp = message.MoveUp;
                             var_LivingObject.MoveDown = message.MoveDown;
                             var_LivingObject.MoveLeft = message.MoveLeft;
                             var_LivingObject.MoveRight = message.MoveRight;
-                        //}
-                        var_LivingObject.checkChangedBlock();
+                            //}
+                            var_LivingObject.checkChangedBlock();
 
-                        var_LivingObject.LastUpdateTime = message.MessageTime;
+                            var_LivingObject.LastUpdateTime = message.MessageTime;
+                        }
                     }
-                }
-                else
-                {
-                    //GameLibrary.Logger.Logger.LogErr("Object mit Id: " + message.Id + " konnte nicht im Quadtree gefunden werden -> Position wird nicht geupdatet");
-                    Configuration.networkManager.addEvent(new GameLibrary.Connection.Message.RequestLivingObjectMessage(message.Id), GameLibrary.Connection.GameMessageImportance.UnImportant);
+                    else
+                    {
+                        //GameLibrary.Logger.Logger.LogErr("Object mit Id: " + message.Id + " konnte nicht im Quadtree gefunden werden -> Position wird nicht geupdatet");
+                        Configuration.networkManager.addEvent(new GameLibrary.Connection.Message.RequestLivingObjectMessage(message.Id), GameLibrary.Connection.GameMessageImportance.UnImportant);
+                    }
                 }
             }
         }

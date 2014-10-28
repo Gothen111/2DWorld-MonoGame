@@ -72,6 +72,7 @@ namespace GameLibrary.Ressourcen
             loadTexture(_ContentManager, "Region/Grassland/Block/Layer1/Hill1_InsideCorner4", "Region/Grassland/Block/Layer1/Hill1/GrasHill1_InsideCorner4");*/
 
             this.loadTexture(_ContentManager, "Region/Environment/Tree_Normal", "Region/Environment/Tree_Normal");
+            this.loadTexture(_ContentManager, "Region/Environment/Flower", "Region/Environment/Flower");
 
             this.loadTexture(_ContentManager, "Region/Grassland/Block/Environment/Tree/Tree1", "Region/Grassland/Block/Environment/Tree/Tree1");
             this.loadTexture(_ContentManager, "Region/Grassland/Block/Environment/Tree/Tree1_Dead", "Region/Grassland/Block/Environment/Tree/Tree1_Dead");
