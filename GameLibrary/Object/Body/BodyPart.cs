@@ -109,6 +109,14 @@ namespace GameLibrary.Object.Body
             set { acceptedItemTypes = value; }
         }
 
+        private Vector2 positionInInventory;
+
+        public Vector2 PositionInInventory
+        {
+            get { return positionInInventory; }
+            set { positionInInventory = value; }
+        }
+
         public BodyPart(int _Id, Vector3 _Position, Color _Color, String _TexturePath)
         {
             this.position = _Position;
@@ -135,6 +143,7 @@ namespace GameLibrary.Object.Body
             this.equipment = (EquipmentObject)info.GetValue("equipment", typeof(EquipmentObject));
             this.id = (int)info.GetValue("id", typeof(int));
             this.acceptedItemTypes = (List<ItemEnum>)info.GetValue("acceptedItemTypes", typeof(List<ItemEnum>));
+            this.positionInInventory = (Vector2)info.GetValue("positionInInventory", typeof(Vector2));
 
             this.animation = new StandAnimation(this);
         }
@@ -150,6 +159,7 @@ namespace GameLibrary.Object.Body
             info.AddValue("equipment", this.equipment, typeof(EquipmentObject));
             info.AddValue("id", this.id, typeof(int));
             info.AddValue("acceptedItemTypes", this.acceptedItemTypes, typeof(List<ItemEnum>));
+            info.AddValue("positionInInventory", this.positionInInventory, typeof(Vector2));
         }
 
         public void update(GameTime _GameTime)

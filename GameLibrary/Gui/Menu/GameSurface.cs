@@ -37,6 +37,8 @@ namespace GameLibrary.Gui.Menu
 
             this.AllowMultipleFocus = true;
 
+            this.AllowsDropIn = true;
+
             this.healthComponent = new Healthbar(new Rectangle((int)(this.Bounds.X + this.Bounds.Width * 0.106), (int)(this.Bounds.Y + this.Bounds.Height * 0.18), 187, 188));
             this.healthComponent.BackgroundGraphicPath = "Gui/Menu/GameSurface/Health";
             this.add(this.healthComponent);
@@ -78,9 +80,10 @@ namespace GameLibrary.Gui.Menu
             if (_Component is InventoryItem)
             {             
                 //Iteriere durch alle inventory menus in surface oä....
-                this.inventoryMenu.InventoryOwner.Inventory.dropItem(this.inventoryMenu.InventoryOwner, ((InventoryItem)_Component).ItemObject);
+                /*this.inventoryMenu.InventoryOwner.Inventory.dropItem(this.inventoryMenu.InventoryOwner, ((InventoryItem)_Component).ItemObject);
+                ((InventoryItem)_Component).release();
                 ((InventoryItem)_Component).ItemObject.PositionInInventory = -1;
-                return true;
+                return true;*/
             }
             return false;
         }
@@ -101,11 +104,6 @@ namespace GameLibrary.Gui.Menu
             }
 
             _SpriteBatch.End();
-
-            if (this.inventoryMenu.IsActive)
-            {
-                this.inventoryMenu.checkItems();
-            }
 
             _SpriteBatch.Begin();
             base.draw(_GraphicsDevice, _SpriteBatch);

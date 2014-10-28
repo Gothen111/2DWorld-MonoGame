@@ -55,6 +55,14 @@ namespace GameLibrary.Gui
             set { isFocused = value && IsFocusAble && IsVisible; }
         }
 
+        private String isFocusedTexture = "";
+
+        public String IsFocusedTexture
+        {
+            get { return isFocusedTexture; }
+            set { isFocusedTexture = value; }
+        }
+
         private bool isHovered;
 
         public bool IsHovered
@@ -63,12 +71,28 @@ namespace GameLibrary.Gui
             set { isHovered = value; }
         }
 
+        private String isHoveredTexture;
+
+        public String IsHoveredTexture
+        {
+            get { return isHoveredTexture; }
+            set { isHoveredTexture = value; }
+        }
+
         private bool isPressed;
 
         public bool IsPressed
         {
             get { return isPressed; }
             set { isPressed = value; }
+        }
+
+        private String isPressedTexture;
+
+        public String IsPressedTexture
+        {
+            get { return isPressedTexture; }
+            set { isPressedTexture = value; }
         }
 
         private bool isVisible;
@@ -92,7 +116,7 @@ namespace GameLibrary.Gui
         public String BackgroundGraphicPath
         {
             get { return backgroundGraphicPath; }
-            set { backgroundGraphicPath = value; }
+            set { backgroundGraphicPath = value; updateGraphics(); }
         }
 
         private Rectangle sourceRectangle;
@@ -127,13 +151,21 @@ namespace GameLibrary.Gui
             set { isSelected = value; }
         }
 
-        /*private bool allowsDropIn;
+        private String isSelectedTexture;
+
+        public String IsSelectedTexture
+        {
+            get { return isSelectedTexture; }
+            set { isSelectedTexture = value; }
+        }
+
+        private bool allowsDropIn;
 
         public bool AllowsDropIn
         {
             get { return allowsDropIn; }
             set { allowsDropIn = value; }
-        }*/
+        }
 
         //protected Component parent;
 
@@ -145,6 +177,15 @@ namespace GameLibrary.Gui
             set { componentColor = value; }
         }
 
+        private int zIndex;
+
+        public int ZIndex
+        {
+            get { return zIndex; }
+            set { zIndex = value; }
+        }
+
+
         public Component()
         {
             Input.Mouse.MouseManager.mouseFocus.Add(this);
@@ -152,7 +193,7 @@ namespace GameLibrary.Gui
             isVisible = true;
             this.scale = 1.0f;
             this.isActive = true;
-            //this.allowsDropIn = false;
+            this.allowsDropIn = false;
             //this.parent = null;
             this.componentColor = Color.White;
         }
@@ -257,13 +298,47 @@ namespace GameLibrary.Gui
         {
         }
 
+        private void updateGraphics()
+        {
+            try
+            {
+                Texture2D texture = Ressourcen.RessourcenManager.ressourcenManager.Texture[this.backgroundGraphicPath + "_Selected"];
+                IsSelectedTexture = this.backgroundGraphicPath + "_Selected";
+            }
+            catch (Exception e)
+            {
+                IsSelectedTexture = this.backgroundGraphicPath;
+            }
+
+            try
+            {
+                Texture2D texture = Ressourcen.RessourcenManager.ressourcenManager.Texture[this.backgroundGraphicPath + "_Hover"];
+                IsHoveredTexture = this.backgroundGraphicPath + "_Hover";
+            }
+            catch (Exception e)
+            {
+                IsHoveredTexture = this.backgroundGraphicPath;
+            }
+
+            try
+            {
+                Texture2D texture = Ressourcen.RessourcenManager.ressourcenManager.Texture[this.backgroundGraphicPath + "_Pressed"];
+                IsPressedTexture = this.backgroundGraphicPath + "_Pressed";
+            }
+            catch (Exception e)
+            {
+                IsPressedTexture = this.backgroundGraphicPath;
+            }
+        }
+
         public virtual void draw(GraphicsDevice _GraphicsDevice, SpriteBatch _SpriteBatch)
         {
             if (this.backgroundGraphicPath != null && !this.backgroundGraphicPath.Equals(""))
             {
                 if(this.isActive && this.isVisible)
                 {
-                    Vector2 pos = new Vector2(this.Bounds.X, this.Bounds.Y);
+                    Vector2 pos = new Vector2(this.Bounds.X, this.Bounds.Y); 
+                        
                     if (!this.IsHovered)
                     {
                         if (!this.isSelected)
@@ -272,14 +347,7 @@ namespace GameLibrary.Gui
                         }
                         else
                         {
-                            try
-                            {
-                                _SpriteBatch.Draw(Ressourcen.RessourcenManager.ressourcenManager.Texture[this.backgroundGraphicPath + "_Selected"], pos, null, this.componentColor, 0.0f, Vector2.Zero, this.scale, SpriteEffects.None, 0.0f);
-                            }
-                            catch (Exception e)
-                            {
-                                _SpriteBatch.Draw(Ressourcen.RessourcenManager.ressourcenManager.Texture[this.backgroundGraphicPath], pos, null, this.componentColor, 0.0f, Vector2.Zero, this.scale, SpriteEffects.None, 0.0f);
-                            }
+                            _SpriteBatch.Draw(Ressourcen.RessourcenManager.ressourcenManager.Texture[this.IsPressedTexture], pos, null, this.componentColor, 0.0f, Vector2.Zero, this.scale, SpriteEffects.None, 0.0f);
                         }
                             
                     }
@@ -287,11 +355,11 @@ namespace GameLibrary.Gui
                     {
                         if (!this.isPressed)
                         {
-                            try
+                            if(!this.IsHoveredTexture.Equals(this.backgroundGraphicPath))
                             {
-                                _SpriteBatch.Draw(Ressourcen.RessourcenManager.ressourcenManager.Texture[this.backgroundGraphicPath + "_Hover"], pos, null, this.componentColor, 0.0f, Vector2.Zero, this.scale, SpriteEffects.None, 0.0f);
+                                _SpriteBatch.Draw(Ressourcen.RessourcenManager.ressourcenManager.Texture[this.IsHoveredTexture], pos, null, this.componentColor, 0.0f, Vector2.Zero, this.scale, SpriteEffects.None, 0.0f);
                             }
-                            catch (Exception e)
+                            else
                             {
                                 if (!this.isSelected)
                                 {
@@ -299,30 +367,23 @@ namespace GameLibrary.Gui
                                 }
                                 else
                                 {
-                                    try
-                                    {
-                                        _SpriteBatch.Draw(Ressourcen.RessourcenManager.ressourcenManager.Texture[this.backgroundGraphicPath + "_Selected"], pos, null, this.componentColor, 0.0f, Vector2.Zero, this.scale, SpriteEffects.None, 0.0f);
-                                    }
-                                    catch (Exception f)
-                                    {
-                                        _SpriteBatch.Draw(Ressourcen.RessourcenManager.ressourcenManager.Texture[this.backgroundGraphicPath], pos, null, this.componentColor, 0.0f, Vector2.Zero, this.scale, SpriteEffects.None, 0.0f);
-                                    }
+                                    _SpriteBatch.Draw(Ressourcen.RessourcenManager.ressourcenManager.Texture[this.IsSelectedTexture], pos, null, this.componentColor, 0.0f, Vector2.Zero, this.scale, SpriteEffects.None, 0.0f);
                                 }
                             }
                         }
                         else
                         {
-                            try
+                            if(!this.IsPressedTexture.Equals(this.backgroundGraphicPath))
                             {
-                                _SpriteBatch.Draw(Ressourcen.RessourcenManager.ressourcenManager.Texture[this.backgroundGraphicPath + "_Pressed"], pos, null, this.componentColor, 0.0f, Vector2.Zero, this.scale, SpriteEffects.None, 0.0f);
+                                _SpriteBatch.Draw(Ressourcen.RessourcenManager.ressourcenManager.Texture[this.IsPressedTexture], pos, null, this.componentColor, 0.0f, Vector2.Zero, this.scale, SpriteEffects.None, 0.0f);
                             }
-                            catch (Exception e)
+                            else
                             {
-                                try
+                                if(!this.IsHoveredTexture.Equals(this.backgroundGraphicPath))
                                 {
-                                    _SpriteBatch.Draw(Ressourcen.RessourcenManager.ressourcenManager.Texture[this.backgroundGraphicPath + "_Hover"], pos, null, this.componentColor, 0.0f, Vector2.Zero, this.scale, SpriteEffects.None, 0.0f);
+                                    _SpriteBatch.Draw(Ressourcen.RessourcenManager.ressourcenManager.Texture[this.IsHoveredTexture], pos, null, this.componentColor, 0.0f, Vector2.Zero, this.scale, SpriteEffects.None, 0.0f);
                                 }
-                                catch (Exception f)
+                                else
                                 {
                                     if (!this.isSelected)
                                     {
@@ -330,14 +391,7 @@ namespace GameLibrary.Gui
                                     }
                                     else
                                     {
-                                        try
-                                        {
-                                            _SpriteBatch.Draw(Ressourcen.RessourcenManager.ressourcenManager.Texture[this.backgroundGraphicPath + "_Selected"], pos, null, this.componentColor, 0.0f, Vector2.Zero, this.scale, SpriteEffects.None, 0.0f);
-                                        }
-                                        catch (Exception g)
-                                        {
-                                            _SpriteBatch.Draw(Ressourcen.RessourcenManager.ressourcenManager.Texture[this.backgroundGraphicPath], pos, null, this.componentColor, 0.0f, Vector2.Zero, this.scale, SpriteEffects.None, 0.0f);
-                                        }
+                                        _SpriteBatch.Draw(Ressourcen.RessourcenManager.ressourcenManager.Texture[this.IsSelectedTexture], pos, null, this.componentColor, 0.0f, Vector2.Zero, this.scale, SpriteEffects.None, 0.0f);
                                     }
                                 }
                             }

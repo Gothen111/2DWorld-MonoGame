@@ -43,27 +43,21 @@ namespace GameLibrary.Gui
             this.inventoryOwner = _InventoryOwner;
         }
 
-        /*public override void onDrag(Vector2 _Position)
+        public override void onDrag(Vector2 _Position)
         {
+            this.parent.ZIndex = 100;
             base.onDrag(_Position);
-            if (this.parent is InventoryField)
-            {
-                ((InventoryField)this.parent).removeItem();
-            }
-            if (this.parent is EquipmentField)
-            {
-                ((EquipmentField)this.parent).removeItem();
-            }
-            MenuManager.menuManager.ActiveContainer.add(this);
-            Event.EventList.Add(new Event(new GameLibrary.Connection.Message.CreatureInventoryItemPositionChangeMessage(this.inventoryOwner.Id, itemObject.PositionInInventory, -2), GameMessageImportance.VeryImportant));
         }
 
         public override bool onDrop(Vector2 _Position)
         {
-            //MenuManager.menuManager.ActiveContainer.remove(this);
-
-
             return base.onDrop(_Position);
-        }*/
+        }
+
+        public override void release()
+        {
+            this.parent.Components.Remove(this);
+            base.release();
+        }
     }
 }
