@@ -14,27 +14,25 @@ using System.Runtime.Serialization;
 
 #region Using Statements Class Specific
 using Lidgren.Network;
-using GameLibrary.Map.Chunk;
-using GameLibrary.Map.Region;
+using GameLibrary.Enums;
+using GameLibrary.Map.Dimension;
 #endregion
 
 namespace GameLibrary.Connection.Message
 {
-    public class UpdateChunkMessage : IGameMessage
+    public class UpdateDimensionMessage : IGameMessage
     {
         #region Constructors and Destructors
 
-        public UpdateChunkMessage(NetIncomingMessage im)
+        public UpdateDimensionMessage(NetIncomingMessage im)
         {
             this.Decode(im);
         }
 
-        public UpdateChunkMessage(Chunk _Chunk)
+        public UpdateDimensionMessage(Dimension _Dimension)
         {
-            this.DimensionId = ((Region)_Chunk.Parent).getParent().Id;
+            this.DimensionId = _Dimension.Id;
             this.MessageTime = NetTime.Now;
-            this.Position = _Chunk.Position;
-            this.Chunk = _Chunk;
         }
 
         #endregion
@@ -45,35 +43,25 @@ namespace GameLibrary.Connection.Message
 
         public double MessageTime { get; set; }
 
-        public Vector3 Position { get; set; }
-
-        public Chunk Chunk;
-
         #endregion
 
         #region Public Methods
 
         public EIGameMessageType MessageType
         {
-            get { return EIGameMessageType.UpdateChunkMessage; }
+            get { return EIGameMessageType.UpdateDimensionMessage; }
         }
 
         public void Decode(NetIncomingMessage im)
         {
             this.DimensionId = im.ReadInt32();
             this.MessageTime = im.ReadDouble();
-
-            this.Position = Lidgren.MonoGame.ReadVector3(im);
-
-            this.Chunk = Map.World.World.world.getDimensionById(this.DimensionId).getChunkAtPosition(this.Position);
         }
 
         public void Encode(NetOutgoingMessage om)
         {
             om.Write(this.DimensionId);
             om.Write(this.MessageTime);
-
-            Lidgren.MonoGame.WriteVector3(this.Position, om);
         }
 
         #endregion

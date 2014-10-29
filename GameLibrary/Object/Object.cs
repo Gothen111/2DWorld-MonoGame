@@ -87,6 +87,8 @@ namespace GameLibrary.Object
             {
                 this.collisionBounds.Add(var_Square.Rectangle);
             }
+
+            this.dimensionId = (int)info.GetValue("dimensionId", typeof(int));
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext ctxt)
@@ -100,7 +102,9 @@ namespace GameLibrary.Object
                 var_List.Add(new Utility.Corpus.Square(var_Rectangle));
             }
 
-            info.AddValue("collisionBounds", var_List, typeof(List<Utility.Corpus.Square>)); //???
+            info.AddValue("collisionBounds", var_List, typeof(List<Utility.Corpus.Square>));
+
+            info.AddValue("dimensionId", this.dimensionId, typeof(int));
         }
 
         public virtual void update(GameTime _GameTime)
@@ -113,26 +117,16 @@ namespace GameLibrary.Object
             this.Bounds = new Cube(new Vector3(this.Position.X - this.Size.X / 2, this.Position.Y - this.Size.Y, 0), this.Size);
         }
 
-        public virtual bool teleportTo(Vector3 _Position)
+        public virtual bool teleportTo(Vector3 _Position, int _DimensionId)
         {
-            //TODO: Hat noch Bugs, wenn map noch nicht da ist :/ also block gleich null.... da muss man sich was überlegen :)
-            GameLibrary.Map.Block.Block var_Block = this.getDimensionIsIn().getBlockAtCoordinate(_Position);
-            if(var_Block!=null)
-            {
-                this.currentBlock.removeObject(this);  
-                this.currentBlock = var_Block;
-                this.currentBlock.addObject(this);  
-                this.Position = _Position;
+            World.world.removeObjectFromWorld(this);
 
-                if (Configuration.Configuration.isHost)
-                {
-                    Configuration.Configuration.networkManager.addEvent(new GameLibrary.Connection.Message.UpdateObjectPositionMessage(this), GameLibrary.Connection.GameMessageImportance.VeryImportant);          
-                }
+            this.Position = _Position;
+            this.dimensionId = _DimensionId;
 
-                return true;
-            }
+            World.world.addObject(this);
 
-            return false;
+            return true;
         }
 
         public Dimension getDimensionIsIn()

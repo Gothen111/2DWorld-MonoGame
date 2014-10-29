@@ -12,34 +12,37 @@ using System.Runtime.Serialization;
 
 #region Using Statements Class Specific
 using GameLibrary.Map.Region;
-//using GameLibrary.Map.DungeonGeneration;
+using GameLibrary.Map.Dungeon;
 using GameLibrary.Map.World;
+using GameLibrary.Enums;
+using GameLibrary.Map.Dungeon;
+using GameLibrary.Map.Dungeon.Dungeons;
+using GameLibrary.Map.Dimension;
 #endregion
 
 namespace GameLibrary.Factory
 {
-    public enum DungeonType
-    {
-        Cave
-    }
-
     public class DungeonFactory
     {
-        public static Region createDungeon(Vector3 _Position, Vector3 _Size, DungeonType _DungeonType, World _ParentWorld)
+        public static Dungeon createDungeon(Vector3 _Position, Vector3 _Size, DungeonEnum _DungeonEnum, Dimension _ParentDimension)
         {
-            /*Dungeon var_Dungeon = null;
+            Dungeon var_Dungeon = null;
 
-            switch (_DungeonType)
+            switch (_DungeonEnum)
             {
-                case DungeonType.Cave:
-                    var_Dungeon = new CaveDungeon("", _Position, _Size, RegionEnum.Grassland, _ParentWorld);
+                case DungeonEnum.Cave:
+                    var_Dungeon = new CaveDungeon("", _Position, _Size, RegionEnum.Dungeon, _ParentDimension);
                     break;
+                /*case DungeonEnum.Room:
+                    var_Dungeon = new RoomDungeon("", _Position, _Size, RegionEnum.Dungeon, _ParentDimension);
+                    break;*/
             }
+
             if (var_Dungeon != null)
             {
                 var_Dungeon.createDungeon();
                 return var_Dungeon;
-            }*/
+            }
             return null;
         }
     }

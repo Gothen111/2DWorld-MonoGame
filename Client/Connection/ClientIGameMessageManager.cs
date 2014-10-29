@@ -110,6 +110,31 @@ namespace Client.Connection
             }
         }
 
+        /*private static void handleUpdateDimensionMessage(NetIncomingMessage _Im)
+        {
+            var message = new UpdateDimensionMessage(_Im);
+            var timeDelay = (float)(NetTime.Now - _Im.SenderConnection.GetLocalTime(message.MessageTime));
+
+            if (Configuration.networkManager.client != null)
+            {
+                if (true)
+                {
+                    GameLibrary.Map.Dimension.Dimension var_Dimension = GameLibrary.Map.World.World.world.createDimension(message.DimensionId);
+                    if (var_Dimension != null)
+                    {
+                        if (var_Dimension.IsRequested)
+                        {
+                            var_Dimension.IsRequested = false;
+                        }
+                    }
+                }
+                else
+                {
+                    GameLibrary.Logger.Logger.LogDeb("Dimension sollte hinzugefügt werden, ist allerdings schon vorhanden");
+                }
+            }
+        }*/
+
         private static void handleUpdateRegionMessage(NetIncomingMessage _Im)
         {
             var message = new UpdateRegionMessage(_Im);
@@ -125,8 +150,8 @@ namespace Client.Connection
                         if (var_Region.IsRequested)
                         {
                             var_Region.RegionEnum = message.RegionEnum;
-                            var_Region.IsRequested = false;
                         }
+                        var_Region.IsRequested = false;
                     }
                 }
                 else
@@ -140,12 +165,34 @@ namespace Client.Connection
         {
             var message = new UpdateChunkMessage(_Im);
 
+            GameLibrary.Map.Chunk.Chunk var_Chunk = message.Chunk;
+
+            if (var_Chunk != null)
+            {
+                if (var_Chunk.IsRequested)
+                {
+
+                }
+                var_Chunk.IsRequested = false;
+            }
+
             var timeDelay = (float)(NetTime.Now - _Im.SenderConnection.GetLocalTime(message.MessageTime));
         }
 
         private static void handleUpdateBlockMessage(NetIncomingMessage _Im)
         {
             var message = new UpdateBlockMessage(_Im);
+
+            GameLibrary.Map.Block.Block var_Block = message.Block;
+
+            if (var_Block != null)
+            {
+                if (var_Block.IsRequested)
+                {
+
+                }
+                var_Block.IsRequested = false;
+            }
 
             var timeDelay = (float)(NetTime.Now - _Im.SenderConnection.GetLocalTime(message.MessageTime));
         }
@@ -160,6 +207,7 @@ namespace Client.Connection
                 GameLibrary.Object.Object var_Object = (GameLibrary.Object.Object)(GameLibrary.Map.World.World.world.getObject(message.Id) ?? GameLibrary.Map.World.World.world.addObject(message.Object));//CreatureFactory.creatureFactory.createNpcObject(message.Id, RaceEnum.Human, FactionEnum.Castle_Test, CreatureEnum.Chieftain, GenderEnum.Male));
                 var_Object.Position = message.Position;
                 var_Object.NextPosition = message.Position;
+                var_Object.DimensionId = message.Object.DimensionId;
             }
         }
 
@@ -193,7 +241,7 @@ namespace Client.Connection
                             //if (Configuration.networkManager.client.PlayerObject != var_LivingObject)
                             //{
                             //var_LivingObject.Position += (message.Velocity * timeDelay);
-                            var_LivingObject.NextPosition = message.Position;
+                            var_LivingObject.NextPosition = message.Position;// +(message.Velocity * timeDelay);
                             var_LivingObject.MoveUp = message.MoveUp;
                             var_LivingObject.MoveDown = message.MoveDown;
                             var_LivingObject.MoveLeft = message.MoveLeft;

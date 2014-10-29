@@ -101,14 +101,17 @@ namespace GameLibrary.Map
         {
             if (!Configuration.Configuration.isHost && !Configuration.Configuration.isSinglePlayer)
             {
-                if (this.requestedTimer <= 0 && this.isRequested)
+                if (this.isRequested && !this.parent.isRequested)
                 {
-                    this.requestFromServer();
-                    this.requestedTimer = this.requestedTimerMax;
-                }
-                else
-                {
-                    this.requestedTimer -= 1;
+                    if (this.requestedTimer <= 0)
+                    {
+                        this.requestFromServer();
+                        this.requestedTimer = this.requestedTimerMax;
+                    }
+                    else
+                    {
+                        this.requestedTimer -= 1;
+                    }
                 }
             }
         }

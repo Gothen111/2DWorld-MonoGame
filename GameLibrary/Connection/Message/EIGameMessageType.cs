@@ -34,6 +34,7 @@ namespace GameLibrary.Connection.Message
         UpdateBlockMessage,
         UpdateChunkMessage,
         UpdateCreatureInventoryMessage,
+        UpdateDimensionMessage,
         UpdateFactionsMessage,
         UpdateObjectMessage,
         UpdateObjectMovementMessage,

@@ -76,6 +76,14 @@ namespace GameLibrary
             set { lastUpdateTime = value; }
         }
 
+        private Color drawColor;
+
+        public Color DrawColor
+        {
+            get { return drawColor; }
+            set { drawColor = value; }
+        }
+
         public WorldElement()
         {
         }

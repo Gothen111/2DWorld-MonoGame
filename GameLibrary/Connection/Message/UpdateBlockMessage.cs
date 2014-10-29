@@ -78,7 +78,6 @@ namespace GameLibrary.Connection.Message
                         this.Block.Layer[i] = (BlockEnum)im.ReadInt32();
                     }
                 }
-                this.Block.IsRequested = false;
             }
         }
 

@@ -30,10 +30,28 @@ namespace GameLibrary.Map.World
                 }
             }
 
-            Dimension.Dimension var_NewDimension = new Dimension.Dimension(_DimensionId, this);
+            return this.createDimension(_DimensionId);
+        }
+
+        public Dimension.Dimension createDimension()
+        {
+            Dimension.Dimension var_NewDimension = new Dimension.Dimension(this);
             this.dimensions.Add(var_NewDimension);
 
             return var_NewDimension;
+        }
+
+        public Dimension.Dimension createDimension(int _Id)
+        {
+            Dimension.Dimension var_NewDimension = new Dimension.Dimension(_Id, this);
+            this.dimensions.Add(var_NewDimension);
+
+            return var_NewDimension;
+        }
+
+        public Dimension.Dimension getNextFreeDimension()
+        {
+            return this.createDimension();
         }
 
         #endregion

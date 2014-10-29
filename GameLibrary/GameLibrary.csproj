@@ -73,6 +73,7 @@
     <Compile Include="Connection\Message\CreatureInventoryToEquipmentMessage.cs" />
     <Compile Include="Connection\Message\EIGameMessageType.cs" />
     <Compile Include="Connection\Message\IGameMessage.cs" />
+    <Compile Include="Connection\Message\UpdateDimensionMessage.cs" />
     <Compile Include="Connection\Message\UpdatePreEnvironmentObjectMessage.cs" />
     <Compile Include="Connection\Message\PlayerCommandMessage.cs" />
     <Compile Include="Connection\Message\RemoveObjectMessage.cs" />
@@ -96,6 +97,7 @@
     <Compile Include="Connection\Message\UpdateRegionMessage.cs" />
     <Compile Include="Connection\Message\UpdateWorldMessage.cs" />
     <Compile Include="Connection\NetworkManager.cs" />
+    <Compile Include="Enums\DungeonEnum.cs" />
     <Compile Include="Factory\BehaviourFactory.cs" />
     <Compile Include="Factory\ChunkFactory.cs" />
     <Compile Include="Factory\CreatureFactory.cs" />
@@ -152,6 +154,8 @@
     <Compile Include="Map\Chunk\Decorator\ItemDecoratorItem.cs" />
     <Compile Include="Map\Chunk\Decorator\NpcDecoratorItem.cs" />
     <Compile Include="Map\Dimension\Dimension.cs" />
+    <Compile Include="Map\Dungeon\Dungeon.cs" />
+    <Compile Include="Map\Dungeon\Dungeons\CaveDungeon.cs" />
     <Compile Include="Map\Region\Region.cs" />
     <Compile Include="Map\Region\RegionDependency.cs" />
     <Compile Include="Enums\RegionEnum.cs" />

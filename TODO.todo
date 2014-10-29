@@ -1,0 +1,5 @@
+- DImensionen ehalten array über regionen. Ob existeiren ode nicht. usw. ode on creation doer so
+- Regionen ehalten array über Chunks. Ob existeiren ode nicht. usw. ode equested usw. on load....
+- Überüüfe nachbarn der spieler region. Wenn nicht existieren erstelle :) mit thread. setze dann auf on creation usw.
+- also erstelle immer erst ganze region :D
+- gebe blöchen und chunk übeprufeung ob host oder singleplayer, oder halt client. lade davon abhänig ressoucen :) wie obejket usw. oder speichern

@@ -11,6 +11,7 @@ using System.Runtime.Serialization;
 using GameLibrary.Connection.Message;
 using GameLibrary.Connection;
 using GameLibrary.Enums;
+using GameLibrary.Map.World.SearchFlags;
 #endregion
 
 #region Using Statements Class Specific
@@ -22,22 +23,18 @@ namespace GameLibrary.Map.Block.Blocks
     public class TeleportBlock : Block
     {
         private Vector3 destinationLocation;
-        private Block destinationBlock;
+        private int dimensionId;
 
-        private bool teleportToBlock;
+        private List<Searchflag> allowedFlags;
 
-        public TeleportBlock(Vector3 _Position, BlockEnum _BlockEnum, Chunk.Chunk _ParentChunk, Vector3 _Destination)
+        public TeleportBlock(Vector3 _Position, BlockEnum _BlockEnum, Chunk.Chunk _ParentChunk, Vector3 _Destination, int _DimensionId)
             : base((int)_Position.X, (int)_Position.Y, _BlockEnum, _ParentChunk)
         {
             this.destinationLocation = _Destination;
-            this.teleportToBlock = false;
-        }
+            this.dimensionId = _DimensionId;
 
-        public TeleportBlock(Vector3 _Position, BlockEnum _BlockEnum, Chunk.Chunk _ParentChunk, Block _DestinationBlock)
-            : base((int)_Position.X, (int)_Position.Y, _BlockEnum, _ParentChunk)
-        {
-            this.destinationBlock = _DestinationBlock;
-            this.teleportToBlock = true;
+            this.allowedFlags = new List<Searchflag>();
+            this.allowedFlags.Add(new PlayerObjectFlag());
         }
 
         public TeleportBlock(SerializationInfo info, StreamingContext ctxt) 
@@ -53,16 +50,13 @@ namespace GameLibrary.Map.Block.Blocks
         public override void onObjectEntersBlock(Object.Object var_Object)
         {
             base.onObjectEntersBlock(var_Object);
-            if (teleportToBlock)
+            foreach (Searchflag var_Searchflag in this.allowedFlags)
             {
-                if (this.destinationBlock != null)
+                if (var_Searchflag.hasFlag(var_Object))
                 {
-                    var_Object.teleportTo(this.destinationBlock.Position + new Vector3(Block.BlockSize / 2, Block.BlockSize / 2, 0));
+                    var_Object.teleportTo(this.destinationLocation, this.dimensionId);
+                    return;
                 }
-            }
-            else
-            {
-                var_Object.teleportTo(this.destinationLocation);
             }
         }
     }

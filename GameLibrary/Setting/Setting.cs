@@ -33,5 +33,7 @@ namespace GameLibrary.Setting
 
         public static int resolutionX = 1024;
         public static int resolutionY = 768;
+
+        public static int GameSpeed = 20; // 50 sollte max sein
     }
 }

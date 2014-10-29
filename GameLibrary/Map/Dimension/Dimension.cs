@@ -142,6 +142,8 @@ namespace GameLibrary.Map.Dimension
                 this.objectsToUpdateCounter -= 1;
             }*/
 
+            this.objectsToUpdate = new List<Object.Object>();
+
             this.chunksOutOfRange = new List<Chunk.Chunk>();
             foreach (Region.Region var_Region in this.regions)
             {

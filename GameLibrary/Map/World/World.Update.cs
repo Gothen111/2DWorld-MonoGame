@@ -47,8 +47,15 @@ namespace GameLibrary.Map.World
                 {
                     int var_DimensionId = var_PlayerObject.DimensionId;
                     Dimension.Dimension var_Dimension = this.getDimensionById(var_DimensionId);
-                    var_Dimension.setCurrentPlayerObjects(new List<PlayerObject>() { var_PlayerObject });
-                    var_Dimension.update(_GameTime);
+                    if (var_Dimension != null)
+                    {
+                        var_Dimension.setCurrentPlayerObjects(new List<PlayerObject>() { var_PlayerObject });
+                        var_Dimension.update(_GameTime);
+                    }
+                    else
+                    {
+                        //this.createDimension(var_DimensionId);
+                    }
                 }
             }
         }

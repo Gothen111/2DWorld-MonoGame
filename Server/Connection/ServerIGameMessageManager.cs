@@ -306,8 +306,8 @@ namespace Server.Connection
                 {
                     if (var_LivingObject.LastUpdateTime < message.MessageTime)
                     {
-                        //var_LivingObject.Position = message.Position;
-                        var_LivingObject.NextPosition = message.Position; // +(message.Velocity * timeDelay);
+                        //var_LivingObject.Position += (message.Velocity * timeDelay);
+                        var_LivingObject.NextPosition = message.Position;// +(message.Velocity * timeDelay);
                         var_LivingObject.MoveUp = message.MoveUp;
                         var_LivingObject.MoveDown = message.MoveDown;
                         var_LivingObject.MoveLeft = message.MoveLeft;

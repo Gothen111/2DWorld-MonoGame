@@ -133,13 +133,13 @@ namespace GameLibrary.Object
         {
             base.update(_GameTime);
             this.body.update(_GameTime);
-            this.smoothPosition();
+            this.smoothPosition(_GameTime);
             this.move(_GameTime);
         }
 
-        private void smoothPosition()
+        private void smoothPosition(GameTime _GameTime)
         {
-            float var_DiffX = (this.NextPosition.X - this.Position.X);
+            /*float var_DiffX = (this.NextPosition.X - this.Position.X);
             float var_X;
 
             float var_DiffY = (this.NextPosition.Y - this.Position.Y);
@@ -160,6 +160,34 @@ namespace GameLibrary.Object
             else
             {
                 var_Y = this.Position.Y + var_DiffY / 2;
+            }
+            this.Position = new Vector3(var_X, var_Y, this.Position.Z);*/
+
+            float var_Threshold = this.movementSpeed;
+            float var_InterpolationConstant = 0.5f;
+
+            float var_DiffX = this.NextPosition.X - this.Position.X;
+            float var_X;
+
+            if (Math.Abs(var_DiffX) < var_Threshold)
+            {
+                var_X = this.NextPosition.X;
+            }
+            else
+            {
+                var_X = this.Position.X + var_DiffX * (Setting.Setting.GameSpeed / _GameTime.ElapsedGameTime.Milliseconds) * var_InterpolationConstant;
+            }
+
+            float var_DiffY = this.NextPosition.Y - this.Position.Y;
+            float var_Y;
+
+            if (Math.Abs(var_DiffY) < var_Threshold)
+            {
+                var_Y = this.NextPosition.Y;
+            }
+            else
+            {
+                var_Y = this.Position.Y + var_DiffY * (Setting.Setting.GameSpeed / _GameTime.ElapsedGameTime.Milliseconds) * var_InterpolationConstant;
             }
             this.Position = new Vector3(var_X, var_Y, this.Position.Z);
         }
@@ -216,7 +244,7 @@ namespace GameLibrary.Object
                 }
             }
 
-            this.Velocity = new Vector3(var_X, var_Y, 0) * (20 / _GameTime.ElapsedGameTime.Milliseconds);
+            this.Velocity = new Vector3(var_X, var_Y, 0) * (Setting.Setting.GameSpeed / _GameTime.ElapsedGameTime.Milliseconds);
 
             if ((Configuration.Configuration.isHost && !(this is PlayerObject)) || Configuration.Configuration.isSinglePlayer || this == Configuration.Configuration.networkManager.client.PlayerObject)
             {
@@ -229,12 +257,15 @@ namespace GameLibrary.Object
                     {
                         this.NextPosition = this.Position + this.Velocity;
                         this.Position = this.NextPosition;
-                        Configuration.Configuration.networkManager.addEvent(new GameLibrary.Connection.Message.UpdateObjectPositionMessage((LivingObject)this), GameLibrary.Connection.GameMessageImportance.UnImportant);
+                        if (Configuration.Configuration.isHost || this == Configuration.Configuration.networkManager.client.PlayerObject)
+                        {
+                            Configuration.Configuration.networkManager.addEvent(new GameLibrary.Connection.Message.UpdateObjectPositionMessage((LivingObject)this), GameLibrary.Connection.GameMessageImportance.UnImportant);
+                        }
                     }
                 }
             }
 
-            if (Configuration.Configuration.isHost && this is PlayerObject)
+            if (Configuration.Configuration.isHost && this is PlayerObject && this.OldPosition != this.Position)
             {
                 Configuration.Configuration.networkManager.addEvent(new GameLibrary.Connection.Message.UpdateObjectPositionMessage((LivingObject)this), GameLibrary.Connection.GameMessageImportance.UnImportant);
             }

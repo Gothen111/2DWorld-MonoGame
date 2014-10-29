@@ -34,7 +34,9 @@ namespace GameLibrary.Map.World
         {
             this.Name = _Name;
 
-            dimensions = new List<Dimension.Dimension>();
+            this.dimensions = new List<Dimension.Dimension>();
+
+            this.getNextFreeDimension();
 
             this.playerObjects = new List<PlayerObject>();
 
