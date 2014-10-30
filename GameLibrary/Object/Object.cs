@@ -76,6 +76,7 @@ namespace GameLibrary.Object
         public Object(SerializationInfo info, StreamingContext ctxt)
             : base(info, ctxt)
         {
+            this.nextPosition = (Vector3)info.GetValue("nextPosition", typeof(Vector3));
             this.velocity = (Vector3)info.GetValue("velocity", typeof(Vector3));
 
             this.boundsChanged();
@@ -94,6 +95,8 @@ namespace GameLibrary.Object
         public override void GetObjectData(SerializationInfo info, StreamingContext ctxt)
         {
             base.GetObjectData(info, ctxt);
+
+            info.AddValue("nextPosition", this.nextPosition, typeof(Vector3));
             info.AddValue("velocity", this.velocity, typeof(Vector3));
 
             List<Utility.Corpus.Square> var_List = new List<Utility.Corpus.Square>();
@@ -113,7 +116,6 @@ namespace GameLibrary.Object
 
         protected override void boundsChanged()
         {
-            base.boundsChanged();
             this.Bounds = new Cube(new Vector3(this.Position.X - this.Size.X / 2, this.Position.Y - this.Size.Y, 0), this.Size);
         }
 

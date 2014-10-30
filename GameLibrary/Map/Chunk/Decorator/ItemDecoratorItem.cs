@@ -52,8 +52,9 @@ namespace GameLibrary.Map.Chunk.Decorator
                         {
                             if (_Chunk.Parent != null)
                             {
-                                ((Region.Region)_Chunk.Parent).getParent().addObject(var_itemObject);
+                                //((Region.Region)_Chunk.Parent).getParent().addObject(var_itemObject, true, (Region.Region)_Chunk.Parent);
                             }
+                            var_Block.addObject(var_itemObject);
                         }
                     }
                 }

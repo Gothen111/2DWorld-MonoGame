@@ -35,7 +35,7 @@ namespace GameLibrary.Map.Dungeon.Dungeons
             base.GetObjectData(info, ctxt);
         }
 
-        public override void createDungeon()
+        protected override void createDungeon()
         {
             base.createDungeon();
             Vector3 var_Position = this.Position;
@@ -43,20 +43,10 @@ namespace GameLibrary.Map.Dungeon.Dungeons
             int var_SizeX = Chunk.Chunk.chunkSizeX * Block.Block.BlockSize;
             int var_SizeY = Chunk.Chunk.chunkSizeY * Block.Block.BlockSize;
 
-            int var_Width = 9;
-            int var_Heigth = 9;
-
-            for (int x = 0; x < var_Width; x++)
-            {
-                for (int y = 0; y < var_Heigth; y++)
-                {
-                    this.createChunkAt(new Vector3(var_Position.X + var_SizeX * x, (int)var_Position.Y + var_SizeY * y, 0));
-                }
-            }
+            int var_Width = 5;
+            int var_Heigth = 5;
 
             this.generateDungeon(var_Width, var_Heigth);
-
-            this.setAllNeighboursOfChunks();
         }
 
 
@@ -114,7 +104,7 @@ namespace GameLibrary.Map.Dungeon.Dungeons
 
         public int[,] initialiseMap(int _Width, int _Heigth, int[,] map)
         {
-            float chanceToStartAlive = 0.45f;
+            float chanceToStartAlive = 0.65f;//0.45f;
 
             Random var_Random = new Random();
             for (int x = 0; x < _Width; x++)
@@ -123,11 +113,11 @@ namespace GameLibrary.Map.Dungeon.Dungeons
                 {
                     if (var_Random.NextDouble() < chanceToStartAlive)
                     {
-                        map[x, y] = 0;
+                        map[x, y] = 1;
                     }
                     else
                     {
-                        map[x, y] = 1;
+                        map[x, y] = 0;
                     }
                 }
             }

@@ -116,6 +116,52 @@ namespace GameLibrary.Map
             }
         }
 
+        protected virtual Box getNeighbourBox(Vector3 _Position)
+        {
+            return null;
+        }
+
+        public virtual void setNeighbours()
+        {
+            Vector3 var_Size = this.Bounds.Size + new Vector3(1, 1, 1);
+
+            Vector3 var_Position = new Vector3(this.Position.X - var_Size.X, this.Position.Y, this.Position.Z);
+
+            Box var_LeftNeighbour = this.getNeighbourBox(var_Position);
+            if (var_LeftNeighbour != null)
+            {
+                this.leftNeighbour = var_LeftNeighbour;
+                var_LeftNeighbour.rightNeighbour = this;
+            }
+
+            var_Position = new Vector3(this.Position.X + var_Size.X, this.Position.Y, this.Position.Z);
+
+            Box var_RightNeighbour = this.getNeighbourBox(var_Position);
+            if (var_RightNeighbour != null)
+            {
+                this.rightNeighbour = var_RightNeighbour;
+                var_RightNeighbour.leftNeighbour = this;
+            }
+
+            var_Position = new Vector3(this.Position.X, this.Position.Y - var_Size.Y, this.Position.Z);
+
+            Box var_TopNeighbour = this.getNeighbourBox(var_Position);
+            if (var_TopNeighbour != null)
+            {
+                this.topNeighbour = var_TopNeighbour;
+                var_TopNeighbour.bottomNeighbour = this;
+            }
+
+            var_Position = new Vector3(this.Position.X, this.Position.Y + var_Size.Y, this.Position.Z);
+
+            Box var_BottomNeighbour = this.getNeighbourBox(var_Position);
+            if (var_BottomNeighbour != null)
+            {
+                this.bottomNeighbour = var_BottomNeighbour;
+                var_BottomNeighbour.topNeighbour = this;
+            }
+        }
+
         public virtual void requestFromServer()
         {
             if (!Configuration.Configuration.isSinglePlayer)

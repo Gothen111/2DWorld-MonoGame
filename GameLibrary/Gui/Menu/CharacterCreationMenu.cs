@@ -141,6 +141,7 @@ namespace GameLibrary.Gui.Menu
             this.playerObject = Factory.CreatureFactory.creatureFactory.createPlayerObject(Enums.RaceEnum.Human, Enums.FactionEnum.Beerdrinker, Enums.CreatureEnum.Commandant, _GenderEnum);
             this.playerObject.Body.stopWalk();
             this.playerObject.Position = new Vector3(400, 220, 0);
+            this.playerObject.NextPosition = this.playerObject.Position;
         }
 
         public override void onClick(MouseEnum mouseButton, Vector2 _MousePosition)

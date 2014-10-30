@@ -160,7 +160,7 @@ namespace Server.Connection
             if (var_Block != null)
             {
                 //Configuration.networkManager.SendMessageToClient(new UpdateChunkMessage((GameLibrary.Model.Map.Chunk.Chunk)var_Block.Parent), var_Client);
-                Configuration.networkManager.SendMessageToClient(new UpdateBlockMessage(var_Block), var_Client);
+                Configuration.networkManager.SendMessageToClient(new UpdateBlockMessage(var_Block, message.DimensionId), var_Client);
                 List<GameLibrary.Object.Object> var_Copy = new List<GameLibrary.Object.Object>(var_Block.Objects);
                 foreach (AnimatedObject var_AnimatedObject in var_Copy)
                 {
@@ -227,9 +227,7 @@ namespace Server.Connection
             var timeDelay = (float)(NetTime.Now - _Im.SenderConnection.GetLocalTime(message.MessageTime));
 
             Client var_Client = Configuration.networkManager.getClient(_Im.SenderEndPoint);
-            if (message.Id >= 4000)
-            {
-            }
+
             GameLibrary.Object.LivingObject var_LivingObject = (GameLibrary.Object.LivingObject) GameLibrary.Map.World.World.world.getObject(message.Id);
             
             if (var_LivingObject != null)

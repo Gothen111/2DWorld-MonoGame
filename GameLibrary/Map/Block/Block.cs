@@ -11,6 +11,7 @@ using System.Runtime.Serialization;
 using GameLibrary.Connection.Message;
 using GameLibrary.Connection;
 using GameLibrary.Enums;
+using Utility.Corpus;
 #endregion
 
 #region Using Statements Class Specific
@@ -72,7 +73,7 @@ namespace GameLibrary.Map.Block
             this.objects = new List<Object.Object>();
             this.Position = new Vector3(_PosX, _PosY, 0);
             this.Parent = _ParentChunk;
-
+            
             this.objectsPreEnviorment = new List<Object.Object>();
 
             this.isWalkAble = true;
@@ -84,20 +85,25 @@ namespace GameLibrary.Map.Block
             :base(info, ctxt)
         {
             this.layer = (BlockEnum[])info.GetValue("layer", typeof(BlockEnum[]));
-            /*this.objects = (List<Object.Object>)info.GetValue("objects", typeof(List<Object.Object>));
-            foreach (Object.Object var_Object in this.objects)
-            {
-                GameLibrary.Map.World.World.world.QuadTreeObject.Insert(var_Object);
-                var_Object.CurrentBlock = this;
-            }
-            this.objectsPreEnviorment = (List<Object.Object>)info.GetValue("objectsPreEnviorment", typeof(List<Object.Object>));
-            foreach (Object.Object var_Object in this.objectsPreEnviorment)
-            {
-                var_Object.CurrentBlock = this;
-            }*/
 
-            this.objects = new List<Object.Object>();
-            this.objectsPreEnviorment = new List<Object.Object>();
+            if (Configuration.Configuration.isHost || Configuration.Configuration.isSinglePlayer)
+            {
+                this.objects = (List<Object.Object>)info.GetValue("objects", typeof(List<Object.Object>));
+                foreach (Object.Object var_Object in this.objects)
+                {
+                    var_Object.CurrentBlock = this;
+                }
+                this.objectsPreEnviorment = (List<Object.Object>)info.GetValue("objectsPreEnviorment", typeof(List<Object.Object>));
+                foreach (Object.Object var_Object in this.objectsPreEnviorment)
+                {
+                    var_Object.CurrentBlock = this;
+                }
+            }
+            else
+            {
+                this.objects = new List<Object.Object>();
+                this.objectsPreEnviorment = new List<Object.Object>();
+            }
 
             this.height = (int)info.GetValue("height", typeof(int));
             this.isWalkAble = (bool)info.GetValue("isWalkAble", typeof(bool));
@@ -107,8 +113,14 @@ namespace GameLibrary.Map.Block
         {
             base.GetObjectData(info, ctxt);
             info.AddValue("layer", this.layer, typeof(BlockEnum[]));
-            info.AddValue("objects", this.objects, this.objects.GetType());
-            info.AddValue("objectsPreEnviorment", this.objectsPreEnviorment, this.objectsPreEnviorment.GetType());
+            if (Configuration.Configuration.isHost || Configuration.Configuration.isSinglePlayer)
+            {
+                info.AddValue("objects", this.objects, this.objects.GetType());
+                info.AddValue("objectsPreEnviorment", this.objectsPreEnviorment, this.objectsPreEnviorment.GetType());
+            }
+            else
+            {
+            }
             info.AddValue("height", this.height, typeof(int));
             info.AddValue("isWalkAble", this.isWalkAble, typeof(bool));
         }
@@ -267,6 +279,16 @@ namespace GameLibrary.Map.Block
             {
                 Configuration.Configuration.networkManager.addEvent(new RequestBlockMessage(this), GameMessageImportance.VeryImportant);                   
             }
+        }
+
+        protected override void boundsChanged()
+        {
+            this.Bounds = new Cube(this.Position, new Vector3((Block.BlockSize - 1), (Block.BlockSize - 1), 0));
+        }
+
+        protected override Box getNeighbourBox(Vector3 _Position)
+        {
+            return ((Region.Region)this.Parent.Parent).getParent().getBlockAtCoordinate(_Position);
         }
     }
 }

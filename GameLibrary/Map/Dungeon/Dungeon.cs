@@ -56,7 +56,13 @@ namespace GameLibrary.Map.Dungeon
             base.GetObjectData(info, ctxt);
         }
 
-        public virtual void createDungeon()
+        public override void createRegion()
+        {
+            base.createRegion();
+            this.createDungeon();
+        }
+
+        protected virtual void createDungeon()
         {
         }
     }

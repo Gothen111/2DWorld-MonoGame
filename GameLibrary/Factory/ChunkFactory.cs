@@ -79,7 +79,7 @@ namespace GameLibrary.Factory
             var_Result.ChunkEnum = ChunkEnum.Grassland;
             this.fillChunkWithBlock(var_Result, BlockEnum.Ground1);
 
-            var_Result.setAllNeighboursOfBlocks();
+            //var_Result.setAllNeighboursOfBlocks();// HIER!!!
 
             if (Configuration.Configuration.isHost || Configuration.Configuration.isSinglePlayer)
             {
@@ -102,7 +102,8 @@ namespace GameLibrary.Factory
             var_Result.ChunkEnum = ChunkEnum.Snowland;
             this.fillChunkWithBlock(var_Result, BlockEnum.Ground1);
 
-            var_Result.setAllNeighboursOfBlocks();
+            //var_Result.setAllNeighboursOfBlocks();// HIER!!!
+
             if (Configuration.Configuration.isHost || Configuration.Configuration.isSinglePlayer)
             {
                 //generateWall(var_Result, Utility.Random.Random.GenerateGoodRandomNumber(0, Chunk.chunkSizeX), Utility.Random.Random.GenerateGoodRandomNumber(0, Chunk.chunkSizeY));
@@ -123,7 +124,8 @@ namespace GameLibrary.Factory
             var_Result.ChunkEnum = ChunkEnum.Lavaland;
             this.fillChunkWithBlock(var_Result, BlockEnum.Ground1);
 
-            var_Result.setAllNeighboursOfBlocks();
+            //var_Result.setAllNeighboursOfBlocks();// HIER!!!
+
             if (Configuration.Configuration.isHost || Configuration.Configuration.isSinglePlayer)
             {
                 //generateWall(var_Result, Utility.Random.Random.GenerateGoodRandomNumber(0, Chunk.chunkSizeX), Utility.Random.Random.GenerateGoodRandomNumber(0, Chunk.chunkSizeY));
@@ -144,7 +146,8 @@ namespace GameLibrary.Factory
             var_Result.ChunkEnum = ChunkEnum.Lavaland;
             this.fillChunkWithBlock(var_Result, BlockEnum.Ground2);
 
-            var_Result.setAllNeighboursOfBlocks();
+            //var_Result.setAllNeighboursOfBlocks();// HIER!!!
+
             if (Configuration.Configuration.isHost || Configuration.Configuration.isSinglePlayer)
             {
             }

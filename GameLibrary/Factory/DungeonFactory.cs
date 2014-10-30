@@ -40,7 +40,7 @@ namespace GameLibrary.Factory
 
             if (var_Dungeon != null)
             {
-                var_Dungeon.createDungeon();
+                //var_Dungeon.createDungeon();
                 return var_Dungeon;
             }
             return null;

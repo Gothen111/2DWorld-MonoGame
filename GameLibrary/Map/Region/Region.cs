@@ -55,8 +55,7 @@ namespace GameLibrary.Map.Region
             this.Name = _Name;
             this.Position = new Vector3(_PosX, _PosY, 0);
             this.Size = new Vector3(_Size.X, _Size.Y, _Size.Z);
-            this.Bounds = new Cube(this.Position, new Vector3((regionSizeX * Chunk.Chunk.chunkSizeX * Block.Block.BlockSize - 1), (regionSizeX * Chunk.Chunk.chunkSizeY * Block.Block.BlockSize - 1), 0));
-
+            
             chunks = new Chunk.Chunk[(int)(this.Size.X * this.Size.Y)];
 
             this.regionEnum = _RegionEnum;
@@ -86,12 +85,22 @@ namespace GameLibrary.Map.Region
             info.AddValue("regionEnum", this.regionEnum, typeof(int));
         }
 
+        public virtual void createRegion()
+        {
+
+        }
+
         public Dimension.Dimension getParent()
         {
             return (Dimension.Dimension)this.Parent;
         }
 
         public bool setChunkAtPosition(Vector3 _Position, Chunk.Chunk _Chunk)
+        {
+            return this.setChunkAtPosition(_Position, _Chunk, false);
+        }
+
+        public bool setChunkAtPosition(Vector3 _Position, Chunk.Chunk _Chunk, bool _Loaded)
         {
             Chunk.Chunk var_Chunk = this.getChunkAtPosition(_Chunk.Position);
             if (var_Chunk == null)
@@ -105,17 +114,19 @@ namespace GameLibrary.Map.Region
 
                         int var_Position = (int)(var_X + var_Y * regionSizeX);
                         this.chunks[var_Position] = _Chunk;
-                        //this.setAllNeighboursOfChunk(_Chunk);
-                        this.setAllNeighboursOfChunks();
-                        //World.World.world.setAllNeighboursOfRegion((Region)_Chunk.Parent);
-                        if (GameLibrary.Configuration.Configuration.isHost)
+                        _Chunk.setNeighbours();
+
+                        /*if (Configuration.Configuration.isHost || Configuration.Configuration.isSinglePlayer)
                         {
-                            //GameLibrary.Commands.Executer.Executer.executer.addCommand(new Commands.CommandTypes.UpdateChunkCommand(_Chunk));
-                            //this.saveChunk(_Chunk);
+                            this.loadAllObjectsFromChunkToQuadTree(_Chunk);
+                        }*/
+
+                        if (_Loaded)
+                        {
+                            this.loadAllObjectsFromChunkToQuadTree(_Chunk);
                         }
                         else
                         {
-
                         }
 
                         return true;
@@ -128,6 +139,28 @@ namespace GameLibrary.Map.Region
             {
                 Logger.Logger.LogErr("Region->setChunkAtPosition(...) : Chunk mit Id: " + _Chunk.Id + " schon vorhanden!");
                 return false;
+            }
+        }
+
+
+        public void loadAllObjectsFromChunkToQuadTree(Chunk.Chunk _Chunk)
+        {
+            List<Object.Object> var_ObjectsList = _Chunk.getAllObjectsInChunk();
+
+            for (int i = 0; i < var_ObjectsList.Count; i++)
+            {
+                this.getParent().QuadTreeObject.Insert(var_ObjectsList[i]);
+            }
+        }
+
+        public void setAllNeighboursOfChunks()
+        {
+            for (int i = 0; i < this.chunks.Length; i++)
+            {
+                if (this.chunks[i] != null)
+                {
+                    this.chunks[i].setNeighbours();
+                }
             }
         }
 
@@ -158,97 +191,6 @@ namespace GameLibrary.Map.Region
             return false;
         }
 
-        public void setAllNeighboursOfChunks()
-        {
-            foreach (Chunk.Chunk var_Chunk in this.chunks)
-            {
-                if (var_Chunk != null)
-                {
-                    var_Chunk.Parent = this;
-                    setAllNeighboursOfChunk(var_Chunk);
-                }
-            }
-        }
-
-        public void setAllNeighboursOfChunk(Chunk.Chunk _Chunk)
-        {
-            Chunk.Chunk var_ChunkNeighbourLeft = this.getParent().getChunkAtPosition(new Vector3(_Chunk.Position.X - Chunk.Chunk.chunkSizeX*Block.Block.BlockSize, _Chunk.Position.Y, 0));
-
-            if (var_ChunkNeighbourLeft != null)
-            {
-                _Chunk.LeftNeighbour = var_ChunkNeighbourLeft;
-                var_ChunkNeighbourLeft.RightNeighbour = _Chunk;
-                for (int blockY = 0; blockY < Chunk.Chunk.chunkSizeY; blockY++)
-                {
-                    Block.Block var_BlockRight = _Chunk.getBlockAtPosition(0, blockY);
-                    Block.Block var_BlockLeft = var_ChunkNeighbourLeft.getBlockAtPosition(Chunk.Chunk.chunkSizeX - 1, blockY);
-
-                    if (var_BlockLeft != null && var_BlockRight != null)
-                    {
-                        var_BlockRight.LeftNeighbour = var_BlockLeft;
-                        var_BlockLeft.RightNeighbour = var_BlockRight;
-                    }
-                }
-            }
-
-            Chunk.Chunk var_ChunkNeighbourRight = this.getParent().getChunkAtPosition(new Vector3(_Chunk.Position.X + Chunk.Chunk.chunkSizeX * Block.Block.BlockSize, _Chunk.Position.Y, 0));
-
-            if (var_ChunkNeighbourRight != null)
-            {
-                _Chunk.RightNeighbour = var_ChunkNeighbourRight;
-                var_ChunkNeighbourRight.LeftNeighbour = _Chunk;
-                for (int blockY = 0; blockY < Chunk.Chunk.chunkSizeY; blockY++)
-                {
-                    Block.Block var_BlockRight = var_ChunkNeighbourRight.getBlockAtPosition(0, blockY);
-                    Block.Block var_BlockLeft = _Chunk.getBlockAtPosition(Chunk.Chunk.chunkSizeX - 1, blockY);
-
-                    if (var_BlockLeft != null && var_BlockRight != null)
-                    {
-                        var_BlockLeft.RightNeighbour = var_BlockRight;
-                        var_BlockRight.LeftNeighbour = var_BlockLeft;
-                    }
-                }
-            }
-
-            Chunk.Chunk var_ChunkNeighbourTop = this.getParent().getChunkAtPosition(new Vector3(_Chunk.Position.X, _Chunk.Position.Y - Chunk.Chunk.chunkSizeX * Block.Block.BlockSize, 0));
-
-            if (var_ChunkNeighbourTop != null)
-            {
-                _Chunk.TopNeighbour = var_ChunkNeighbourTop;
-                var_ChunkNeighbourTop.BottomNeighbour = _Chunk;
-                for (int blockX = 0; blockX < Chunk.Chunk.chunkSizeX; blockX++)
-                {
-                    Block.Block var_BlockTop = var_ChunkNeighbourTop.getBlockAtPosition(blockX, Chunk.Chunk.chunkSizeY - 1);
-                    Block.Block var_BlockBottom = _Chunk.getBlockAtPosition(blockX, 0);
-
-                    if (var_BlockTop != null && var_BlockBottom != null)
-                    {
-                        var_BlockBottom.TopNeighbour = var_BlockTop;
-                        var_BlockTop.BottomNeighbour = var_BlockBottom;
-                    }
-                }
-            }
-
-            Chunk.Chunk var_ChunkNeighbourBottom = this.getParent().getChunkAtPosition(new Vector3(_Chunk.Position.X, _Chunk.Position.Y + Chunk.Chunk.chunkSizeX * Block.Block.BlockSize, 0));
-
-            if (var_ChunkNeighbourBottom != null)
-            {
-                _Chunk.BottomNeighbour = var_ChunkNeighbourBottom;
-                var_ChunkNeighbourBottom.TopNeighbour = _Chunk;
-                for (int blockX = 0; blockX < Chunk.Chunk.chunkSizeX; blockX++)
-                {
-                    Block.Block var_BlockTop = _Chunk.getBlockAtPosition(blockX, Chunk.Chunk.chunkSizeY - 1);
-                    Block.Block var_BlockBottom = var_ChunkNeighbourBottom.getBlockAtPosition(blockX, 0);
-
-                    if (var_BlockTop != null && var_BlockBottom != null)
-                    {
-                        var_BlockTop.BottomNeighbour = var_BlockBottom;
-                        var_BlockBottom.TopNeighbour = var_BlockTop;
-                    }
-                }
-            }
-        }
-
         public Chunk.Chunk getChunkAtPosition(Vector3 _Position)
         {
             int var_X = (int)Math.Abs(_Position.X - this.Position.X) / (Block.Block.BlockSize * Chunk.Chunk.chunkSizeX);
@@ -268,25 +210,24 @@ namespace GameLibrary.Map.Region
             Chunk.Chunk var_Chunk = this.loadChunk(_Position.X, _Position.Y);
             if(var_Chunk == null)
             {
-                var_Chunk = GameLibrary.Factory.RegionFactory.regionFactory.createChunkInRegion(this, (int)_Position.X, (int)_Position.Y);
+                var_Chunk = GameLibrary.Factory.RegionFactory.createChunkInRegion(this, (int)_Position.X, (int)_Position.Y);
             }
             else
             {
-                this.setChunkAtPosition(_Position, var_Chunk);
+                this.setChunkAtPosition(_Position, var_Chunk, true);
             }
             return var_Chunk;
         }
 
         public Chunk.Chunk loadChunk(float _PosX, float _PosY)
         {
-            String var_Path = "Save/" + this.Position.X + "_" + this.Position.Y + "/Chunks/" + _PosX + "_" + _PosY + ".sav";
+            String var_Path = "Save/" + this.getParent().Id + "/" + this.Position.X + "_" + this.Position.Y + "/Chunks/" + _PosX + "_" + _PosY + ".sav";
             if (System.IO.File.Exists(var_Path))
             {
                 Chunk.Chunk var_Chunk = (Chunk.Chunk)Utility.IO.IOManager.LoadISerializeAbleObjectFromFile(var_Path);//Utility.Serializer.DeSerializeObject(var_Path);
                 if (var_Chunk != null)
                 {
                     var_Chunk.Parent = this;
-                    var_Chunk.setAllNeighboursOfBlocks();
                     return var_Chunk;
                 }
                 else
@@ -301,7 +242,7 @@ namespace GameLibrary.Map.Region
         public void saveChunk(Chunk.Chunk _Chunk)
         {
             //Speichere erst mal nur blöcke
-            String var_Path = "Save/" + this.Position.X + "_" + this.Position.Y + "/Chunks/" + _Chunk.Position.X + "_" + _Chunk.Position.Y + ".sav";
+            String var_Path = "Save/" + this.getParent().Id + "/" + this.Position.X + "_" + this.Position.Y + "/Chunks/" + _Chunk.Position.X + "_" + _Chunk.Position.Y + ".sav";
             Utility.IO.IOManager.SaveISerializeAbleObjectToFile(var_Path, _Chunk);
         }
 
@@ -408,6 +349,22 @@ namespace GameLibrary.Map.Region
                 return var_Chunk.getBlockAtCoordinate(_Position);
             }
             return null;
+        }
+
+        protected override void boundsChanged()
+        {
+            this.Bounds = new Cube(this.Position, new Vector3((regionSizeX * Chunk.Chunk.chunkSizeX * Block.Block.BlockSize - 1), (regionSizeX * Chunk.Chunk.chunkSizeY * Block.Block.BlockSize - 1), 0));
+        }
+
+        protected override Box getNeighbourBox(Vector3 _Position)
+        {
+            return this.getParent().getRegionAtPosition(_Position);
+        }
+
+        public override void setNeighbours()
+        {
+            base.setNeighbours();
+            this.setAllNeighboursOfChunks();
         }
     }
 }

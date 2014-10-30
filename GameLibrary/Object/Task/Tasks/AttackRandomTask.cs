@@ -75,9 +75,15 @@ namespace GameLibrary.Object.Task.Tasks
             if (updateWantToDo <= 0)
             {
                 wantToDoTaskCheck = true;
-                List<Object> var_Objects = this.TaskOwner.getDimensionIsIn().getObjectsInRange(this.TaskOwner.Position, this.TaskOwner.AggroRange);
-                if (var_Objects.Count <= 1)
-                    wantToDoTaskCheck = false;
+                try
+                {
+                    List<Object> var_Objects = this.TaskOwner.getDimensionIsIn().getObjectsInRange(this.TaskOwner.Position, this.TaskOwner.AggroRange);
+                    if (var_Objects.Count <= 1)
+                        wantToDoTaskCheck = false;
+                }
+                catch (Exception e)
+                {
+                }
                 updateWantToDo = 20;
             }
             else

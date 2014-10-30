@@ -32,9 +32,9 @@ namespace GameLibrary.Connection.Message
             this.Decode(im);
         }
 
-        public UpdateBlockMessage(Block _Block)
+        public UpdateBlockMessage(Block _Block, int _DimensionId)
         {
-            this.DimensionId = ((Region)_Block.Parent.Parent).getParent().Id;
+            this.DimensionId = _DimensionId;//_Block.Parent.Parent.Parent.Id;
             this.MessageTime = NetTime.Now;
             this.Block = _Block;
         }

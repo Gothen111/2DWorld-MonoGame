@@ -142,7 +142,7 @@ namespace GameLibrary.Object
             //TODO: Verändere Methoden, sodass Interaction und Tasks nicht mehr den Owner speichern, sonst gibt es eine Kettenspeicherung bei Serialisierung
             //this.interactions = (List<LivingObjectInteraction>)info.GetValue("interactions", typeof(List<LivingObjectInteraction>));
 
-            this.tasks = (List<LivingObjectTask>)info.GetValue("tasks", typeof(List<LivingObjectTask>));
+            //this.tasks = (List<LivingObjectTask>)info.GetValue("tasks", typeof(List<LivingObjectTask>));
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext ctxt)
@@ -162,7 +162,7 @@ namespace GameLibrary.Object
 
             //info.AddValue("interactions", this.interactions, typeof(List<LivingObjectInteraction>));
 
-            info.AddValue("tasks", this.tasks, typeof(List<LivingObjectTask>));
+            //info.AddValue("tasks", this.tasks, typeof(List<LivingObjectTask>));
         }
 
         public override void update(GameTime _GameTime)
