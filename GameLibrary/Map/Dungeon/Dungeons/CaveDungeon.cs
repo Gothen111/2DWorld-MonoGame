@@ -43,8 +43,8 @@ namespace GameLibrary.Map.Dungeon.Dungeons
             int var_SizeX = Chunk.Chunk.chunkSizeX * Block.Block.BlockSize;
             int var_SizeY = Chunk.Chunk.chunkSizeY * Block.Block.BlockSize;
 
-            int var_Width = 5;
-            int var_Heigth = 5;
+            int var_Width = (int)this.Size.X;
+            int var_Heigth = (int)this.Size.Y;
 
             this.generateDungeon(var_Width, var_Heigth);
         }
@@ -56,14 +56,19 @@ namespace GameLibrary.Map.Dungeon.Dungeons
             int var_Width = _Width * 10;
             int var_Heigth = _Heigth * 10;
 
-            int[,] var_Map = this.generateMap(var_Width, var_Heigth, 2);
+            int[,] var_Map = this.generateMap(var_Width, var_Heigth, 5);
             this.placeStairUp(var_Width, var_Heigth, var_Map);
             this.placeTreasure(var_Width, var_Heigth, var_Map);
             for (int x = 0; x < var_Width; x++)
             {
                 for (int y = 0; y < var_Heigth; y++)
                 {
-                    if (var_Map[x, y] == 1)
+                    if (var_Map[x, y] == 0)
+                    {
+                        Block.Block var_Block = this.getBlockAtCoordinate(this.Position + new Vector3(x, y, 0) * Block.Block.BlockSize);
+                        var_Block.setFirstLayer(BlockEnum.Ground2);
+                    }
+                    else if (var_Map[x, y] == 1)
                     {
                         Block.Block var_Block = this.getBlockAtCoordinate(this.Position + new Vector3(x, y, 0) * Block.Block.BlockSize);
                         var_Block.setFirstLayer(BlockEnum.Ground1);
@@ -102,10 +107,50 @@ namespace GameLibrary.Map.Dungeon.Dungeons
             return cellmap;
         }
 
+        /*
+         * Normal ;)
+         steps = 2;
+         chanceToStartAlive = 0.60f;
+         var_DeathLimit = 4;
+         var_BirthLimit = 3;
+         * */
+
+        /*
+         * Maze Like :D
+         steps = 2;
+         chanceToStartAlive = 0.60f;
+         var_DeathLimit = 5;
+         var_BirthLimit = 2;
+         * */
+
+        /*
+         * Cool Caves
+         steps = 5;
+         chanceToStartAlive = 0.60f;
+         var_DeathLimit = 2;
+         var_BirthLimit = 4;
+         * */
+
+        /*
+         * Holes in the Ground : Mit Wall also 0 als loch ;)
+         steps = 5;
+         chanceToStartAlive = 0.83f;
+         var_DeathLimit = 2;
+         var_BirthLimit = 4;
+         * */
+
+        /*
+         * Wand generierung : Mit Wall also 0 als boden und 1 als Wand :: und dann noch osaw wi placve pesure 3/4 mal sodass alle lücken geschlossen werden :)
+         steps = 5;
+         chanceToStartAlive = 0.55f;
+         var_DeathLimit = 2;
+         var_BirthLimit = 4;
+         * */
+
         public int[,] initialiseMap(int _Width, int _Heigth, int[,] map)
         {
-            float chanceToStartAlive = 0.65f;//0.45f;
-
+            float chanceToStartAlive = 0.55f;//0.45f;
+            //0.55f small cave 0.60f normal cave 0.65f very big cave!
             Random var_Random = new Random();
             for (int x = 0; x < _Width; x++)
             {
@@ -155,8 +200,8 @@ namespace GameLibrary.Map.Dungeon.Dungeons
 
         public int[,] doSimulationStep(int _Width, int _Heigth, int[,] oldMap)
         {
-            int var_DeathLimit = 4;
-            int var_BirthLimit = 3;
+            int var_DeathLimit = 4;//4
+            int var_BirthLimit = 3;//3
             int[,] newMap = new int[_Width, _Heigth];
             //Loop over each row and column of the map
             for (int x = 0; x < oldMap.GetLength(0); x++)
@@ -197,10 +242,10 @@ namespace GameLibrary.Map.Dungeon.Dungeons
         {
             //How hidden does a spot need to be for treasure?
             //I find 5 or 6 is good. 6 for very rare treasure.
-            int var_Limit = 6;
-            int var_LimitMax = 7;
+            int var_Limit = 6;//6
+            int var_LimitMax = 7;//7
 
-            float var_Factor = 0.25f;
+            float var_Factor = 0.25f;//0.25f
 
             Random var_Random = new Random();
 

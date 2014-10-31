@@ -44,6 +44,10 @@ namespace GameLibrary.Factory
                     {
                         return generateRegionLavaland(_Name, _PosX, _PosY, _ParentDimension);
                     }
+                case RegionEnum.Dungeon:
+                    {
+                        return createDungeon(_Name, new Vector3(_PosX, _PosY, 0), new Vector3(Region.regionSizeX, Region.regionSizeY, 0), DungeonEnum.Cave, _ParentDimension);
+                    }
             }
             return null;
         }

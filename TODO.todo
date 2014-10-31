@@ -6,3 +6,6 @@
 
 
 - Tasks erst mal aus Living object serialiseren rausgenommen. Man muss nacher den taskowne eestimmen!!! beim desialisern oder generl. ohne tasowenr machen :)
+
+- Chunks vll nach ihrer var_Position des arrays speichern ;) und nicht nach position.....
+- Bei Regionen was ähnlcihes übelegen!!

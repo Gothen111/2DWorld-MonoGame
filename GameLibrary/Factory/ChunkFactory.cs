@@ -144,7 +144,7 @@ namespace GameLibrary.Factory
 
             var_Result = new Chunk("Chunk", _PosX, _PosY, _ParentRegion);
             var_Result.ChunkEnum = ChunkEnum.Lavaland;
-            this.fillChunkWithBlock(var_Result, BlockEnum.Ground2);
+            this.fillChunkWithBlock(var_Result, BlockEnum.Ground1);
 
             //var_Result.setAllNeighboursOfBlocks();// HIER!!!
 
