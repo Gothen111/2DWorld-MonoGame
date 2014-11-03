@@ -79,12 +79,79 @@ namespace GameLibrary.Factory
             var_Result.ChunkEnum = ChunkEnum.Grassland;
             this.fillChunkWithBlock(var_Result, BlockEnum.Ground1);
 
+            if (_PosX == 0 && _PosY == 0)
+            {
+                int var_X = 70;
+                int var_Y = 70;
+                List<Utility.Algorithm.Noise.PerlinNoise> perlins = new List<Utility.Algorithm.Noise.PerlinNoise>();
+                //perlins.Add(new Utility.Algorithm.Noise.PerlinNoise(36, 29));
+                perlins.Add(new Utility.Algorithm.Noise.PerlinNoise(100, 30, 1));
+                //perlins.Add(new Utility.Algorithm.Noise.PerlinNoise(9, 15, 1));
+
+                for (int x = 1; x < 2; x++)
+                {
+                    for (int y = 1; y < 2; y++)
+                    {
+                        double[,] noisemap_TopToBottom = Utility.Algorithm.Noise.PerlinNoise.getHeightMap(new Vector3(0,0,0), new Vector3(70,70,0), 70, perlins);
+                        this.testdraw(noisemap_TopToBottom, 0, 0);
+                    }
+                }
+
+                /*for (short x = 0; x < var_X; x++)
+                {
+                    for (short z = 0; z < var_Y; z++)
+                    {
+                        float var_Noise = (int)((float)Utility.Algorithm.Noise.SimpleNoise.Generate(x, z) * 30);
+                        Console.ForegroundColor = ConsoleColor.Black;
+                        if (var_Noise < 5)
+                        {
+                            Console.ForegroundColor = ConsoleColor.DarkBlue;
+                        }
+                        if (var_Noise < 10)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Blue;
+                        }
+                        if (var_Noise > 10)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Green;
+                        }
+                        if (var_Noise > 20)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Gray;
+                        }
+                        if (var_Noise > 25)
+                        {
+                            Console.ForegroundColor = ConsoleColor.DarkGray;
+                        }
+                        Console.Write(var_Noise + " ");//((int)noisemap_TopToBottom[x, z]) + "");
+                        //noisemap_TopToBottom[x, z] += noisemap_LeftToRight[z, x];
+                    }
+                    Console.WriteLine();
+                }*/
+
+                
+
+                /*for (short x = 0; x < 10; x++)
+                {
+                    for (short z = 0; z < 10; z++)
+                    {
+                        /*if (noisemap_TopToBottom[x, z] > 25)
+                        {
+                            var_Result.getBlockAtPosition(x, z).setFirstLayer(BlockEnum.Ground2);
+                        }
+                        //var_Result.getBlockAtPosition(x, centrey - (int)noisemap_TopToBottom[x, z]).setFirstLayer(BlockEnum.Ground2);
+                        //blocks[x, centrey - (int)noisemap[x, z], z].BlockType = BlockType.stone;
+                    }
+                }*/
+            }
+
+
             //var_Result.setAllNeighboursOfBlocks();// HIER!!!
 
             if (Configuration.Configuration.isHost || Configuration.Configuration.isSinglePlayer)
             {
                 //generateWall(var_Result, Utility.Random.Random.GenerateGoodRandomNumber(0, Chunk.chunkSizeX), Utility.Random.Random.GenerateGoodRandomNumber(0, Chunk.chunkSizeY));
-                generateSecondLayer(var_Result, _Layer);
+                //generateSecondLayer(var_Result, _Layer);
             }
             else
             {
@@ -92,6 +159,41 @@ namespace GameLibrary.Factory
             }
 
             return var_Result;
+        }
+
+        private void testdraw(double[,] noisemap_TopToBottom, int _X, int _Y)
+        {
+            for (int x = _X; x < _X + 70; x++)
+                {
+                    for (int z = _Y; z < _Y + 70; z++)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Black;
+                        if (noisemap_TopToBottom[x, z] < 5)
+                        {
+                            Console.ForegroundColor = ConsoleColor.DarkBlue;
+                        }
+                        if (noisemap_TopToBottom[x, z] < 10)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Blue;
+                        }
+                        if (noisemap_TopToBottom[x, z] > 10)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Green;
+                        }
+                        if (noisemap_TopToBottom[x, z] > 20)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Gray;
+                        }
+                        if ( noisemap_TopToBottom[x, z] > 25)
+                        {
+                            Console.ForegroundColor = ConsoleColor.DarkGray;
+                        }
+                        Console.Write("0");//((int)noisemap_TopToBottom[x, z]) + "");
+                        //noisemap_TopToBottom[x, z] += noisemap_LeftToRight[z, x];
+                    }
+                    Console.WriteLine();
+                }
+            Console.WriteLine("------------------------------------");
         }
 
         private Chunk createChunkSnowland(int _PosX, int _PosY, List<Enum> _Layer, Region _ParentRegion)
@@ -107,7 +209,7 @@ namespace GameLibrary.Factory
             if (Configuration.Configuration.isHost || Configuration.Configuration.isSinglePlayer)
             {
                 //generateWall(var_Result, Utility.Random.Random.GenerateGoodRandomNumber(0, Chunk.chunkSizeX), Utility.Random.Random.GenerateGoodRandomNumber(0, Chunk.chunkSizeY));
-                generateSecondLayer(var_Result, _Layer);
+                //generateSecondLayer(var_Result, _Layer);
             }
             else
             {
@@ -129,7 +231,7 @@ namespace GameLibrary.Factory
             if (Configuration.Configuration.isHost || Configuration.Configuration.isSinglePlayer)
             {
                 //generateWall(var_Result, Utility.Random.Random.GenerateGoodRandomNumber(0, Chunk.chunkSizeX), Utility.Random.Random.GenerateGoodRandomNumber(0, Chunk.chunkSizeY));
-                generateSecondLayer(var_Result, _Layer);
+                //generateSecondLayer(var_Result, _Layer);
             }
             else 
             { 

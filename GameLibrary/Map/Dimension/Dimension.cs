@@ -377,7 +377,7 @@ namespace GameLibrary.Map.Dimension
             Region.Region var_Region = this.loadRegion(_Position);
             if (var_Region == null)
             {
-                int var_RegionType = Utility.Random.Random.GenerateGoodRandomNumber(0, Enum.GetValues(typeof(RegionEnum)).Length - 1);
+                int var_RegionType = 0;//Utility.Random.Random.GenerateGoodRandomNumber(0, Enum.GetValues(typeof(RegionEnum)).Length - 1);
                 var_Region = GameLibrary.Factory.RegionFactory.generateRegion("Region", (int)_Position.X, (int)_Position.Y, (RegionEnum)var_RegionType, this);
                 this.addRegion(var_Region);
             }
@@ -750,6 +750,35 @@ namespace GameLibrary.Map.Dimension
                 Logger.Logger.LogErr(e.ToString());
             }
         }
+        #endregion
+
+        #region Map Generation
+
+        public double[,] getHeightMap(Vector3 _Position, Vector3 _Size)
+        {
+            int var_MapSize = Configuration.Configuration.maxMapSize;
+
+            _Position = _Position / Block.Block.BlockSize;
+
+            float var_X = _Position.X;
+            if (_Position.X < 0)
+            {
+                var_X = var_MapSize + var_X;
+            }
+
+            float var_Y = _Position.Y;
+            if (_Position.Y < 0)
+            {
+                var_Y = var_MapSize + var_Y;
+            }
+
+            _Position = new Vector3(var_X, var_Y, 0);
+
+            //TODO: Flip Methode für jeweils X negativ und Y negativ
+
+            return Utility.Algorithm.Noise.PerlinNoise.getHeightMap(_Position, _Size, Configuration.Configuration.maxMapSize, Configuration.Configuration.seed);
+        }
+
         #endregion
     }
 }

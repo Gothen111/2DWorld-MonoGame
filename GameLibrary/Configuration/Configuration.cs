@@ -28,5 +28,8 @@ namespace GameLibrary.Configuration
         public static GameManager gameManager;
         public static CommandManager commandManager;
         public static NetworkManager networkManager;
+
+        public static int maxMapSize = 1000; //In Blöcken!!!
+        public static int seed = 1;
     }
 }

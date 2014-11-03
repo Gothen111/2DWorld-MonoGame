@@ -52,7 +52,7 @@ namespace GameLibrary.Camera
         {
             this.target = null;
             this.position = new Vector3(0, 0, 0);
-            this.zoom = 1.0f;
+            this.zoom = 0.5f;
             this.viewPort = _ViewPort;
             KeyboardManager.keyboardFocus.Add(this);
         }

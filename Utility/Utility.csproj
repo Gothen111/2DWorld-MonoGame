@@ -47,6 +47,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Algorithm\Noise\SimpleNoise.cs" />
+    <Compile Include="Algorithm\Noise\PerlinNoise.cs" />
     <Compile Include="Collision\Intersection.cs" />
     <Compile Include="Corpus\Circle.cs" />
     <Compile Include="Corpus\Cube.cs" />

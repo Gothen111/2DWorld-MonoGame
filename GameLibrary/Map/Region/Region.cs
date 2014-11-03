@@ -87,7 +87,29 @@ namespace GameLibrary.Map.Region
 
         public virtual void createRegion()
         {
+            //if (this.Position.X == 0 && this.Position.Y == 0)
+            //{
+                double[,] var_HeigthMap = this.getParent().getHeightMap(this.Position, new Vector3(regionSizeX * Chunk.Chunk.chunkSizeX, regionSizeY * Chunk.Chunk.chunkSizeY, 0));
 
+                double test = 0;
+                for (int x = 0; x < var_HeigthMap.GetLength(0); x++)
+                {
+                    for (int y = 0; y < var_HeigthMap.GetLength(1); y++)
+                    {
+                        Block.Block var_Block = this.getBlockAtCoordinate(new Vector3(this.Position.X + x * Block.Block.BlockSize, this.Position.Y + y * Block.Block.BlockSize, 0));
+                        if (var_Block != null)
+                        {
+                            if (var_HeigthMap[x, y] > 40)
+                            {
+                                var_Block.setFirstLayer(BlockEnum.Ground2);
+                            }
+                        }
+
+                        test += var_HeigthMap[x, y];
+                    }
+                }
+                Console.WriteLine(test / 10000);
+            //}
         }
 
         public Dimension.Dimension getParent()
