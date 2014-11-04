@@ -13,6 +13,7 @@ using GameLibrary.Connection.Message;
 using GameLibrary.Connection;
 using GameLibrary.Enums;
 using GameLibrary.Map.Chunk.Decorator;
+using GameLibrary.Factory;
 #endregion
 
 #region Using Statements Class Specific
@@ -99,9 +100,13 @@ namespace GameLibrary.Map.Region
                         Block.Block var_Block = this.getBlockAtCoordinate(new Vector3(this.Position.X + x * Block.Block.BlockSize, this.Position.Y + y * Block.Block.BlockSize, 0));
                         if (var_Block != null)
                         {
-                            if (var_HeigthMap[x, y] > 40)
+                            if (var_HeigthMap[x, y] < 20)
                             {
-                                var_Block.setFirstLayer(BlockEnum.Ground2);
+                                var_Block.setFirstLayer(BlockEnum.Water);
+                            }
+                            else if (var_HeigthMap[x, y] > 40)
+                            {
+                                var_Block.setFirstLayer(BlockEnum.Wall);
                             }
                         }
 
@@ -110,6 +115,16 @@ namespace GameLibrary.Map.Region
                 }
                 Console.WriteLine(test / 10000);
             //}
+
+            foreach(Chunk.Chunk var_Chunk in this.chunks)
+            {
+                if (var_Chunk != null)
+                {
+                    ChunkFactory.chunkFactory.generateChunk(var_Chunk, RegionDependency.regionDependency.getLayer(this.RegionEnum));
+                    Decorator.decorator.decorateChunk(var_Chunk);
+                    this.loadAllObjectsFromChunkToQuadTree(var_Chunk);
+                }
+            }
         }
 
         public Dimension.Dimension getParent()

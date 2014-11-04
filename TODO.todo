@@ -10,4 +10,4 @@
 - Chunks vll nach ihrer var_Position des arrays speichern ;) und nicht nach position.....
 - Bei Regionen was ähnlcihes übelegen!!
 
-- Dimension get HeightMap : Flip Methode für jeweils X negativ und Y negativ
+- Dimension get HeightMap : Modulo :)

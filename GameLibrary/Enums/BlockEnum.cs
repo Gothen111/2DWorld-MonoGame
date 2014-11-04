@@ -18,8 +18,10 @@ namespace GameLibrary.Enums
     public enum BlockEnum
     {
         Nothing,
+        Wall,
         Ground1,
         Ground2,
+        Water,
         Gras,
         Stone,
         Dirt,
@@ -27,7 +29,6 @@ namespace GameLibrary.Enums
         Ice,
         Desert,
         Forest,
-        Wall,
         Hill1_Center,
         Hill1_Corner1,
         Hill1_Corner2,

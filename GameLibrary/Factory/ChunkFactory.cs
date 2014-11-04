@@ -51,21 +51,21 @@ namespace GameLibrary.Factory
             return null;
         }
 
-        public Chunk generateChunk(Chunk _Chunk)
+        public Chunk generateChunk(Chunk _Chunk, List<Enum> _Layer)
         {
             switch (_Chunk.ChunkEnum)
             {
                 case ChunkEnum.Grassland:
                     {
-                        return generateChunkGrassland(_Chunk);
+                        return generateChunkGrassland(_Chunk, _Layer);
                     }
                 case ChunkEnum.Snowland:
                     {
-                        return generateChunkSnowland(_Chunk);
+                        return generateChunkSnowland(_Chunk, _Layer);
                     }
                 case ChunkEnum.Lavaland:
                     {
-                        return generateChunkLavaland(_Chunk);
+                        return generateChunkLavaland(_Chunk, _Layer);
                     }
             }
             return null;
@@ -260,10 +260,11 @@ namespace GameLibrary.Factory
             return var_Result;
         }
 
-        private Chunk generateChunkGrassland(Chunk _Chunk)
+        private Chunk generateChunkGrassland(Chunk _Chunk, List<Enum> _Layer)
         {
             if (Configuration.Configuration.isHost || Configuration.Configuration.isSinglePlayer)
             {
+                generateSecondLayer(_Chunk, _Layer);
             }
             else
             {
@@ -272,10 +273,11 @@ namespace GameLibrary.Factory
             return _Chunk;
         }
 
-        private Chunk generateChunkSnowland(Chunk _Chunk)
+        private Chunk generateChunkSnowland(Chunk _Chunk, List<Enum> _Layer)
         {
             if (Configuration.Configuration.isHost || Configuration.Configuration.isSinglePlayer)
             {
+                generateSecondLayer(_Chunk, _Layer);
             }
             else
             {
@@ -284,10 +286,11 @@ namespace GameLibrary.Factory
             return _Chunk;
         }
 
-        private Chunk generateChunkLavaland(Chunk _Chunk)
+        private Chunk generateChunkLavaland(Chunk _Chunk, List<Enum> _Layer)
         {
             if (Configuration.Configuration.isHost || Configuration.Configuration.isSinglePlayer)
             {
+                generateSecondLayer(_Chunk, _Layer);
             }
             else
             {

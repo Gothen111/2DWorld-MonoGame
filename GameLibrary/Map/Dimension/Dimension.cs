@@ -758,7 +758,7 @@ namespace GameLibrary.Map.Dimension
         {
             int var_MapSize = Configuration.Configuration.maxMapSize;
 
-            _Position = _Position / Block.Block.BlockSize;
+            _Position = (_Position / Block.Block.BlockSize);// % var_MapSize;
 
             float var_X = _Position.X;
             if (_Position.X < 0)
@@ -773,8 +773,6 @@ namespace GameLibrary.Map.Dimension
             }
 
             _Position = new Vector3(var_X, var_Y, 0);
-
-            //TODO: Flip Methode für jeweils X negativ und Y negativ
 
             return Utility.Algorithm.Noise.PerlinNoise.getHeightMap(_Position, _Size, Configuration.Configuration.maxMapSize, Configuration.Configuration.seed);
         }

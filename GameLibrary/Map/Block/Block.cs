@@ -136,7 +136,7 @@ namespace GameLibrary.Map.Block
             this.layer[0] = (BlockEnum)_Enum;
             if (_Enum is BlockEnum)
             {
-                if ((BlockEnum)_Enum == BlockEnum.Wall)
+                if ((BlockEnum)_Enum == BlockEnum.Wall || (BlockEnum)_Enum == BlockEnum.Water)
                 {
                     this.isWalkAble = false;
                 }

@@ -147,10 +147,6 @@ namespace GameLibrary.Factory
             if (var_Chunk != null)
             {
                 addChunkToRegion(_Region, _PosX, _PosY, var_Chunk);
-                //ChunkFactory.chunkFactory.generateChunk(var_Chunk);
-                Decorator.decorator.decorateChunk(var_Chunk);
-
-                _Region.loadAllObjectsFromChunkToQuadTree(var_Chunk);
             }  
 
             return var_Chunk;
