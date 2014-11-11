@@ -77,7 +77,7 @@ namespace GameLibrary.Map.Region
         {
             this.regionEnum = (RegionEnum)info.GetValue("regionEnum", typeof(int));
 
-            this.chunks = new Chunk.Chunk[regionSizeX * regionSizeY];
+            this.chunks = new Chunk.Chunk[(int)(this.Size.X * this.Size.Y)];
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext ctxt)
@@ -86,34 +86,40 @@ namespace GameLibrary.Map.Region
             info.AddValue("regionEnum", this.regionEnum, typeof(int));
         }
 
+        protected virtual void setBlockLayerFromHeight(Block.Block _Block, int _Height, int _MaxHeight)
+        {
+            if (_Height < 20)
+            {
+                _Block.setFirstLayer(BlockEnum.Water);
+            }
+            else if (_Height > 40)
+            {
+                _Block.setFirstLayer(BlockEnum.Wall);
+            }
+        }
+
         public virtual void createRegion()
         {
             //if (this.Position.X == 0 && this.Position.Y == 0)
             //{
-                double[,] var_HeigthMap = this.getParent().getHeightMap(this.Position, new Vector3(regionSizeX * Chunk.Chunk.chunkSizeX, regionSizeY * Chunk.Chunk.chunkSizeY, 0));
+                double[,] var_HeightMap = this.getParent().getHeightMap(this.Position, new Vector3(this.Size.X * Chunk.Chunk.chunkSizeX, this.Size.Y * Chunk.Chunk.chunkSizeY, 0));
 
-                double test = 0;
-                for (int x = 0; x < var_HeigthMap.GetLength(0); x++)
+                double var_AverageRegionHeight = 0;
+                for (int x = 0; x < var_HeightMap.GetLength(0); x++)
                 {
-                    for (int y = 0; y < var_HeigthMap.GetLength(1); y++)
+                    for (int y = 0; y < var_HeightMap.GetLength(1); y++)
                     {
                         Block.Block var_Block = this.getBlockAtCoordinate(new Vector3(this.Position.X + x * Block.Block.BlockSize, this.Position.Y + y * Block.Block.BlockSize, 0));
                         if (var_Block != null)
                         {
-                            if (var_HeigthMap[x, y] < 20)
-                            {
-                                var_Block.setFirstLayer(BlockEnum.Water);
-                            }
-                            else if (var_HeigthMap[x, y] > 40)
-                            {
-                                var_Block.setFirstLayer(BlockEnum.Wall);
-                            }
+                            this.setBlockLayerFromHeight(var_Block, (int)var_HeightMap[x, y], 60);                        
                         }
 
-                        test += var_HeigthMap[x, y];
+                        var_AverageRegionHeight += var_HeightMap[x, y];
                     }
                 }
-                Console.WriteLine(test / 10000);
+                var_AverageRegionHeight = var_AverageRegionHeight / (this.Size.X * Chunk.Chunk.chunkSizeX * this.Size.Y * Chunk.Chunk.chunkSizeY);
+                Console.WriteLine(var_AverageRegionHeight);
             //}
 
             foreach(Chunk.Chunk var_Chunk in this.chunks)
@@ -261,7 +267,7 @@ namespace GameLibrary.Map.Region
             String var_Path = "Save/" + this.getParent().Id + "/" + this.Position.X + "_" + this.Position.Y + "/Chunks/" + _PosX + "_" + _PosY + ".sav";
             if (System.IO.File.Exists(var_Path))
             {
-                Chunk.Chunk var_Chunk = (Chunk.Chunk)Utility.IO.IOManager.LoadISerializeAbleObjectFromFile(var_Path);//Utility.Serializer.DeSerializeObject(var_Path);
+                Chunk.Chunk var_Chunk = (Chunk.Chunk)Utility.IO.IOManager.LoadISerializeAbleObjectFromFile(var_Path);
                 if (var_Chunk != null)
                 {
                     var_Chunk.Parent = this;
@@ -278,25 +284,8 @@ namespace GameLibrary.Map.Region
 
         public void saveChunk(Chunk.Chunk _Chunk)
         {
-            //Speichere erst mal nur blöcke
             String var_Path = "Save/" + this.getParent().Id + "/" + this.Position.X + "_" + this.Position.Y + "/Chunks/" + _Chunk.Position.X + "_" + _Chunk.Position.Y + ".sav";
             Utility.IO.IOManager.SaveISerializeAbleObjectToFile(var_Path, _Chunk);
-        }
-
-        public Chunk.Chunk getChunkObjectIsIn(GameLibrary.Object.Object _Object)
-        {
-            //TODO: Fehlerbehandlungen, falls LivingObject nicht in der Region ist --> Nullpointer da var_X oder var_Y zu klein/groß
-            int var_X = (int)(_Object.Position.X / ((this.Position.X + 1) * Chunk.Chunk.chunkSizeX * Block.Block.BlockSize));
-            int var_Y = (int)(_Object.Position.Y / ((this.Position.Y + 1) * Chunk.Chunk.chunkSizeY * Block.Block.BlockSize));
-            if (var_X >= Region.regionSizeX || var_Y >= Region.regionSizeY)
-            {
-                Logger.Logger.LogErr("LivingObject befindet sich nicht in Region " + this.Id);
-                return null;
-            }
-            else
-            {
-                return this.getChunkAtPosition(_Object.Position);
-            }
         }
 
         public override void update(GameTime _GameTime)

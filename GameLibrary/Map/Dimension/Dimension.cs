@@ -558,7 +558,7 @@ namespace GameLibrary.Map.Dimension
             }
             if (_Region != null)
             {
-                Chunk.Chunk chunk = _Region.getChunkObjectIsIn(_Object);
+                Chunk.Chunk chunk = _Region.getChunkAtPosition(_Object.Position);
                 if (chunk != null)
                 {
                     Block.Block var_Block = chunk.getBlockAtCoordinate(_Object.Position);
@@ -583,7 +583,7 @@ namespace GameLibrary.Map.Dimension
         {
             if (_Region != null)
             {
-                Chunk.Chunk chunk = _Region.getChunkObjectIsIn(_Object);
+                Chunk.Chunk chunk = _Region.getChunkAtPosition(_Object.Position);
                 if (chunk != null)
                 {
                     Block.Block var_Block = chunk.getBlockAtCoordinate(_Object.Position);

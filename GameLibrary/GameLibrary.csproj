@@ -159,6 +159,7 @@
     <Compile Include="Map\Region\Region.cs" />
     <Compile Include="Map\Region\RegionDependency.cs" />
     <Compile Include="Enums\RegionEnum.cs" />
+    <Compile Include="Map\Region\Regions\Grassland.cs" />
     <Compile Include="Map\Room\Room.cs" />
     <Compile Include="Object\AnimatedObject.cs" />
     <Compile Include="Object\Animation\AnimatedObjectAnimation.cs" />

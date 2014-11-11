@@ -1,0 +1,76 @@
+Anforderungsmodell:
+
+Welt, aus Blöcken. Verschiedene Ebenen wie Oberwelt, Dungeons / Höhlen.
+Zufällig. Welt, Städte, Dörfer, Objekte, Waffen, Zauber, Rüstung, Quests ...
+Inteaktion zweischen objekten
+Event methoden für die objetke, z.b. Item wird angelegt ....
+Serialisieren, abhänigkeiten
+Völker Faktionen
+Animationen, größe des bildes keine rolle
+Gui, Inventar ...
+Multiplayer/Commands, Netzwerkprotokoll
+Camera, positions abhängig
+Spielersteueung einschränken und sowas
+Buffs, manipulationen des objekts
+Überleben / Survival modus
+Server speichet quests
+Spieler bekommt special id
+Decoator auch nach erstellung des chunks
+
+
+Funktionsumfang:
+
+- Welt
+-> Terrain verwalten
+-> automatisch
+-> Generator
+-> Spieler: Spieler bewegt sich
+
+- Dimensionen
+-> Gebe Block an position zurück
+-> Setze Block an Position
+-> Generator
+
+- Chunk
+-> Gebe Block an position zurück
+-> Setze Block an Position
+-> speichern
+-> laden
+-> nachbarn
+-> parent
+-> position
+-> größe
+-> Blöcke
+-> setzte nachbarn von Blöcken
+
+- Block
+-> Ist Positions einheit. Sind Ganze Zahlen
+-> RegionEnum
+-> TextureLayer
+-> Event: Objekt betritt Block
+-> Event: Objekt verlässt Block
+-> Event: Block wird verändert
+-> Liste von Listenern, die bescheid bekommen
+-> Farbe
+-> Lichtintensität
+-> Nachbarn
+-> Parent
+-> Event: Objekt interagiert mit block
+-> größe
+-> setzte nachbar
+
+
+- PlayerManager
+-> Liste der SPieler
+-> Commands .... CHats
+-> Event: Spieler joined
+-> Event: Spieler velässt
+-> Welt, chunks aus der welt entfernen / chunk / BLock wid benötigt
+-> PreLoad, flagge BLöcke ob active oder peload ode sowas
+
+- Objekte
+-> speichern
+-> löschen
+-> hinzufügen
+-> suchen
+-> Position in flaot oder double oder so
