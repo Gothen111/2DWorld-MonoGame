@@ -1,4 +1,6 @@
 Anforderungsmodell:
+-------------------
+
 
 Welt, aus Blöcken. Verschiedene Ebenen wie Oberwelt, Dungeons / Höhlen.
 Zufällig. Welt, Städte, Dörfer, Objekte, Waffen, Zauber, Rüstung, Quests ...
@@ -18,18 +20,25 @@ Spieler bekommt special id
 Decoator auch nach erstellung des chunks
 
 
+
+
 Funktionsumfang:
+----------------
+
 
 - Welt
 -> Terrain verwalten
 -> automatisch
 -> Generator
 -> Spieler: Spieler bewegt sich
+-> UpdateZone
+-> Lösche immer alle chunks außer die die behaten werden sollen.
 
 - Dimensionen
 -> Gebe Block an position zurück
 -> Setze Block an Position
 -> Generator
+-> UpdateZone
 
 - Chunk
 -> Gebe Block an position zurück
@@ -59,18 +68,42 @@ Funktionsumfang:
 -> größe
 -> setzte nachbar
 
+- Camera
+-> Event: Position verändert sich
+-> Camera Pos CHanged
+
+- GameManager
+-> Bekomme Camera UpdateZone / CLient
+-> Falls Camera pos changed -> Sende Server update zone / CLient
+-> Playermanager bekomme alle updatezone
+-> natülich nu wenn nicht null
+-> WElt update dich mit den updatezones
+
+- Quest
+-> QUest angenommen starte film sequenz für player xyz -> gebe camera dein ziel, bewege hin, oder gehe sofort hin
+
+- Movie Szene
+-> Starte Film -> Erstelle SPieler updatezone inaktiv. Das heißt keine updates dafür
+-> Beende Film -> Lösche SPieler updatezone, durch esc ode allgemein
 
 - PlayerManager
 -> Liste der SPieler
--> Commands .... CHats
+-> Commands .... Chats
 -> Event: Spieler joined
 -> Event: Spieler velässt
--> Welt, chunks aus der welt entfernen / chunk / BLock wid benötigt
--> PreLoad, flagge BLöcke ob active oder peload ode sowas
+
+- Player
+-> Sende Event an PlayerManager chunks velassen oder betreten.
+-> UpdateZone, wo er gerade ist
 
 - Objekte
--> speichern
--> löschen
--> hinzufügen
--> suchen
 -> Position in flaot oder double oder so
+
+-Dictonary von Listen
+
+
+
+
+Spielideen:
+------------
+
