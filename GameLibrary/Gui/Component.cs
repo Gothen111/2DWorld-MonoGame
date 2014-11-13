@@ -186,6 +186,11 @@ namespace GameLibrary.Gui
         }
 
 
+        public void setBounds(Vector3 _Pos, Vector3 _Size)
+        {
+            this.bounds = new Rectangle((int)_Pos.X, (int)_Pos.Y, (int)_Size.X, (int)_Size.Y);
+        }
+
         public Component()
         {
             Input.Mouse.MouseManager.mouseFocus.Add(this);
@@ -246,6 +251,7 @@ namespace GameLibrary.Gui
             if (position.X >= bounds.Left && position.X <= bounds.Right && position.Y >= bounds.Top && position.Y <= bounds.Bottom)
             {
                 this.IsHovered = true;
+                //Console.WriteLine(position.X + " : " + position.Y);
             }
             else
             {

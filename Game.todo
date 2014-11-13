@@ -99,9 +99,21 @@ Funktionsumfang:
 - Objekte
 -> Position in flaot oder double oder so
 
+- GameElement
+-> Liste Listenern
+-> notify(Event) -> onnotify(this, Event) für alle listener
+
 -Dictonary von Listen
 
+- Listener:
+-> OnNotify ( Object , Event )
+-> switsch(Event) -> case XYZ
 
+-MouseManager
+
+-KeyboardManager
+
+- LISTENER KOMMT AUCHMIT tausenden objekte klar. habe 10.000 getestet. kin fps verlust! Somit kann jeder block und objekt  n mouslitstenr haben!
 
 
 Spielideen:

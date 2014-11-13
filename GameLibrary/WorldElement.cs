@@ -18,7 +18,7 @@ using Utility.Corpus;
 namespace GameLibrary
 {
     [Serializable()]
-    public class WorldElement : ISerializable
+    public class WorldElement : /*GameLibrary.Gui.Component,*/ ISerializable
     {
         private int id;
 
@@ -85,6 +85,7 @@ namespace GameLibrary
         }
 
         public WorldElement()
+           :base()
         {
         }
 

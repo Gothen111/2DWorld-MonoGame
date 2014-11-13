@@ -117,6 +117,7 @@ namespace GameLibrary.Object
         protected override void boundsChanged()
         {
             this.Bounds = new Cube(new Vector3(this.Position.X - this.Size.X / 2, this.Position.Y - this.Size.Y, 0), this.Size);
+            //this.setBounds(this.Position, this.Size);
         }
 
         public virtual bool teleportTo(Vector3 _Position, int _DimensionId)
