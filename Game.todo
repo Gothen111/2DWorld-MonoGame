@@ -19,7 +19,7 @@ Server speichet quests
 Spieler bekommt special id
 Decoator auch nach erstellung des chunks
 
-
+GUtes LogSystem
 
 
 Funktionsumfang:
@@ -118,4 +118,48 @@ Funktionsumfang:
 
 Spielideen:
 ------------
+
+Es soll eine zufällige welt erstellt werden. Mit döfern städten burgen höhlen.
+Dazu Straßen, Flüsse, meer, seen.
+Es gibt biomes.
+
+Monster bzw. Wesen, wie tiere sollen auch zufällig die welt bevölkern.
+die wesen sind spilerstufe abhänig stark.
+
+Quests sollen zufällig gerneiet weden. äbhnänig von monstern. Oder monster sollen quest abhänig erstellt werden. Bzw. landschaft verändert werden.
+
+es sollen items zufällig geneiet werden.
+
+fähikeiten sollen gerneier bar sein. also selber fähkeiten ertesllen.
+
+alchemie auch geneeirerbar. z.b. pglanzen testen mischen sowas...
+
+SKilltree der passive fähgieten gibt.
+
+Es sollen zufällige endziele geben. Bzw große quests. wie beiege die dachen oder so ... kp
+
+es sollen zufllige events staten. wie z.b. demonen tore öffnen sich und es kommen demonen und sowas raus...
+
+Mutliplayer fähigkeit natülich
+
+Ziele:
+-----------
+
+Meilenstein 1: Gui
+
+Meilenstein 2: Welt/ Map generierung
+
+Meilenstein 3: verschiedene dimensionen vebinden
+
+Meilenstein 4: Objekte
+
+Meilenstein 5: Multiplayer
+
+Meilenstein 6: Equipment
+
+Meilenstein 7: Quests
+
+Meilenstein 8: Skills / Fähigkeiten
+
+
 
